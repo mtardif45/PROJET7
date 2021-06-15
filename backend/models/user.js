@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt'); // cryptage d'un string
 const sql = require('../database_connect'); // import modèle de la bdd
+const jwt = require('jsonwebtoken');
 
 const User = function (user) {
     this.pseudo = user.pseudo,
@@ -27,22 +28,22 @@ User.create = async (user) => {
 
 User.find = (user) => {
     const request = `SELECT * FROM Users WHERE email = ?`;
-    sql.query(request, [req.body.email], (err, res) => {
+    sql.query(request, [user.email], (err, res) => {
         if (err) {
             console.log("error: ", err);
             throw Error(err.message)
         }
-        if (result.length > 0) {
-            bcrypt.compare(user.password, result[0].password)
+        if (res.length > 0) {
+            bcrypt.compare(user.password, data[0].password)
                 .then((valid) => {
-                    if (!valid) { return res.status(401).json({ error: 'Mot de passe incorrect !' }); }
-                    else {
-                        res.status(200).json({ //Retourne le User Id, le pseudo et le Token
-                            id: result[0].id,
-                            pseudo: result[0].pseudo,
-                            token: jwt.sign({ userId: result[0].id }, process.env.TOKEN, { expiresIn: '24h' })
-                        });
+                    if (!valid) {
+                        return res.status(401).json({ error: 'Mot de passe incorrect !' });
                     }
+                    res.status(200).json({ //Retourne le User Id, le pseudo et le Token
+                        id: data[0].id,
+                        pseudo: data[0].pseudo,
+                        token: jwt.sign({ userId: data[0].id }, { expiresIn: '24h' })
+                    });
                 })
         }
     })
