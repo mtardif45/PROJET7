@@ -3,7 +3,7 @@ const db = require("../database_connect"); // import de la bdd
 
 // ajouter une publication
 exports.createPost = async (req, res) => {
-    db.query(`INSERT INTO posts VALUES (NULL, '${req.body.userId}', '${req.body.title}', NOW(), '${req.body.content}')`, (error, result, field) => {
+    db.query(`INSERT INTO posts VALUES (NULL, '${req.body.userId}', '${req.body.pseudo}', NOW(), '${req.body.message}', '${req.body.imageUrl}')`, (error, result, field) => {
         if (error) {
             return res.status(400).json({
                 error
@@ -29,7 +29,7 @@ exports.getOnePost = async (req, res) => {
 
 // voir toutes les publications 
 exports.getAllPosts = async (req, res) => {
-    db.query('SELECT users.nom, users.prenom, posts.id, posts.userId, posts.title, posts.content, posts.date AS date FROM users INNER JOIN posts ON users.id = posts.userId ORDER BY date DESC', (error, result, field) => {
+    db.query('SELECT users.pseudo, posts.id, posts.userId, posts.message, posts.datetime AS date FROM users INNER JOIN post ON user.id = posts.userId ORDER BY date DESC', (error, result, field) => {
         if (error) {
             return res.status(400).json({
                 error
@@ -41,7 +41,7 @@ exports.getAllPosts = async (req, res) => {
 
 // modifier une publication
 exports.updatePost = async (req, res) => {
-    db.query(`UPDATE posts SET message = '${req.body.message}' WHERE posts.id = ${req.params.id}`, (error, result, field) => {
+    db.query(`UPDATE post SET message = '${req.body.message}' WHERE posts.id = ${req.params.id}`, (error, result, field) => {
         if (error) {
             return res.status(400).json({
                 error
@@ -53,7 +53,7 @@ exports.updatePost = async (req, res) => {
 
 // supprimer une publication
 exports.deletePost = async (req, res) => {
-    db.query(`DELETE FROM posts WHERE posts.id = ${req.params.id}`, (error, result, field) => {
+    db.query(`DELETE FROM post WHERE posts.id = ${req.params.id}`, (error, result, field) => {
         if (error) {
             return res.status(400).json({
                 error
@@ -77,7 +77,7 @@ exports.addComment = async (req, res) => {
 
 // suppression d'un commentaire
 exports.deleteComment = async (req, res) => {
-    db.query(`DELETE FROM comments WHERE comments.id = ${req.params.id}`, (error, result, field) => {
+    db.query(`DELETE FROM comments WHERE comment.id = ${req.params.id}`, (error, result, field) => {
         if (error) {
             return res.status(400).json({
                 error
