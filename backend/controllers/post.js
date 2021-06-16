@@ -1,18 +1,16 @@
 const fs = require('fs'); // package permettant la modification du système de fichiers
 const db = require("../database_connect"); // import de la bdd
+const User = require('../models/post');
+
 
 // ajouter une publication
 exports.createPost = async (req, res) => {
-    db.query(`INSERT INTO posts VALUES (NULL, '${req.body.userId}', '${req.body.pseudo}', NOW(), '${req.body.message}', '${req.body.imageUrl}')`, (error, result, field) => {
-        if (error) {
-            return res.status(400).json({
-                error
-            });
-        }
-        return res.status(201).json({
-            message: 'Votre post à été publié !'
-        })
+    const user = await Post.create({
+        message: req.body.message,
+        imageUrl: req.body.imageUrl,
+        userId: req.body.userId,
     });
+    res.status(200).json("post published!");
 };
 
 // récupérer une publication
@@ -29,13 +27,13 @@ exports.getOnePost = async (req, res) => {
 
 // voir toutes les publications 
 exports.getAllPosts = async (req, res) => {
-    db.query('SELECT users.pseudo, posts.id, posts.userId, posts.message, posts.datetime AS date FROM users INNER JOIN post ON user.id = posts.userId ORDER BY date DESC', (error, result, field) => {
-        if (error) {
+    Post.getAll((err, data) => {
+        if (err) {
             return res.status(400).json({
                 error
             });
         }
-        return res.status(200).json(result);
+        return res.status(200).json('toutes les publications: ');
     });
 };
 

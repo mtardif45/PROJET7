@@ -1,6 +1,8 @@
 const db = require('../database_connect'); // import modèle de la bdd
 const fs = require("fs"); // gestion du système de fichier
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt'); // cryptage d'un string
 
 // création compte - signup
 exports.signup = async (req, res, next) => {
@@ -18,7 +20,7 @@ exports.signup = async (req, res, next) => {
 // connexion  à un compte existant
 exports.login = async (req, res, next) => {
     //Recherche de l'utilisateur dans la DB via son email 
-    const user = await User.find({
+    const user = await User.getOne({
         email: req.body.email,
         password: req.body.password,
     });
@@ -28,7 +30,7 @@ exports.login = async (req, res, next) => {
 // récupérer un compte
 exports.getAccount = async (req, res) => {
     // on trouve l'utilisateur et on renvoie l'objet user
-    const user = await User.find({
+    const user = await User.getOne({
         id: req.body.id,
         email: req.body.email,
         password: req.body.password,
@@ -37,6 +39,7 @@ exports.getAccount = async (req, res) => {
         photo: req.body.photo,
         admin: req.body.admin
     });
+    res.status(200).json(true);
 };
 
 // récupérer tous les comptes / utilisateurs

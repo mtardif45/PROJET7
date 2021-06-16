@@ -2,16 +2,17 @@ const bcrypt = require('bcrypt'); // cryptage d'un string
 const sql = require('../database_connect'); // import modèle de la bdd
 const jwt = require('jsonwebtoken');
 
+// constructor
 const User = function (user) {
-    this.pseudo = user.pseudo,
-        this.id = user.id,
-        this.email = user.email,
-        this.password = user.password,
-        this.photo = user.photo,
-        this.bio = user.bio,
-        this.admin = user.admin
+    this.pseudo = user.pseudo;
+    this.id = user.id;
+    this.email = user.email;
+    this.password = user.password;
+    this.photo = user.photo;
+    this.bio = user.bio;
+    this.admin = user.admin;
 };
-
+// créer un compte
 User.create = async (user) => {
     const newUser = new User(user);
     newUser.password = await bcrypt.hash(user.password, 10);
@@ -21,81 +22,88 @@ User.create = async (user) => {
             console.log("error: ", err);
             throw Error(err.message)
         }
-        console.log("created customer: ", { id: res.insertId, ...newUser });
+        console.log("user created: ", { id: res.insertId, ...newUser });
         return { id: res.insertId, ...newUser };
     });
 };
 
-User.find = (user) => {
-    const request = `SELECT * FROM Users WHERE email = ?`;
+// récupérer un profil
+User.getOne = (user) => {
+    const request = `SELECT * FROM Users WHERE email = '${user.email}'`;
     sql.query(request, [user.email], (err, res) => {
         if (err) {
             console.log("error: ", err);
             throw Error(err.message)
         }
-        if (res.length > 0) {
-            bcrypt.compare(user.password, data[0].password)
-                .then((valid) => {
-                    if (!valid) {
-                        return res.status(401).json({ error: 'Mot de passe incorrect !' });
-                    }
-                    res.status(200).json({ //Retourne le User Id, le pseudo et le Token
-                        id: data[0].id,
-                        pseudo: data[0].pseudo,
-                        token: jwt.sign({ userId: data[0].id }, { expiresIn: '24h' })
+        if (res.length) {
+            bcrypt.compare(password, result[0].password)
+                .then(valid => {
+                    if (!valid) return reject({ error: "User or password doesn't match" });
+                    resolve({
+                        message: 'Login completed, you will be redirected',
+                        token: jwt.sign(
+                            {
+                                userId: result[0].userId,
+                                admin: result[0].admin
+                            },
+                            'RANDOM_TOKEN',
+                            { expiresIn: '24h' }
+                        ),
+                        userId: result.id
                     });
                 })
+            console.log("found user: ", res[0]);
+            return (null, res[0]);
         }
-    })
+        return ({ kind: "not_found" }, null);
+    });
 };
 
+// récupérer tous les utilisateurs
 User.getAll = result => {
     const request = `SELECT * FROM users`;
     sql.query(request, (err, res) => {
         if (err) {
             console.log("error: ", err);
-            result(null, err);
-            return;
+            throw Error(err.message)
         }
         console.log("All Users: ", res);
-        result(null, res);
+        return (null, res);
     });
 };
 
-User.update = (id, customer, result) => {
-    const request = `UPDATE customers SET email = ?, password= ?, pseudo= ?, bio= ?, photo= ? WHERE id = ?`
+// Modification d'un profil
+User.update = (id, user) => {
+    const request = `UPDATE Users SET email = ?, password= ?, pseudo= ?, bio= ?, photo= ? WHERE id = ?`
     sql.query(request, [user.email, user.password, user.pseudo, user.bio, user.photo, id], (err, res) => {
         if (err) {
             console.log("error: ", err);
-            result(null, err);
-            return;
+            throw Error(err.message)
         }
         if (res.affectedRows == 0) {
             // not found Customer with the id
-            result({ kind: "not_found" }, null);
-            return;
+            return ({ kind: "not_found" }, null);
         }
         console.log("profile updated: ", { id: id, ...user });
-        result(null, { id: id, ...user });
+        return (null, { id: id, ...user });
     }
     );
 };
 
+// suppression d'un profil 
 User.remove = (id, result) => {
     const request = `DELETE FROM Users WHERE id = ?`;
     sql.query(request, user.id, (err, res) => {
         if (err) {
             console.log("error: ", err);
-            result(null, err);
-            return;
+            throw Error(err.message)
         }
         if (res.affectedRows == 0) {
             // not found Customer with the id
-            result({ kind: "not_found" }, null);
-            return;
+            return ({ kind: "not_found" }, null);
         }
         console.log("user deleted ", id);
-        result(null, res);
+        return (null, res);
     });
 };
 
