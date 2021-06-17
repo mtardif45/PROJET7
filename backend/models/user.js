@@ -36,22 +36,6 @@ User.getOne = (user) => {
             throw Error(err.message)
         }
         if (res.length) {
-            bcrypt.compare(password, result[0].password)
-                .then(valid => {
-                    if (!valid) return reject({ error: "User or password doesn't match" });
-                    resolve({
-                        message: 'Login completed, you will be redirected',
-                        token: jwt.sign(
-                            {
-                                userId: result[0].userId,
-                                admin: result[0].admin
-                            },
-                            'RANDOM_TOKEN',
-                            { expiresIn: '24h' }
-                        ),
-                        userId: result.id
-                    });
-                })
             console.log("found user: ", res[0]);
             return (null, res[0]);
         }
