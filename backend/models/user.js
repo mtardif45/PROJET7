@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt'); // cryptage d'un string
 const sql = require('../database_connect'); // import modèle de la bdd
-const jwt = require('jsonwebtoken');
 
 // constructor
 const User = function (user) {
@@ -27,67 +26,90 @@ User.create = async (user) => {
     });
 };
 
-// récupérer un profil
-User.getOne = (user) => {
-    const request = `SELECT * FROM Users WHERE email = '${user.email}'`;
-    sql.query(request, [user.email], (err, res) => {
+// récupérer un profil par email pour login
+User.getOne = (user, result) => {
+    sql.query(`SELECT * FROM Users WHERE email = '${user.email}'`, (err, res) => {
         if (err) {
             console.log("error: ", err);
-            throw Error(err.message)
+            result(err, null);
+            return;
         }
         if (res.length) {
             console.log("found user: ", res[0]);
-            return (null, res[0]);
+            result(null, res[0]);
+            return;
         }
-        return ({ kind: "not_found" }, null);
+        // not found with id
+        result({ kind: "not_found" }, null);
+    });
+};
+
+// récupérer un profil par Id
+User.findById = (userId, result) => {
+    sql.query(`SELECT * FROM Users WHERE id= '${userId}'`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("user found: ", res[0]);
+            result(null, res[0]);
+            return;
+        }
+        // not found user with the id
+        result({ kind: "not_found" }, null);
     });
 };
 
 // récupérer tous les utilisateurs
 User.getAll = result => {
-    const request = `SELECT * FROM users`;
-    sql.query(request, (err, res) => {
+    sql.query(`SELECT * FROM users`, (err, res) => {
         if (err) {
             console.log("error: ", err);
-            throw Error(err.message)
+            result(null, err);
+            return;
         }
         console.log("All Users: ", res);
-        return (null, res);
+        result(null, res);
     });
 };
 
 // Modification d'un profil
-User.update = (id, user) => {
-    const request = `UPDATE Users SET email = ?, password= ?, pseudo= ?, bio= ?, photo= ? WHERE id = ?`
-    sql.query(request, [user.email, user.password, user.pseudo, user.bio, user.photo, id], (err, res) => {
+User.update = (id, user, result) => {
+    sql.query(`UPDATE Users SET email = '${email}', password= '${password}', pseudo= '${pseudo}', bio= '${bio}', photo= '${bio}' WHERE id = '${id}'`, (err, res) => {
         if (err) {
             console.log("error: ", err);
-            throw Error(err.message)
+            result(null, err);
+            return;
         }
         if (res.affectedRows == 0) {
             // not found Customer with the id
-            return ({ kind: "not_found" }, null);
+            result({ kind: "not_found" }, null);
+            return;
         }
         console.log("profile updated: ", { id: id, ...user });
-        return (null, { id: id, ...user });
+        result(null, { id: id, ...user });
     }
     );
 };
 
 // suppression d'un profil 
 User.remove = (id, result) => {
-    const request = `DELETE FROM Users WHERE id = ?`;
-    sql.query(request, user.id, (err, res) => {
+    sql.query(`DELETE FROM Users WHERE id = ?`, user.id, (err, res) => {
         if (err) {
             console.log("error: ", err);
-            throw Error(err.message)
+            result(null, err);
+            return;
         }
         if (res.affectedRows == 0) {
             // not found Customer with the id
-            return ({ kind: "not_found" }, null);
+            result({ kind: "not_found" }, null);
+            return;
         }
         console.log("user deleted ", id);
-        return (null, res);
+        result(null, res);
     });
 };
 
