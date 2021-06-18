@@ -10,7 +10,7 @@ exports.signup = async (req, res) => {
         password: req.body.password,
         pseudo: req.body.pseudo,
         bio: req.body.bio,
-        photo: req.body.photo,
+        avatar: req.body.avatar,
     });
     res.status(200).json(true);
 };
@@ -65,6 +65,17 @@ exports.getAccount = (req, res) => {
     });
 };
 
+//récupérer tous les comptes / utilisateurs
+exports.getAllUsers = (req, res) => {
+    User.getAll((err, result) => {
+        if (err)
+            res.status(500).send({
+                message: err.message || "An error occured while getting all users",
+            });
+        else res.send(result);
+    });
+};
+
 // mise à jour d'un profil 
 exports.updateAccount = (req, res) => {
     const userId = req.params.id;
@@ -87,37 +98,24 @@ exports.updateAccount = (req, res) => {
                         message: "Error updating user" + userId
                     });
                 }
-            } else res.send(result);
+            } else res.send({ message: "user updated successfully!" });
         }
     );
 };
 
 // suppression d'un compte
-exports.deleteAccount = async (req, res) => {
-    await User.remove(req.params.userId, (err, data) => {
+exports.deleteAccount = (req, res) => {
+    User.remove(req.params.id, (err, result) => {
         if (err) {
             if (err.kind === 'not_found') {
                 res.status(404).send({
-                    message: `User not found ${req.params.userId}?`
+                    message: `User not found ${req.params.id}?`
                 });
             } else {
                 res.status(500).send({
-                    message: 'could not delete user' + req.params.userdId
+                    message: 'could not delete user' + req.params.id
                 });
             }
         } else res.send({ message: `User deleted successfully!` });
     });
 };
-
-
-
-/* récupérer tous les comptes / utilisateurs
-exports.getAllUsers = async (req, res) => {
-    await User.getAll(err, result => {
-        if (err)
-            res.status(500).send({
-                message: "An error occured while getting all users"
-            });
-        else res.send(result);
-    });
-}; */

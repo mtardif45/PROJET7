@@ -7,7 +7,7 @@ const User = function (user) {
     this.id = user.id;
     this.email = user.email;
     this.password = user.password;
-    this.photo = user.photo;
+    this.avatar = user.avatar;
     this.bio = user.bio;
     this.admin = user.admin;
 };
@@ -46,7 +46,7 @@ User.getOne = (user, result) => {
 
 // récupérer un profil par Id
 User.findById = (id, result) => {
-    sql.query(`SELECT id, email, pseudo, bio, photo FROM Users WHERE id= '${id}'`, (err, res) => {
+    sql.query(`SELECT id, email, pseudo, bio, avatar FROM Users WHERE id= '${id}'`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -63,47 +63,8 @@ User.findById = (id, result) => {
     });
 };
 
-// Modification d'un profil
-User.update = (id, user, result) => {
-    sql.query(`UPDATE Users SET email ='${user.email}', pseudo = '${user.pseudo}', bio = '${user.bio}', photo='${user.photo}' WHERE id = '${id}'`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        if (res.affectedRows == 0) {
-            // not found Customer with the id
-            result({ kind: "not_found" }, null);
-            return;
-        }
-        console.log("profile updated: ", { id: id, ...user });
-        result(null, { id: id, ...user });
-    }
-    );
-};
-
-// suppression d'un profil 
-User.remove = (id, result) => {
-    sql.query(`DELETE FROM Users WHERE id = ?`, user.id, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        if (res.affectedRows == 0) {
-            // not found Customer with the id
-            result({ kind: "not_found" }, null);
-            return;
-        }
-        console.log("user deleted ", id);
-        result(null, res);
-    });
-};
-
-module.exports = User;
-
-/* récupérer tous les utilisateurs
-User.getAll = result => {
+//récupérer tous les utilisateurs
+User.getAll = (result) => {
     sql.query(`SELECT * FROM Users`, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -113,4 +74,46 @@ User.getAll = result => {
         console.log("Users: ", res);
         result(null, res);
     });
-};*/
+};
+
+
+// Modification d'un profil
+User.update = (id, user, result) => {
+    sql.query(`UPDATE Users SET email= ?, password= ?, pseudo= ?, bio= ?, avatar= ? WHERE id = ?`,
+        [user.email, user.password, user.pseudo, user.bio, user.avatar, id,], (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                // not found Customer with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("profile updated: ", { id: id, ...user });
+            result(null, { id: id, ...user });
+        }
+    );
+};
+
+// suppression d'un profil 
+User.remove = (id, result) => {
+    sql.query(`DELETE FROM Users WHERE id = ?`, id, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        if (res.affectedRows == 0) {
+            // not found Customer with the id
+            result({ kind: "not_found" }, null);
+            return;
+        }
+        console.log("user deleted with id: ", id);
+        result(null, res);
+    });
+};
+
+module.exports = User;
+
