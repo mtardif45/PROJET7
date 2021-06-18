@@ -47,30 +47,49 @@ exports.login = async (req, res) => {
 };
 
 // récupérer un compte
-exports.getAccount = async (req, res) => {
+exports.getAccount = (req, res) => {
+    const userId = req.params.id;
     // on trouve l'utilisateur et on renvoie l'objet user
-    await User.getOne(req.params.userId, (err, data) => {
+    User.findById(userId, (err, result) => {
         if (err) {
-            if (err.kind === 'not_found') {
-                res.status(404).send({
-                    message: `user not found ${req.params.userId}.`
+            if (err.kind === "not_found") {
+                res.status(401).send({
+                    message: "user not found with id!"
                 });
             } else {
                 res.status(500).send({
-                    message: "error" + req.params.userdId
+                    message: "error" + userId
                 });
             }
-        } else res.send(data);
+        } else res.send(result);
     });
 };
 
-// récupérer tous les comptes / utilisateurs
-exports.getAllUsers = async (req, res) => {
-    await User.getAll((err, data) => {
-        if (err)
-            res.status(500).send({ message: 'An error occured while getting all users' });
-        else res.send(data);
-    });
+// mise à jour d'un profil 
+exports.updateAccount = (req, res) => {
+    const userId = req.params.id;
+    if (!req.body) {
+        res.status(400).send({
+            message: "please fill in the form!"
+        });
+    }
+    User.update(
+        userId,
+        new User(req.body),
+        (err, result) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    res.status(404).send({
+                        message: `User not found with id ${userId}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message: "Error updating user" + userId
+                    });
+                }
+            } else res.send(result);
+        }
+    );
 };
 
 // suppression d'un compte
@@ -90,28 +109,15 @@ exports.deleteAccount = async (req, res) => {
     });
 };
 
-// mise à jour d'un profil 
-exports.updateAccount = (req, res) => {
-    if (!req.body) {
-        res.status(400).send({
-            message: "please fill in the form!"
-        });
-    }
-    User.update(
-        req.params.userId,
-        new User(req.body),
-        (err, data) => {
-            if (err) {
-                if (err.kind === "not_found") {
-                    res.status(404).send({
-                        message: `User not found with id ${req.params.userdId}.`
-                    });
-                } else {
-                    res.status(500).send({
-                        message: "Error updating user" + req.params.userdId
-                    });
-                }
-            } else res.send(data);
-        }
-    );
-};
+
+
+/* récupérer tous les comptes / utilisateurs
+exports.getAllUsers = async (req, res) => {
+    await User.getAll(err, result => {
+        if (err)
+            res.status(500).send({
+                message: "An error occured while getting all users"
+            });
+        else res.send(result);
+    });
+}; */

@@ -45,8 +45,8 @@ User.getOne = (user, result) => {
 };
 
 // récupérer un profil par Id
-User.findById = (userId, result) => {
-    sql.query(`SELECT * FROM Users WHERE id= '${userId}'`, (err, res) => {
+User.findById = (id, result) => {
+    sql.query(`SELECT id, email, pseudo, bio, photo FROM Users WHERE id= '${id}'`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -59,26 +59,13 @@ User.findById = (userId, result) => {
             return;
         }
         // not found user with the id
-        result({ kind: "not_found" }, null);
-    });
-};
-
-// récupérer tous les utilisateurs
-User.getAll = result => {
-    sql.query(`SELECT * FROM users`, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        console.log("All Users: ", res);
-        result(null, res);
+        else result({ kind: "not_found" }, null);
     });
 };
 
 // Modification d'un profil
 User.update = (id, user, result) => {
-    sql.query(`UPDATE Users SET email = '${email}', password= '${password}', pseudo= '${pseudo}', bio= '${bio}', photo= '${bio}' WHERE id = '${id}'`, (err, res) => {
+    sql.query(`UPDATE Users SET email ='${user.email}', pseudo = '${user.pseudo}', bio = '${user.bio}', photo='${user.photo}' WHERE id = '${id}'`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -114,3 +101,16 @@ User.remove = (id, result) => {
 };
 
 module.exports = User;
+
+/* récupérer tous les utilisateurs
+User.getAll = result => {
+    sql.query(`SELECT * FROM Users`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("Users: ", res);
+        result(null, res);
+    });
+};*/
