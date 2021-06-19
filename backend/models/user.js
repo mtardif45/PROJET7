@@ -79,21 +79,20 @@ User.getAll = (result) => {
 
 // Modification d'un profil
 User.update = (id, user, result) => {
-    sql.query(`UPDATE Users SET email= ?, password= ?, pseudo= ?, bio= ?, avatar= ? WHERE id = ?`,
-        [user.email, user.password, user.pseudo, user.bio, user.avatar, id,], (err, res) => {
-            if (err) {
-                console.log("error: ", err);
-                result(null, err);
-                return;
-            }
-            if (res.affectedRows == 0) {
-                // not found Customer with the id
-                result({ kind: "not_found" }, null);
-                return;
-            }
-            console.log("profile updated: ", { id: id, ...user });
-            result(null, { id: id, ...user });
+    sql.query(`UPDATE Users SET email = '${user.email}', password = '${user.password}', pseudo = '${user.pseudo}', bio= '${user.bio}', avatar = '${user.avatar}' WHERE id = ${id}`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
         }
+        if (res.affectedRows == 0) {
+            // not found Customer with the id
+            result({ kind: "not_found" }, null);
+            return;
+        }
+        console.log("profile updated: ", { id: id, ...user });
+        result(null, { id: id, ...user });
+    }
     );
 };
 
