@@ -6,6 +6,8 @@ require('dotenv').config();
 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
+const commentRoutes = require('./routes/comment');
+const likeRoutes = require('./routes/like');
 
 const app = express();
 
@@ -24,6 +26,8 @@ try {
     //Routes
     app.use('/api/auth', userRoutes);
     app.use('/api/posts', postRoutes);
+    app.use('/api/posts', commentRoutes);
+    app.use('/api/posts', likeRoutes);
 
 } catch (e) {
     console.error(e);
