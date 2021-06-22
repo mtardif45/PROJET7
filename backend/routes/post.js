@@ -5,11 +5,11 @@ const multer = require('../middleware/multer-config');
 const postCtrl = require('../controllers/post'); // import des controlleurs sauce
 
 // publications
-router.post('/add', auth, multer, postCtrl.createPost);
+router.post('/add', multer, postCtrl.createPost);
 router.get('/', auth, postCtrl.getAllPosts);
 router.get('/:id', auth, postCtrl.getOnePost);
 router.put('/:id', auth, multer, postCtrl.updatePost);
-router.delete('/:id', auth, multer, postCtrl.deletePost);
+router.delete('/:id', multer, postCtrl.deletePost);
 
 // commentaires 
 router.post('/:id/comments', auth, postCtrl.addComment);
