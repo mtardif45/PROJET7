@@ -14,7 +14,6 @@ router.put("/accounts/:id", auth, multer, userCtrl.updateAccount);
 
 router.delete("/accounts/:id", auth, userCtrl.deleteAccount);
 
-
 module.exports = router;
 
 
