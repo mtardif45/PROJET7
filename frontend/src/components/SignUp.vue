@@ -3,17 +3,17 @@
     <h1>Création de compte</h1>
     <form @submit.prevent="onSubmit">
       <div class="form-group">
-        <label for="name">Name</label>
+        <label for="avatar">Avatar</label>
         <input
           type="text"
           v-model="user.name"
           v-validate="'required'"
-          name="name"
+          name="avatar"
           class="form-control"
-          :class="{ 'is-invalid': submitted && errors.has('name') }"
+          :class="{ 'is-invalid': submitted && errors.has('avatar') }"
         />
-        <div v-if="submitted && errors.has('name')" class="invalid-feedback">
-          {{ errors.first("name") }}
+        <div v-if="submitted && errors.has('avatar')" class="invalid-feedback">
+          {{ errors.first("avatar") }}
         </div>
       </div>
       <div class="form-group">
