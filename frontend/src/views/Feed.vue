@@ -1,5 +1,6 @@
 <template>
   <div class="feed">
+    <Header />
     <h1 class="mb-3">Fil d'actualité</h1>
     <OnePost
       v-for="post of posts"
@@ -15,11 +16,13 @@
 <script>
 // @ is an alias to /src
 import OnePost from "@/components/OnePost.vue";
+import Header from "@/components/Header.vue";
 
 export default {
   name: "Feed",
   components: {
     OnePost,
+    Header,
   },
   data: function () {
     return {

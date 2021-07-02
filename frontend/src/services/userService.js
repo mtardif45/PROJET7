@@ -13,7 +13,7 @@ export default {
     deleteAccount(id) {
         return Api.delete(`/users/accounts/${id}`);
     },
-    getAllUsers() {
+    getUsers() {
         return Api.get("users/accounts");
     },
     getUserById(id) {

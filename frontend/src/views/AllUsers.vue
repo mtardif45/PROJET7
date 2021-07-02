@@ -1,5 +1,6 @@
 <template>
   <div class="users">
+    <Header />
     <h1 class="mb-3">Tous les Utilisateurs</h1>
     <div class="row">
       <div class="col-6" v-for="user in users" v-bind:key="user.id">
@@ -17,11 +18,13 @@
 <script>
 // @ is an alias to /src
 import OneUser from "@/components/OneUser.vue";
+import Header from "@/components/Header.vue";
 
 export default {
   name: "AllUsers",
   components: {
     OneUser,
+    Header,
   },
   data: function () {
     return {

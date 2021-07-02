@@ -2,8 +2,9 @@
 import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import postService from '../services/postService'
-import userService from '../services/userService'
+import createPersistedState from "vuex-persistedstate";
+import PostService from '../services/PostService'
+import UserService from '../services/UserService'
 
 Vue.use(Vuex);
 
@@ -21,9 +22,9 @@ export default new Vuex.Store({
         message: "",
         error: "",
     },
-    // plugins: [createPersistedState({
-    //storage: window.sessionStorage,
-    // })]
+    plugins: [createPersistedState({
+        storage: window.sessionStorage,
+    })],
     //to handle state
     getters: {
         users(state) {
@@ -62,20 +63,20 @@ export default new Vuex.Store({
             commit("SET_USER", user);
         },
         getUsers({ commit }) {
-            userService.getUsers().then((response) => {
+            UserService.getUsers().then((response) => {
                 const users = response.data;
                 commit("GET_USERS", users);
             });
         },
         getUserById({ commit }) {
             let id = this.state.user.id;
-            userService.getUserById(id).then((response) => {
+            UserService.getUserById(id).then((response) => {
                 const user = response.data;
                 commit("GET_USER_BY_ID", user);
             });
         },
         deleteAccount({ commit }, id) {
-            userService.deleteAccount(id).then(() => {
+            UserService.deleteAccount(id).then(() => {
                 commit("DELETE_ACCOUNT", id);
             })
         },
@@ -89,7 +90,7 @@ export default new Vuex.Store({
                     commit("UPDATE_ACCOUNT", id, newUser);
                 })
                 .then(() => {
-                    postService.getPosts().then((response) => {
+                    PostService.getPosts().then((response) => {
                         const posts = response.data;
                         commit("GET_POSTS", posts);
                     })
@@ -98,19 +99,19 @@ export default new Vuex.Store({
 
         //posts actions
         getPosts({ commit }) {
-            postService.getPosts().then((response) => {
+            PostService.getPosts().then((response) => {
                 const posts = response.data;
                 commit("GET_POSTS", posts);
             })
         },
         getPostById({ commit }, id) {
-            postService.getPostById(id).then((response) => {
+            PostService.getPostById(id).then((response) => {
                 const post = response.data;
                 commit("GET_POST_BY_ID", post)
             })
         },
         createPost({ commit }, post) {
-            postService.createPost(post)
+            PostService.createPost(post)
                 .then((response) => {
                     const post = response.data;
                     commit("ADD_POST", post);
@@ -127,12 +128,12 @@ export default new Vuex.Store({
                 });
         },
         deletePost({ commit }, id) {
-            postService.deletePost(id)
+            PostService.deletePost(id)
                 .then(() => {
                     commit("DELETE_POST", id);
                 })
                 .then(() => {
-                    postService.getPosts().then((response) => {
+                    PostService.getPosts().then((response) => {
                         const posts = response.data;
                         commit("GET_POSTS", posts);
                     });

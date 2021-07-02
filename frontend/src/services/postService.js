@@ -1,7 +1,7 @@
 import Api from "./Api";
 
 export default {
-    getAllPosts() {
+    getPosts() {
         return Api.get("/posts");
     },
     getPostById(id) {
