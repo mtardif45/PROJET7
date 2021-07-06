@@ -34,14 +34,12 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
-                ><router-link to="/CreatePost"> Ajouter un post</router-link></a
+                ><router-link to="/add"> Ajouter un post</router-link></a
               >
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
-                ><router-link to="/AllUsers">
-                  tous les utilisateurs</router-link
-                ></a
+                ><router-link to="/accounts"> Tous les profils</router-link></a
               >
             </li>
             <li class="nav-item">

@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     show(id) {
-      window.location.href = "/users/?id=" + id;
+      window.location.href = "/accounts/?id=" + id;
     },
   },
 };

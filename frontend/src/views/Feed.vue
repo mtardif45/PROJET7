@@ -1,8 +1,7 @@
 <template>
   <div class="feed">
-    <Header />
     <h1 class="mb-3">Fil d'actualité</h1>
-    <OnePost
+    <Posts
       v-for="post of posts"
       v-bind:key="post.id"
       :id="post.id"
@@ -15,61 +14,16 @@
 
 <script>
 // @ is an alias to /src
-import OnePost from "@/components/OnePost.vue";
-import Header from "@/components/Header.vue";
+import Posts from "@/components/Posts.vue";
 
 export default {
   name: "Feed",
   components: {
-    OnePost,
-    Header,
+    Posts,
   },
   data: function () {
     return {
-      posts: [
-        {
-          id: 0,
-          pseudo: "post0",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 1,
-          pseudo: "post1",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 2,
-          pseudo: "post2",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 3,
-          pseudo: "post3",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 4,
-          pseudo: "post4",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 5,
-          pseudo: "post5",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-      ],
+      posts: [],
     };
   },
 };

@@ -1,4 +1,4 @@
-import Api from "./Api";
+import Api from "../services/Api";
 
 export default {
     getPosts() {
@@ -21,10 +21,10 @@ export default {
     },
 
     commentPost(id, data) {
-        return Api().post("posts/" + id + "/comments", data);
+        return Api.post("posts/" + id + "/comments", data);
     },
 
     deleteComment(id) {
-        return Api().delete("posts/comments/" + id);
+        return Api.delete("posts/comments/" + id);
     },
 }

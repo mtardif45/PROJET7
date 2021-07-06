@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+
 import Home from '../views/Home.vue'
 import Feed from '../views/Feed.vue'
 import AllUsers from '../views/AllUsers.vue'
-
+import Profile from '../views/Profile.vue'
 import SignUp from '../components/SignUp.vue'
 import Login from '../components/Login.vue'
 import Header from '../components/Header.vue'
@@ -23,7 +24,6 @@ const routes = [
     name: 'Home',
     component: Home
   },
-
   {
     path: '/signup',
     name: 'SignUp',
@@ -35,22 +35,17 @@ const routes = [
     component: Login
   },
   {
-    path: '/allusers',
-    name: 'AllUsers',
-    component: AllUsers
-  },
-  {
-    path: '/header',
+    path: '/Header',
     name: 'Header',
     component: Header
   },
   {
-    path: '/Posts',
+    path: '/posts',
     name: 'Posts',
     component: Posts
   },
   {
-    path: '/OnePost',
+    path: '/posts/:id',
     name: 'OnePost',
     component: OnePost
   },
@@ -60,23 +55,34 @@ const routes = [
     component: Feed
   },
   {
-    path: '/OneUser',
+    path: '/accounts',
+    name: 'AllUsers',
+    component: AllUsers
+  },
+  {
+    path: '/accounts/:id',
     name: 'OneUser',
     component: OneUser
   },
   {
-    path: '/Users',
+    path: '/accounts',
     name: 'Users',
     component: Users
   },
   {
-    path: '/CreatePost',
+    path: '/add',
     name: 'CreatePost',
     component: CreatePost
+  },
+  {
+    path: '/Profile',
+    name: 'Profile',
+    component: Profile
   },
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 
