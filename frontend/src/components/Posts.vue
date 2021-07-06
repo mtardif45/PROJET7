@@ -13,67 +13,31 @@
 
 <script>
 import OnePost from "@/components/OnePost.vue";
+import axios from "axios";
 
 export default {
   name: "Posts",
   components: {
     OnePost,
   },
-  data: function () {
+  data() {
     return {
-      posts: [
-        {
-          id: 0,
-          pseudo: "usr0",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 1,
-          pseudo: "usr1",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 3,
-          pseudo: "usr3",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 4,
-          pseudo: "usr4",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 5,
-          pseudo: "usr5",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 6,
-          pseudo: "usr6",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-      ],
+      posts: [],
+      errors: [],
     };
   },
-  computed: {
-    postId() {
-      return parseInt(this.$route.params.id);
-    },
-    post() {
-      return this.posts.filter((post) => post.id == this.postId)[0];
-    },
+  // Fetches posts when the component is created.
+  created() {
+    axios
+      .get(`http://localhost:3000/api/posts`)
+      .then((response) => {
+        // JSON responses are automatically parsed.
+        this.posts = response.data;
+      })
+      .catch((e) => {
+        this.errors.push(e);
+      });
   },
 };
 </script>
+ 

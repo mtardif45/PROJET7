@@ -55,11 +55,6 @@ export default {
 
 <style scoped>
 /* BASIC */
-
-html {
-  background-color: #56baed;
-}
-
 body {
   font-family: "Poppins", sans-serif;
   height: 100vh;
@@ -70,16 +65,6 @@ a {
   display: inline-block;
   text-decoration: none;
   font-weight: 400;
-}
-
-h2 {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  display: inline-block;
-  margin: 40px 8px 10px 8px;
-  color: #cccccc;
 }
 
 /* STRUCTURE */
@@ -106,26 +91,6 @@ h2 {
   -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
   text-align: center;
-}
-
-#formFooter {
-  background-color: #f6f6f6;
-  border-top: 1px solid #dce8f1;
-  padding: 25px;
-  text-align: center;
-  -webkit-border-radius: 0 0 10px 10px;
-  border-radius: 0 0 10px 10px;
-}
-
-/* TABS */
-
-h2.inactive {
-  color: #cccccc;
-}
-
-h2.active {
-  color: #0d0d0d;
-  border-bottom: 2px solid #5fbae9;
 }
 
 /* FORM TYPOGRAPHY*/

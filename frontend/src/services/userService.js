@@ -1,22 +1,22 @@
-import Api from "../services/Api";
+import http from "../http-common";
 
 export default {
     signUp(data) {
-        return Api.post("users/signup", data);
+        return http.post("users/signup", data);
     },
     login(data) {
-        return Api.post("users/login", data);
+        return http.post("users/login", data);
     },
     updateAccount(id, data) {
-        return Api.put(`/users/accounts/${id}`, data);
+        return http.put(`/users/accounts/${id}`, data);
     },
     deleteAccount(id) {
-        return Api.delete(`/users/accounts/${id}`);
+        return http.delete(`/users/accounts/${id}`);
     },
     getUsers() {
-        return Api.get("users/accounts");
+        return http.get("users/accounts");
     },
     getUserById(id) {
-        return Api.get(`/users/accounts/${id}`);
+        return http.get(`/users/accounts/${id}`);
     },
 };

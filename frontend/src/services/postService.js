@@ -1,30 +1,30 @@
-import Api from "../services/Api";
+import http from "../http-common";
 
 export default {
     getPosts() {
-        return Api.get("/posts");
+        return http.get("/posts");
     },
     getPostById(id) {
-        return Api.get(`/posts/${id}`);
+        return http.get(`/posts/${id}`);
     },
     createPost(data) {
-        return Api.post("/posts/add", data);
+        return http.post("/posts/add", data);
     },
     updatePost(id, data) {
-        return Api.put(`/posts/${id}`, data)
+        return http.put(`/posts/${id}`, data)
     },
     deletePostById(id) {
-        return Api.delete(`/posts/${id}`)
+        return http.delete(`/posts/${id}`)
     },
     likePost(id) {
-        return Api.post("posts/" + id) + "/like";
+        return http.post("posts/" + id) + "/like";
     },
 
     commentPost(id, data) {
-        return Api.post("posts/" + id + "/comments", data);
+        return http.post("posts/" + id + "/comments", data);
     },
 
     deleteComment(id) {
-        return Api.delete("posts/comments/" + id);
+        return http.delete("posts/comments/" + id);
     },
 }
