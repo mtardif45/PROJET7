@@ -76,5 +76,17 @@ export default {
       window.location.href = "/posts/?id=" + id;
     },
   },
+  data: function () {
+    return {
+      posts: [],
+      error: "",
+    };
+  },
+  mounted() {
+    axios.get("/posts/?id").then((response) => {
+      this.post = response.data;
+      console.log(this.post);
+    });
+  },
 };
 </script>

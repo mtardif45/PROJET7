@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import axios from "axios";
 // @ is an alias to /src
 import OnePost from "@/components/OnePost.vue";
 
@@ -23,38 +24,17 @@ export default {
   },
   data: function () {
     return {
-      posts: [
-        {
-          id: 0,
-          pseudo: "post0",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 1,
-          pseudo: "post1",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 2,
-          pseudo: "post2",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-        {
-          id: 3,
-          pseudo: "post3",
-          message:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae",
-          photo: "",
-        },
-      ],
+      posts: [],
+      error: "",
     };
+  },
+  mounted() {
+    axios.get("http:localhost/3000/api/posts").then((response) => {
+      this.posts = response.data;
+      console.log(this.posts);
+    });
   },
 };
 </script>
+
   
