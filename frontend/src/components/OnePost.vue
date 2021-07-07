@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     show(id) {
-      window.location.href = "/Posts/?id=" + id;
+      window.location.href = "/posts/?id=" + id;
     },
   },
 };

@@ -29,7 +29,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
-                ><router-link to="/feed">Fil d'actualité</router-link></a
+                ><router-link to="/posts">Fil d'actualité</router-link></a
               >
             </li>
             <li class="nav-item">
@@ -44,7 +44,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"
-                ><router-link to="/Profile"> Mon compte</router-link></a
+                ><router-link to="/accounts/:id"> Mon compte</router-link></a
               >
             </li>
             <li class="nav-item">

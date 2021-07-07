@@ -4,15 +4,13 @@ import VueRouter from 'vue-router'
 
 import Home from '../views/Home.vue'
 import Feed from '../views/Feed.vue'
-import AllUsers from '../views/AllUsers.vue'
 import Profile from '../views/Profile.vue'
 import SignUp from '../components/SignUp.vue'
 import Login from '../components/Login.vue'
 import Header from '../components/Header.vue'
 import OnePost from '../components/OnePost.vue'
-import Posts from '../components/Posts.vue'
 import OneUser from '../components/OneUser.vue'
-import Users from '../components/Users.vue'
+import Users from '../views/Users.vue'
 import CreatePost from '../components/CreatePost.vue'
 
 
@@ -40,24 +38,14 @@ const routes = [
     component: Header
   },
   {
-    path: '/posts',
-    name: 'Posts',
-    component: Posts
-  },
-  {
     path: '/posts/:id',
     name: 'OnePost',
     component: OnePost
   },
   {
-    path: '/Feed',
+    path: '/posts',
     name: 'Feed',
     component: Feed
-  },
-  {
-    path: '/accounts',
-    name: 'AllUsers',
-    component: AllUsers
   },
   {
     path: '/accounts/:id',
@@ -75,7 +63,7 @@ const routes = [
     component: CreatePost
   },
   {
-    path: '/Profile',
+    path: '/accounts/:id',
     name: 'Profile',
     component: Profile
   },

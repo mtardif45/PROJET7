@@ -1,5 +1,6 @@
 import http from "../http-common";
 
+// configuration des requêtes axios pour les publications 
 export default {
     getPosts() {
         return http.get("/posts");

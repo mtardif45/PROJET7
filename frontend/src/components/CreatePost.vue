@@ -65,25 +65,20 @@ export default {
     };
   },
   methods: {
-    savePost() {
-      var data = {
-        pseudo: this.user.pseudo,
+    savePost(data) {
+      data = {
+        pseudo: this.post.pseudo,
         message: this.post.message,
         imageUrl: this.post.imageUrl,
       };
+
       PostService.create(data)
         .then((response) => {
           this.post.id = response.data.id;
           console.log(response.data);
           this.submitted = true;
         })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-    newPost() {
-      this.submitted = false;
-      this.post = {};
+        .catch((error) => console.log(error));
     },
   },
 };

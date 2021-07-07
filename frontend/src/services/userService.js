@@ -1,5 +1,6 @@
 import http from "../http-common";
 
+// configuration des requêtes axios pour les utilisateurs
 export default {
     signUp(data) {
         return http.post("users/signup", data);
