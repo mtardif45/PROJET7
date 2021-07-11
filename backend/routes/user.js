@@ -8,7 +8,7 @@ const userCtrl = require("../controllers/user");
 router.post("/signup", authValidator.validPseudo, authValidator.validInput, userCtrl.signup);
 router.post("/login", authValidator.validInput, userCtrl.login);
 router.get("/accounts/:id", auth, userCtrl.getAccount);
-router.get("/accounts", auth, userCtrl.getAllUsers);
+router.get("/accounts", userCtrl.getAllUsers);
 
 router.put("/accounts/:id", auth, multer, userCtrl.updateAccount);
 

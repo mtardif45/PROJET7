@@ -35,6 +35,11 @@ export default {
     };
   },
   computed: {
+    async myUsers() {
+      const res = await fetch("localhost:3000/api/auth/accounts");
+      console.log(res);
+      return res;
+    },
     userId() {
       return parseInt(this.$route.params.id);
     },
