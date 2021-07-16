@@ -1,31 +1,31 @@
-import http from "../http-common";
+import Api from "../Api";
 
 // configuration des requêtes axios pour les publications 
 export default {
     getPosts() {
-        return http.get("/posts");
+        return Api().get("/posts");
     },
     getPostById(id) {
-        return http.get(`/posts/${id}`);
+        return Api().get(`/posts/${id}`);
     },
     createPost(data) {
-        return http.post("/posts/add", data);
+        return Api().post("/posts/add", data);
     },
     updatePost(id, data) {
-        return http.put(`/posts/${id}`, data)
+        return Api().put(`/posts/${id}`, data)
     },
     deletePostById(id) {
-        return http.delete(`/posts/${id}`)
+        return Api().delete(`/posts/${id}`)
     },
     likePost(id) {
-        return http.post("posts/" + id) + "/like";
+        return Api().post("posts/" + id) + "/like";
     },
 
     commentPost(id, data) {
-        return http.post("posts/" + id + "/comments", data);
+        return Api().post("posts/" + id + "/comments", data);
     },
 
     deleteComment(id) {
-        return http.delete("posts/comments/" + id);
+        return Api().delete("posts/comments/" + id);
     },
 }

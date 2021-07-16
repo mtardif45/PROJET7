@@ -4,7 +4,7 @@ const passwordValidator = require("password-validator");
 exports.validInput = (req, res, next) => {
     const passwordSchema = new passwordValidator();
     passwordSchema
-        .is().min(8)
+        .is().min(6)
         .is().max(30)
         .has().uppercase()
         .has().lowercase()
@@ -16,7 +16,7 @@ exports.validInput = (req, res, next) => {
         !passwordSchema.validate(req.body.password)
     ) {
         return res.status(400).send({
-            error: "your password must contain at least 8 characters with lower and uppercase"
+            error: "your password must contain at least 6 characters with lower and uppercase"
         });
     } else if (
         emailValidator.validate(req.body.email) ||

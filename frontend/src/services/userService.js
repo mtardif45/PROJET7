@@ -1,23 +1,23 @@
-import http from "../http-common";
+import Api from "../Api";
 
 // configuration des requêtes axios pour les utilisateurs
 export default {
     signUp(data) {
-        return http.post("users/signup", data);
+        return Api.post("/signup", data);
     },
     login(data) {
-        return http.post("users/login", data);
+        return Api.post("/login", data);
     },
     updateAccount(id, data) {
-        return http.put(`/users/accounts/${id}`, data);
+        return Api.put(`/accounts/${id}`, data);
     },
     deleteAccount(id) {
-        return http.delete(`/users/accounts/${id}`);
+        return Api.delete(`/accounts/${id}`);
     },
     getUsers() {
-        return http.get("users/accounts");
+        return Api.get("/accounts");
     },
     getUserById(id) {
-        return http.get(`/users/accounts/${id}`);
+        return Api.get(`/accounts/${id}`);
     },
 };

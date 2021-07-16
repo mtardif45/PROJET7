@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import axios from "axios";
 // @ is an alias to /src
+import PostService from "../services/PostService";
 import OnePost from "@/components/OnePost.vue";
 
 export default {
@@ -22,17 +22,26 @@ export default {
   components: {
     OnePost,
   },
-  data: function () {
+  props: {
+    post: {
+      type: Object,
+    },
+  },
+  data() {
     return {
       posts: [],
       error: "",
     };
   },
-  mounted() {
-    axios.get("http:localhost/3000/api/posts").then((response) => {
-      this.posts = response.data;
-      console.log(this.posts);
-    });
+  methods: {
+    getAllPosts() {
+      try {
+        const response = PostService.getPosts();
+        this.posts = response.data;
+      } catch (error) {
+        this.errorMessage = error.response.data.error;
+      }
+    },
   },
 };
 </script>

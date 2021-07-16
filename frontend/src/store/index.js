@@ -82,7 +82,7 @@ export default new Vuex.Store({
         },
         updateAccount({ commit }, data) {
             let id = this.state.user.id;
-            axios.put(`http://localhost:3000/api/users/accounts/${id}`, data, {
+            axios.put(`http://localhost:3000/api/accounts/${id}`, data, {
                 headers: { Authorization: this.state.token },
             })
                 .then((response) => {

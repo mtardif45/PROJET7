@@ -45,7 +45,7 @@
         </p>
       </div>
 
-      <div class="col" v-if="showBtn">
+      <div class="col" v-if="showBtn" @click="showPost">
         <router-link
           class="btn btn-info"
           :to="{ name: 'Posts', params: { id: id } }"
@@ -62,8 +62,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "OnePost",
   props: {
@@ -73,22 +71,27 @@ export default {
     image: String,
     showBtn: Boolean,
   },
-  methods: {
-    show(id) {
-      window.location.href = "/posts/?id=" + id;
+  computed: {
+    post() {
+      return this.$store.getters.post;
     },
   },
-  data: function () {
-    return {
-      posts: [],
-      error: "",
-    };
+  beforeMount() {
+    let id = this.$route.params.id;
+    this.$store.dispatch("getPostById", id);
+  },
+  methods: {
+    showPost() {
+      let id = this.$route.params.id;
+      const formData = new FormData();
+      if (this.message !== null) {
+        formData.append("message", this.message);
+      }
+      this.$store.dispatch("getPostById", id);
+    },
   },
   mounted() {
-    axios.get("/posts/?id").then((response) => {
-      this.post = response.data;
-      console.log(this.post);
-    });
+    this.showPost(this.$route.params.id);
   },
 };
 </script>
