@@ -13,12 +13,11 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import PostService from "../services/PostService";
+import PostService from "../services/PostService.js";
 import OnePost from "@/components/OnePost.vue";
 
 export default {
-  name: "Feed",
+  name: "Posts",
   components: {
     OnePost,
   },
@@ -34,13 +33,16 @@ export default {
     };
   },
   methods: {
-    getAllPosts() {
+    async showFeed() {
       try {
-        const response = PostService.getPosts();
+        const response = await PostService.getPosts();
         this.posts = response.data;
       } catch (error) {
         this.errorMessage = error.response.data.error;
       }
+    },
+    getOnePost(id) {
+      this.$router.push(`posts/${id}`);
     },
   },
 };

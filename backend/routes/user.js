@@ -5,7 +5,7 @@ const multer = require("../middleware/multer-config");
 const authValidator = require("../middleware/auth-validator");
 const userCtrl = require("../controllers/user");
 
-router.post("/signup", authValidator.validPseudo, authValidator.validInput, userCtrl.signup);
+router.post("/signup", /*authValidator.validPseudo, authValidator.validInput, */ userCtrl.signup);
 router.post("/login", authValidator.validInput, userCtrl.login);
 router.get("/accounts/:id", auth, userCtrl.getAccount);
 router.get("/accounts", userCtrl.getAllUsers);

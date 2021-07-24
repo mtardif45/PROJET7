@@ -9,10 +9,10 @@ exports.signup = async (req, res) => {
         email: req.body.email,
         password: req.body.password,
         pseudo: req.body.pseudo,
-        bio: req.body.bio,
-        avatar: req.body.avatar,
     });
-    res.status(200).json(true);
+    res.status(200).json({
+        message: 'Account created, you will be redirected'
+    });
 };
 
 // connexion  à un compte existant
@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
                             'RANDOM_TOKEN',
                             { expiresIn: '24h' }
                         ),
-                        userId: result.id
+                        user: result
                     });
                 })
                 .catch(() => {

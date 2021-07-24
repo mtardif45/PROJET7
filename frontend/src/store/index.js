@@ -14,7 +14,7 @@ export default new Vuex.Store({
     state: {
         token: null,
         user: {},
-        isLogged: false,
+        isLoggedIn: false,
         isLoading: false,
         posts: [],
         users: [],
@@ -42,8 +42,11 @@ export default new Vuex.Store({
         errorMessage(state) {
             return state.error;
         },
-        isLogged(state) {
-            return state.isLogged;
+        messageRetour(state) {
+            return state.message;
+        },
+        isLoggedIn(state) {
+            return state.isLoggedIn;
         },
     },
 
@@ -148,15 +151,15 @@ export default new Vuex.Store({
         SET_TOKEN(state, token) {
             state.token = token;
             if (token) {
-                state.isLogged = true;
+                state.isLoggedIn = true;
             } else {
-                state.isLogged = false;
+                state.isLoggedIn = false;
             }
         },
         DELETE_TOKEN(state) {
             state.token = null;
             state.user = "";
-            state.isLogged = false;
+            state.isLoggedIn = false;
         },
         SET_USER(state, user) {
             state.user = user;
@@ -183,7 +186,7 @@ export default new Vuex.Store({
             sessionStorage.clear();
             state.token = null;
             state.user = null;
-            state.isLogged = false;
+            state.isLoggedIn = false;
             state.message = "";
             state.error = "";
         },
@@ -214,4 +217,3 @@ export default new Vuex.Store({
         },
     }
 });
-

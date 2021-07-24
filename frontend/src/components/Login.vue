@@ -8,7 +8,7 @@
         <input
           type="text"
           id="email"
-          v-model="input.email"
+          v-model="email"
           class="fadeIn second"
           name="email"
           placeholder="email"
@@ -17,17 +17,19 @@
         <input
           type="password"
           id="password"
-          v-model="input.password"
+          v-model="password"
           class="fadeIn third"
           name="password"
           placeholder="password"
           required
         />
         <div class="danger-alert message" v-html="errorMessage" />
+        <div class="danger-alert message" v-html="message" />
         <input
-          type="submit"
+          type="button"
           class="btn btn-primary fadeIn fourth"
-          v-on:submit.prevent="login()"
+          value="connexion"
+          v-on:click.prevent="login()"
         />
       </form>
 
@@ -48,12 +50,10 @@ export default {
   name: "Login",
   data() {
     return {
-      input: {
-        email: "",
-        password: "",
-        errorMessage: null,
-        isValid: true,
-      },
+      email: "",
+      password: "",
+      errorMessage: null,
+      message: null,
     };
   },
   methods: {
@@ -63,15 +63,20 @@ export default {
           email: this.email,
           password: this.password,
         });
+        console.log(response);
+        this.message = response.data.message;
+
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
         this.$store.dispatch("getUserById", response.data.user.id);
         let router = this.$router;
         setTimeout(function () {
-          router.push("/feed");
+          router.push("/posts");
         }, 1500);
       } catch (error) {
-        this.errorMessage = error.response.data.error;
+        console.error(error);
+
+        //this.errorMessage = error.response.error;
         setTimeout(() => {
           this.email = "";
           this.password = "";

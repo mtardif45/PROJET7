@@ -8,13 +8,6 @@
       <form>
         <input
           type="text"
-          id="pseudo"
-          class="fadeIn first"
-          name="pseudo"
-          placeholder="pseudo"
-        />
-        <input
-          type="text"
           id="email"
           class="fadeIn first"
           name="email"
@@ -27,29 +20,70 @@
           name="login"
           placeholder="password"
         />
+        <input
+          type="text"
+          id="pseudo"
+          class="fadeIn first"
+          name="pseudo"
+          placeholder="pseudo"
+        />
 
-        <input type="submit" class="fadeIn second" value="signup" />
+        <div class="danger-alert message" v-html="errorMessage" />
+        <div class="danger-alert message" v-html="message"></div>
+
+        <input
+          type="button"
+          class="fadeIn second"
+          value="signup"
+          v-on:click.prevent="signup()"
+        />
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import UserService from "../services/UserService.js";
 export default {
   name: "SignUp",
   data() {
     return {
-      user: {
-        name: "",
-        pseudo: "",
-        bio: "",
-        email: "",
-        password: "",
-      },
-      submitted: false,
+      email: "",
+      password: "",
+      pseudo: "",
+      errorMessage: null,
+      message: null,
     };
   },
-  methods: {},
+  methods: {
+    async signup() {
+      try {
+        const response = await UserService.signup({
+          email: this.email,
+          password: this.password,
+          pseudo: this.pseudo,
+        });
+        console.log(response);
+
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
+        this.$store.dispatch("getUserById", response.data.user.id);
+        let router = this.$router;
+        setTimeout(function () {
+          router.push("/posts");
+        }, 1500);
+      } catch (error) {
+        console.error(error);
+        this.errorMessage = error.response.data.error;
+        setTimeout(() => {
+          this.email = "";
+          this.password = "";
+          this.pseudo = "";
+          this.errorMessage = "";
+        }, 500);
+      }
+    },
+  },
 };
 </script>
 

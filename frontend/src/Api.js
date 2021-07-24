@@ -1,12 +1,10 @@
 import axios from "axios";
-import store from "./store";
+import store from "./store/index.js";
 
-export default () => {
-    return axios.create({
-        baseURL: `http://localhost:3000/api/`,
-
+export default
+    axios.create({
+        baseURL: "http://localhost:3000/api/",
         headers: {
-            "Authorization": `${store.state.token}`,
+            Authorization: `${store.state.token}`,
         },
     });
-};

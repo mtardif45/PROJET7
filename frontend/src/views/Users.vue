@@ -26,13 +26,5 @@ export default {
   data() {
     return {};
   },
-  computed: {
-    users() {
-      return this.$store.getters.users;
-    },
-  },
-  beforeMount() {
-    this.$store.dispatch("getUsers");
-  },
 };
 </script>

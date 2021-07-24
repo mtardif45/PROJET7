@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-
 import Home from '../views/Home.vue'
-import Feed from '../views/Feed.vue'
+import Posts from '../views/Posts.vue'
 import Profile from '../views/Profile.vue'
 import SignUp from '../components/SignUp.vue'
 import Login from '../components/Login.vue'
@@ -44,8 +43,8 @@ const routes = [
   },
   {
     path: '/posts',
-    name: 'Feed',
-    component: Feed
+    name: 'Posts',
+    component: Posts
   },
   {
     path: '/accounts/:id',

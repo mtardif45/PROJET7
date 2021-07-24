@@ -45,7 +45,7 @@
         </p>
       </div>
 
-      <div class="col" v-if="showBtn" @click="showPost">
+      <div class="col" v-if="showBtn" @click="getOnePost(post.id)">
         <router-link
           class="btn btn-info"
           :to="{ name: 'Posts', params: { id: id } }"
@@ -79,19 +79,6 @@ export default {
   beforeMount() {
     let id = this.$route.params.id;
     this.$store.dispatch("getPostById", id);
-  },
-  methods: {
-    showPost() {
-      let id = this.$route.params.id;
-      const formData = new FormData();
-      if (this.message !== null) {
-        formData.append("message", this.message);
-      }
-      this.$store.dispatch("getPostById", id);
-    },
-  },
-  mounted() {
-    this.showPost(this.$route.params.id);
   },
 };
 </script>

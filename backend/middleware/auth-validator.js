@@ -27,7 +27,7 @@ exports.validInput = (req, res, next) => {
 };
 
 exports.validPseudo = (req, res, next) => {
-    const regex = /^[a-zA-Z0-9_]{3,20}$/; // entre 3 et 20 caractères, majuscules minuscules espaces
+    const regex = /^([0-9a-zA-Z_]){3,20}$/; // entre 3 et 20 caractères, majuscules minuscules espaces
     const pseudo = req.body.pseudo;
     if (regex.test(pseudo) === true) {
         next();
