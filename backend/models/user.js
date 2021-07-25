@@ -15,11 +15,11 @@ const User = function (user) {
 User.create = async (user) => {
     const newUser = new User(user);
     newUser.password = await bcrypt.hash(user.password, 10);
-    const request = `INSERT INTO Users(email, password, pseudo, admin) VALUES (?, ?, ?, ?)`;
+    const request = `INSERT INTO Users(email, password, pseudo, admin) VALUES (?,?,?,?)`;
     sql.query(request, [newUser.email, newUser.password, newUser.pseudo, false], (err, res) => {
         if (err) {
             console.log("error: ", err);
-            throw Error(err.message)
+            throw Error;
         }
         console.log("user created: ", { id: res.insertId, ...newUser });
         return { id: res.insertId, ...newUser };

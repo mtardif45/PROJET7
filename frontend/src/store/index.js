@@ -45,7 +45,7 @@ export default new Vuex.Store({
         messageRetour(state) {
             return state.message;
         },
-        isLoggedIn(state) {
+        isLogged(state) {
             return state.isLoggedIn;
         },
     },

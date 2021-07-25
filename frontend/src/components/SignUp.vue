@@ -34,7 +34,7 @@
         <input
           type="button"
           class="fadeIn second"
-          value="signup"
+          value="inscription"
           v-on:click.prevent="signup()"
         />
       </form>
@@ -45,7 +45,7 @@
 <script>
 import UserService from "../services/UserService.js";
 export default {
-  name: "SignUp",
+  name: "Signup",
   data() {
     return {
       email: "",
@@ -68,17 +68,16 @@ export default {
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
         this.$store.dispatch("getUserById", response.data.user.id);
+        console.log(response.data.user.id);
+
         let router = this.$router;
         setTimeout(function () {
-          router.push("/posts");
+          router.push("/login");
         }, 1500);
       } catch (error) {
         console.error(error);
-        this.errorMessage = error.response.data.error;
+        this.errorMessage = error.response.data;
         setTimeout(() => {
-          this.email = "";
-          this.password = "";
-          this.pseudo = "";
           this.errorMessage = "";
         }, 500);
       }

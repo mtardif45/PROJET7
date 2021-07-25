@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       posts: [],
+      isLoggedIn: true,
       error: "",
     };
   },
@@ -41,8 +42,10 @@ export default {
         this.errorMessage = error.response.data.error;
       }
     },
-    getOnePost(id) {
-      this.$router.push(`posts/${id}`);
+  },
+  computed: {
+    allPosts() {
+      return this.$store.dispatch("getPosts");
     },
   },
 };
