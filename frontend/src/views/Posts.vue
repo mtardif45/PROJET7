@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import PostService from "../services/PostService.js";
 import OnePost from "@/components/OnePost.vue";
 
 export default {
@@ -26,27 +25,13 @@ export default {
       type: Object,
     },
   },
-  data() {
-    return {
-      posts: [],
-      isLoggedIn: true,
-      error: "",
-    };
-  },
-  methods: {
-    async showFeed() {
-      try {
-        const response = await PostService.getPosts();
-        this.posts = response.data;
-      } catch (error) {
-        this.errorMessage = error.response.data.error;
-      }
-    },
-  },
   computed: {
-    allPosts() {
-      return this.$store.dispatch("getPosts");
+    posts() {
+      return this.$store.getters.posts;
     },
+  },
+  beforeMount() {
+    this.$store.dispatch("getPosts");
   },
 };
 </script>

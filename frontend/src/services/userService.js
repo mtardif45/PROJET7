@@ -9,15 +9,15 @@ export default {
         return Api.post("users/login", data);
     },
     updateAccount(id, data) {
-        return Api.put(`/users/accounts/${id}`, data);
+        return Api.put("users/accounts/" + id, data);
     },
     deleteAccount(id) {
-        return Api.delete(`/users/accounts/${id}`);
+        return Api.delete("users/accounts/" + id);
     },
     getUsers() {
-        return Api.get("/users/accounts");
+        return Api.get("users/accounts");
     },
     getUserById(id) {
-        return Api.get(`/users/accounts/${id}`);
+        return Api.get("users/accounts/" + id);
     },
 };

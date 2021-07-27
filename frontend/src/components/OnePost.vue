@@ -64,13 +64,13 @@
 <script>
 export default {
   name: "OnePost",
-  props: {
-    id: Number,
-    pseudo: String,
-    message: String,
-    image: String,
-    showBtn: Boolean,
+  data() {
+    return {
+      message: "",
+      imageUrl: "",
+    };
   },
+
   computed: {
     post() {
       return this.$store.getters.post;

@@ -3,7 +3,6 @@
     <h1 class="mb-3">Tous les Utilisateurs</h1>
     <div class="row">
       <div class="col-6" v-for="user in users" :key="user.id">
-        {{ user.pseudo + "" + user.bio }}
         <OneUser
           :id="user.id"
           :pseudo="user.pseudo"
@@ -25,6 +24,14 @@ export default {
   },
   data() {
     return {};
+  },
+  computed: {
+    users() {
+      return this.$store.getters.users;
+    },
+  },
+  beforeMount() {
+    this.$store.dispatch("getUsers");
   },
 };
 </script>
