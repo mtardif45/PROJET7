@@ -8,7 +8,12 @@
       :pseudo="post.pseudo"
       :message="post.message"
       :showBtn="true"
+      @click="getOnePost(post.id)"
     />
+    <div>
+      <div class="danger-alert" v-html="errorMessage" />
+      <div class="danger-alert" v-html="messageRetour" />
+    </div>
   </div>
 </template>
 
@@ -23,6 +28,17 @@ export default {
   props: {
     post: {
       type: Object,
+    },
+  },
+  data() {
+    return {
+      messageRetour: null,
+      errorMessage: null,
+    };
+  },
+  methods: {
+    getOnePost(id) {
+      this.$router.push(`posts/${id}`);
     },
   },
   computed: {

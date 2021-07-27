@@ -15,7 +15,7 @@
               <small class="text-muted">{{ bio }}</small>
             </p>
           </div>
-          <div class="col" v-if="showBtn">
+          <div class="col" v-if="showBtn" v-on:click="showUser(id)">
             <router-link
               class="btn btn-info"
               :to="{ name: 'Users', params: { id: id } }"
@@ -39,8 +39,16 @@ export default {
     showBtn: Boolean,
   },
   methods: {
-    show(id) {
-      window.location.href = "/accounts/?id=" + id;
+    showUser() {
+      this.$store.dispatch("getUserById", this.user.id);
+    },
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+    beforeMount() {
+      return this.$store.dispatch("getUserById");
     },
   },
 };

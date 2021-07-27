@@ -2,12 +2,15 @@
   <div class="users">
     <h1 class="mb-3">Tous les Utilisateurs</h1>
     <div class="row">
-      <div class="col-6" v-for="user in users" :key="user.id">
+      <div class="col-6">
         <OneUser
+          v-for="user in users"
+          :key="user.id"
           :id="user.id"
           :pseudo="user.pseudo"
           :bio="user.bio"
           :showBtn="true"
+          @click="getUser(post.id)"
         />
       </div>
     </div>
@@ -24,6 +27,11 @@ export default {
   },
   data() {
     return {};
+  },
+  methods: {
+    getUser(id) {
+      this.$router.push(`users/${id}`);
+    },
   },
   computed: {
     users() {
