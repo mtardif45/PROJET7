@@ -10,7 +10,6 @@
           :pseudo="user.pseudo"
           :bio="user.bio"
           :showBtn="true"
-          @click="getUser(post.id)"
         />
       </div>
     </div>
@@ -28,11 +27,7 @@ export default {
   data() {
     return {};
   },
-  methods: {
-    getUser(id) {
-      this.$router.push(`users/${id}`);
-    },
-  },
+  methods: {},
   computed: {
     users() {
       return this.$store.getters.users;

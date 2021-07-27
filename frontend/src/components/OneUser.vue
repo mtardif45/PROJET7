@@ -15,12 +15,14 @@
               <small class="text-muted">{{ bio }}</small>
             </p>
           </div>
-          <div class="col" v-if="showBtn" v-on:click="showUser(id)">
-            <router-link
-              class="btn btn-info"
-              :to="{ name: 'Users', params: { id: id } }"
-              >Voir le profil</router-link
-            >
+
+          <div class="card-footer">
+            <input
+              type="button"
+              class="btn btn-primary fadeIn fourth"
+              value="voir le profil"
+              v-on:click="showUser(id)"
+            />
           </div>
         </div>
       </div>
@@ -39,8 +41,8 @@ export default {
     showBtn: Boolean,
   },
   methods: {
-    showUser() {
-      this.$store.dispatch("getUserById", this.user.id);
+    showUser(id) {
+      this.$router.push(`users/${id}`);
     },
   },
   computed: {

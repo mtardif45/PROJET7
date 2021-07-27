@@ -36,7 +36,7 @@
       <div class="card-body">
         <a class="card-link" href="#">
           <h5 class="card-title">
-            {{ image }}
+            {{ imageUrl }}
           </h5>
         </a>
 
@@ -45,15 +45,13 @@
         </p>
       </div>
 
-      <div class="col" v-if="showBtn" @click="getOnePost(post.id)">
-        <router-link
-          class="btn btn-info"
-          :to="{ name: 'Posts', params: { id: id } }"
-          >Voir la publication</router-link
-        >
-      </div>
-
       <div class="card-footer">
+        <input
+          type="button"
+          class="btn btn-primary fadeIn fourth"
+          value="Afficher"
+          v-on:click="getOnePost(post.id)"
+        />
         <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
         <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
       </div>
@@ -64,13 +62,19 @@
 <script>
 export default {
   name: "OnePost",
-  data() {
-    return {
-      message: "",
-      imageUrl: "",
-    };
+  props: {
+    pseudo: String,
+    message: String,
+    imageUrl: String,
   },
-
+  data() {
+    return {};
+  },
+  methods: {
+    getOnePost(id) {
+      this.$router.push(`posts/${id}`);
+    },
+  },
   computed: {
     post() {
       return this.$store.getters.post;

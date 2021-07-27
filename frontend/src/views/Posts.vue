@@ -8,7 +8,6 @@
       :pseudo="post.pseudo"
       :message="post.message"
       :showBtn="true"
-      @click="getOnePost(post.id)"
     />
     <div>
       <div class="danger-alert" v-html="errorMessage" />
@@ -36,11 +35,7 @@ export default {
       errorMessage: null,
     };
   },
-  methods: {
-    getOnePost(id) {
-      this.$router.push(`posts/${id}`);
-    },
-  },
+  methods: {},
   computed: {
     posts() {
       return this.$store.getters.posts;
