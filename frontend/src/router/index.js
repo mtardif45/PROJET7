@@ -32,7 +32,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/Header',
+    path: '/header',
     name: 'Header',
     component: Header
   },

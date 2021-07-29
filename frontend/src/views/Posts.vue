@@ -3,11 +3,12 @@
     <h1 class="mb-3">Fil d'actualité</h1>
     <OnePost
       v-for="post of posts"
-      v-bind:key="post.id"
+      :key="post.id"
       :id="post.id"
+      :post="post"
       :pseudo="post.pseudo"
       :message="post.message"
-      :showBtn="true"
+      :imageUrl="post.imageUrl"
     />
     <div>
       <div class="danger-alert" v-html="errorMessage" />
@@ -31,17 +32,16 @@ export default {
   },
   data() {
     return {
-      messageRetour: null,
       errorMessage: null,
+      messageRetour: null,
     };
   },
-  methods: {},
   computed: {
     posts() {
       return this.$store.getters.posts;
     },
   },
-  beforeMount() {
+  mounted() {
     this.$store.dispatch("getPosts");
   },
 };

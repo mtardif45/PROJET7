@@ -3,16 +3,21 @@
     <div class="card mb-3 p-2" style="max-width: 540px">
       <div class="row no-gutters">
         <div class="col-md-4">
-          <img src="../assets/87-512.png" style="width: 150px" alt="photo" />
+          <img
+            src="../assets/87-512.png"
+            style="width: 42px"
+            alt="photo de profil"
+          />
         </div>
         <div class="col">
           <div class="card-body">
-            <h5 class="card-title">{{ pseudo }}</h5>
+            <h5 class="card-title" :pseudo="user.pseudo">{{ pseudo }}</h5>
+
             <p class="card-text">
-              {{ pseudo }}
+              {{ email }}
             </p>
             <p class="card-text">
-              <small class="text-muted">{{ bio }}</small>
+              {{ bio }}
             </p>
           </div>
 
@@ -37,21 +42,25 @@ export default {
     id: Number,
     pseudo: String,
     bio: String,
+    email: String,
     avatar: String,
     showBtn: Boolean,
   },
+  data() {
+    return {};
+  },
   methods: {
     showUser(id) {
-      this.$router.push(`users/${id}`);
+      this.$router.push(`accounts/${id}`);
     },
   },
   computed: {
     user() {
       return this.$store.getters.user;
     },
-    beforeMount() {
-      return this.$store.dispatch("getUserById");
-    },
+  },
+  beforeMount() {
+    this.$store.dispatch("getUserById");
   },
 };
 </script>

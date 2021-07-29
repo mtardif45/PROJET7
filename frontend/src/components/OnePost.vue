@@ -7,12 +7,12 @@
             <img
               class="rounded-circle"
               width="45"
-              src="https://picsum.photos/50/50"
+              src="../assets/87-512.png"
               alt=""
             />
           </div>
           <div class="ml-2">
-            <div class="h5 m-0">{{ pseudo }}</div>
+            <div class="h5 m-0">{{}}</div>
             <div class="h7 text-muted"></div>
           </div>
         </div>
@@ -50,6 +50,7 @@
           type="button"
           class="btn btn-primary fadeIn fourth"
           value="Afficher"
+          v-if="showBtn"
           v-on:click="getOnePost(post.id)"
         />
         <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
@@ -63,12 +64,7 @@
 export default {
   name: "OnePost",
   props: {
-    pseudo: String,
-    message: String,
-    imageUrl: String,
-  },
-  data() {
-    return {};
+    posts: [],
   },
   methods: {
     getOnePost(id) {

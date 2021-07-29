@@ -6,7 +6,7 @@ const postCtrl = require('../controllers/post'); // import des controlleurs Post
 
 // publications
 router.post('/add', auth, multer, postCtrl.createPost);
-router.get('/', auth, postCtrl.getAllPosts);
+router.get('/', postCtrl.getAllPosts);
 router.get('/:id', auth, postCtrl.getOnePost);
 router.put('/:id', auth, multer, postCtrl.updatePost);
 router.delete('/:id', auth, multer, postCtrl.deletePost);

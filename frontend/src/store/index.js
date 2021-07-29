@@ -16,8 +16,9 @@ export default new Vuex.Store({
         user: {},
         isLoggedIn: false,
         isLoading: false,
-        posts: [],
+
         users: [],
+        posts: [],
         post: {},
         message: "",
         error: "",
@@ -200,6 +201,7 @@ export default new Vuex.Store({
             state.post = post;
             state.isLoading = false;
         },
+
         ADD_POST(state, post) {
             state.posts = [post, ...state.posts];
             state.message = "post created";

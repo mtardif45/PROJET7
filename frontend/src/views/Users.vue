@@ -7,9 +7,10 @@
           v-for="user in users"
           :key="user.id"
           :id="user.id"
+          :avatar="user.avatar"
           :pseudo="user.pseudo"
+          :email="user.email"
           :bio="user.bio"
-          :showBtn="true"
         />
       </div>
     </div>

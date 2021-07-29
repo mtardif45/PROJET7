@@ -36,7 +36,7 @@
       <!-- Remind Passowrd -->
       <div id="formFooter">
         <a class="underlineHover" href="#">
-          <router-link to="/SignUp">Nouveau? Je m'inscris ici</router-link>
+          <router-link to="/signup">Nouveau? Je m'inscris ici</router-link>
         </a>
       </div>
     </div>

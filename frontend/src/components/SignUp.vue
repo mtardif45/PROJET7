@@ -35,15 +35,22 @@
           type="button"
           class="fadeIn second"
           value="inscription"
-          v-on:click.prevent="signup()"
+          v-on:click.prevent="signup"
         />
       </form>
+      <p class="font-small grey-text d-flex justify-content-center mb-1">
+        Vous avez déjà un compte ?
+        <router-link to="/login" class="font-weight-bold ml-1">
+          Se connecter</router-link
+        >
+      </p>
     </div>
   </div>
 </template>
 
 <script>
 import UserService from "../services/UserService.js";
+
 export default {
   name: "Signup",
   data() {
@@ -51,8 +58,8 @@ export default {
       email: "",
       password: "",
       pseudo: "",
-      errorMessage: null,
-      message: null,
+      errorMessage: "",
+      message: "",
     };
   },
   methods: {
@@ -64,20 +71,22 @@ export default {
           pseudo: this.pseudo,
         });
         console.log(response);
+        this.message = response.data.message;
 
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
         this.$store.dispatch("getUserById", response.data.user.id);
-        console.log(response.data.user.id);
 
         let router = this.$router;
         setTimeout(function () {
-          router.push("/login");
+          router.push("/posts");
         }, 1500);
       } catch (error) {
         console.error(error);
         this.errorMessage = error.response.data;
         setTimeout(() => {
+          this.email = "";
+          this.password = "";
           this.errorMessage = "";
         }, 500);
       }
