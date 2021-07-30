@@ -10,35 +10,44 @@
                 <label for="pseudo">
                   Pseudo <span class="require"></span
                 ></label>
-                <input type="text" class="form-control" name="pseudo" />
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="pseudo"
+                  name="pseudo"
+                />
               </div>
               <div class="form-group">
                 <label for="imageUrl">
                   Image <span class="require"></span>
                 </label>
-                <input type="text" class="form-control" name="imageUrl" />
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="imageUrl"
+                  name="imageUrl"
+                />
               </div>
 
               <div class="form-group">
-                <label for="description">Message</label>
+                <label for="description"> Message</label>
                 <textarea
                   rows="5"
                   class="form-control"
+                  v-model="message"
                   name="description"
-                ></textarea>
+                >
+                </textarea>
               </div>
 
               <div class="form-group">
-                <button @click="savePost" class="btn btn-success">
-                  Create
-                </button>
+                <button class="btn btn-success" @click="newPost">Create</button>
                 <button class="btn btn-default">Cancel</button>
               </div>
             </div>
 
             <div v-else>
               <h4>You submitted successfully!</h4>
-              <button class="btn btn-success" @click="newPost">Add</button>
             </div>
           </form>
         </div>
@@ -48,37 +57,22 @@
 </template>
 
 <script>
-import PostService from "../services/PostService";
+//import PostService from "../services/PostService.js";
 
 export default {
   name: "CreatePost",
   data() {
     return {
-      post: {
-        id: null,
-        pseudo: "",
-        message: "",
-        imageUrl: "",
-        published: false,
-      },
+      pseudo: "",
+      message: "",
+      imageUrl: "",
       submitted: false,
     };
   },
   methods: {
-    savePost(data) {
-      data = {
-        pseudo: this.post.pseudo,
-        message: this.post.message,
-        imageUrl: this.post.imageUrl,
-      };
-
-      PostService.create(data)
-        .then((response) => {
-          this.post.id = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
-        })
-        .catch((error) => console.log(error));
+    newPost(data) {
+      this.$store.dispatch("createPost", data);
+      this.$router.push("/posts");
     },
   },
 };

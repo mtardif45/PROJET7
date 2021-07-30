@@ -9,6 +9,7 @@
         <input
           type="text"
           id="email"
+          v-model="email"
           class="fadeIn first"
           name="email"
           placeholder="email"
@@ -16,13 +17,15 @@
         <input
           type="text"
           id="password"
+          v-model="password"
           class="fadeIn first"
-          name="login"
+          name="password"
           placeholder="password"
         />
         <input
           type="text"
           id="pseudo"
+          v-model="pseudo"
           class="fadeIn first"
           name="pseudo"
           placeholder="pseudo"
@@ -58,6 +61,7 @@ export default {
       email: "",
       password: "",
       pseudo: "",
+      admin: false,
       errorMessage: "",
       message: "",
     };
@@ -69,6 +73,7 @@ export default {
           email: this.email,
           password: this.password,
           pseudo: this.pseudo,
+          admin: this.admin,
         });
         console.log(response);
         this.message = response.data.message;
@@ -77,16 +82,16 @@ export default {
         this.$store.dispatch("setUser", response.data.user);
         this.$store.dispatch("getUserById", response.data.user.id);
 
-        let router = this.$router;
         setTimeout(function () {
-          router.push("/posts");
+          this.$router.push("/posts");
         }, 1500);
       } catch (error) {
         console.error(error);
-        this.errorMessage = error.response.data;
+
         setTimeout(() => {
           this.email = "";
           this.password = "";
+          this.pseudo = "";
           this.errorMessage = "";
         }, 500);
       }
