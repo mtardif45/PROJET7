@@ -5,6 +5,7 @@ const Post = function (post) {
     this.message = post.message;
     this.imageUrl = post.imageUrl;
     this.userId = post.userId;
+    this.pseudo = post.pseudo;
 };
 
 Post.create = (newPost, result) => {
@@ -48,7 +49,7 @@ Post.getAll = result => {
 };
 
 Post.update = (id, post, result) => {
-    sql.query(`UPDATE posts SET userId= '${post.userId}', message= '${post.message}', imageUrl= '${post.imageUrl}' WHERE id= ${id}`, (err, res) => {
+    sql.query(`UPDATE posts SET userId= '${post.userId}', pseudo= '${post.pseudo}', message= '${post.message}', imageUrl= '${post.imageUrl}' WHERE id= ${id}`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

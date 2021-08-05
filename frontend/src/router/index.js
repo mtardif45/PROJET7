@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import Home from '../views/Home.vue'
 import Posts from '../views/Posts.vue'
+import PostsList from '../components/PostsList.vue'
 import Profile from '../views/Profile.vue'
 import Signup from '../components/Signup.vue'
 import Login from '../components/Login.vue'
@@ -45,6 +46,11 @@ const routes = [
     path: '/posts',
     name: 'Posts',
     component: Posts
+  },
+  {
+    path: '/postslist',
+    name: 'PostsList',
+    component: PostsList
   },
   {
     path: '/accounts/:id',

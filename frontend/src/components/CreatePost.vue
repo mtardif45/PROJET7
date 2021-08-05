@@ -2,18 +2,18 @@
   <div class="newpost">
     <div class="wrapper">
       <div class="col-md-8 col-md-offset-2">
-        <h1>Create post</h1>
+        <h1>Nouvelle publication</h1>
         <div id="form-content">
-          <form action="" method="POST">
+          <form method="POST" @submit.prevent="newPost">
             <div v-if="!submitted">
               <div class="form-group">
-                <label for="pseudo">
+                <label for="userId">
                   Pseudo <span class="require"></span
                 ></label>
                 <input
                   type="text"
                   class="form-control"
-                  v-model="pseudo"
+                  v-mode="post.pseudo"
                   name="pseudo"
                 />
               </div>
@@ -24,7 +24,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model="imageUrl"
+                  v-model="post.imageUrl"
                   name="imageUrl"
                 />
               </div>
@@ -34,7 +34,7 @@
                 <textarea
                   rows="5"
                   class="form-control"
-                  v-model="message"
+                  v-model="post.message"
                   name="description"
                 >
                 </textarea>
@@ -42,7 +42,9 @@
 
               <div class="form-group">
                 <button class="btn btn-success" @click="newPost">Create</button>
-                <button class="btn btn-default">Cancel</button>
+                <button class="btn btn-success ml-2">
+                  <router-link to="/" id="cancel">Annuler</router-link>
+                </button>
               </div>
             </div>
 
@@ -57,22 +59,40 @@
 </template>
 
 <script>
-//import PostService from "../services/PostService.js";
+import PostService from "../services/PostService.js";
 
 export default {
   name: "CreatePost",
   data() {
     return {
-      pseudo: "",
-      message: "",
-      imageUrl: "",
+      post: {
+        id: null,
+        message: "",
+        imageUrl: "",
+      },
       submitted: false,
     };
   },
   methods: {
-    newPost(data) {
-      this.$store.dispatch("createPost", data);
-      this.$router.push("/posts");
+    newPost() {
+      const data = {
+        userId: this.post.userId,
+        pseudo: this.post.user.pseudo,
+        message: this.post.message,
+        imageUrl: this.post.imageUrl,
+      };
+
+      PostService.createPost(data)
+        .then((response) => {
+          this.tutorial.id = response.data.id;
+          console.log(response.data);
+          this.submitted = true;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      // this.$store.dispatch("createPost", formData);
+      // this.$router.push("/posts");
     },
   },
 };
@@ -101,5 +121,9 @@ export default {
   -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
   text-align: center;
+}
+
+#cancel {
+  color: white;
 }
 </style>

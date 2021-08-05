@@ -1,66 +1,52 @@
 <template>
   <div>
-    <div class="card mb-3 p-2" style="max-width: 540px">
-      <div class="row no-gutters">
-        <div class="col-md-4">
-          <img
-            src="../assets/87-512.png"
-            style="width: 42px"
-            alt="photo de profil"
-          />
-        </div>
-        <div class="col">
-          <div class="card-body">
-            <h5 class="card-title" :pseudo="user.pseudo">{{ pseudo }}</h5>
-
-            <p class="card-text">
-              {{ email }}
-            </p>
-            <p class="card-text">
-              {{ bio }}
-            </p>
-          </div>
-
-          <div class="card-footer">
-            <input
-              type="button"
-              class="btn btn-primary fadeIn fourth"
-              value="voir le profil"
-              v-on:click="showUser(id)"
-            />
-          </div>
-        </div>
+    <div class="wrapper">
+      <div class="user">
+        <h1>{{ user.avatar }} {{ user.pseudo }}</h1>
+        <h2>User id:{{ user.id }}</h2>
+        <p>Email: {{ user.email }}</p>
+        <p>Présentation: {{ user.bio }}</p>
+        <!-- <h2 v-if="this.$store.user.isAdmin === 1">Admin</h2> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "OneUser",
-  props: {
-    id: Number,
-    pseudo: String,
-    bio: String,
-    email: String,
-    avatar: String,
-    showBtn: Boolean,
-  },
   data() {
-    return {};
+    return {
+      user: {
+        pseudo: "",
+        email: "",
+        id: "",
+        bio: "",
+        avatar: "",
+        //isAdmin: null,
+      },
+    };
   },
-  methods: {
-    showUser(id) {
-      this.$router.push(`accounts/${id}`);
-    },
+  async created() {
+    let response = await axios.get(
+      `http://localhost:3000/api/accounts/` + this.$route.params.id
+    );
+    this.user = response.data[0];
   },
-  computed: {
-    user() {
-      return this.$store.getters.user;
-    },
-  },
-  beforeMount() {
-    this.$store.dispatch("getUserById");
-  },
+  // methods: {
+  //   showUser(id) {
+  //     this.$router.push(`accounts/${id}`);
+  //   },
+  // },
+  // computed: {
+  //   user() {
+  //     return this.$store.getters.user;
+  //   },
+  // },
+  // beforeMount() {
+  //   this.$store.dispatch("getUserById");
+  // },
 };
 </script>

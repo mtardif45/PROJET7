@@ -13,14 +13,16 @@
           class="fadeIn first"
           name="email"
           placeholder="email"
+          required
         />
         <input
           type="text"
           id="password"
           v-model="password"
-          class="fadeIn first"
+          class="fadeIn second"
           name="password"
           placeholder="password"
+          required
         />
         <input
           type="text"
@@ -29,6 +31,7 @@
           class="fadeIn first"
           name="pseudo"
           placeholder="pseudo"
+          required
         />
 
         <div class="danger-alert message" v-html="errorMessage" />
@@ -36,9 +39,9 @@
 
         <input
           type="button"
-          class="fadeIn second"
+          class="fadeIn third"
           value="inscription"
-          v-on:click.prevent="signup"
+          v-on:click.prevent="signup()"
         />
       </form>
       <p class="font-small grey-text d-flex justify-content-center mb-1">
@@ -80,20 +83,17 @@ export default {
 
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
-        this.$store.dispatch("getUserById", response.data.user.id);
+        // this.$store.dispatch("getUserById", response.data.user.id);
 
+        let router = this.$router;
         setTimeout(function () {
-          this.$router.push("/posts");
+          router.push("/posts");
         }, 1500);
       } catch (error) {
-        console.error(error);
-
+        this.errorMessage = error.response.data.error;
         setTimeout(() => {
-          this.email = "";
-          this.password = "";
-          this.pseudo = "";
           this.errorMessage = "";
-        }, 500);
+        }, 1500);
       }
     },
   },
