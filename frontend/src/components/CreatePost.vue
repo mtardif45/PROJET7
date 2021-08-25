@@ -3,29 +3,43 @@
     <div class="wrapper">
       <div class="col-md-8 col-md-offset-2">
         <h1>Nouvelle publication</h1>
+
+        <!-- Login Form -->
+
         <div id="form-content">
           <form method="POST" @submit.prevent="newPost">
-            <div v-if="!submitted">
+            <div>
               <div class="form-group">
-                <label for="userId">
-                  Pseudo <span class="require"></span
-                ></label>
+                <label for="pseudo"> Pseudo </label>
                 <input
                   type="text"
                   class="form-control"
-                  v-mode="post.pseudo"
+                  v-model="post.pseudo"
                   name="pseudo"
+                  placeholder="pseudo"
+                  required
                 />
               </div>
               <div class="form-group">
-                <label for="imageUrl">
-                  Image <span class="require"></span>
-                </label>
+                <label for="userid"> UserId </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="post.userId"
+                  name="userId"
+                  placeholder="userId"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="imageUrl"> Image </label>
                 <input
                   type="text"
                   class="form-control"
                   v-model="post.imageUrl"
                   name="imageUrl"
+                  placeholder="imageUrl"
+                  required
                 />
               </div>
 
@@ -36,20 +50,24 @@
                   class="form-control"
                   v-model="post.message"
                   name="description"
+                  placeholder="message"
+                  required
                 >
                 </textarea>
               </div>
 
               <div class="form-group">
-                <button class="btn btn-success" @click="newPost">Create</button>
-                <button class="btn btn-success ml-2">
+                <input
+                  type="button"
+                  class="btn-success"
+                  value="Publier"
+                  v-on:click.prevent="newPost()"
+                />
+
+                <button class="btn btn-danger ml-2">
                   <router-link to="/" id="cancel">Annuler</router-link>
                 </button>
               </div>
-            </div>
-
-            <div v-else>
-              <h4>You submitted successfully!</h4>
             </div>
           </form>
         </div>
@@ -59,40 +77,31 @@
 </template>
 
 <script>
-import PostService from "../services/PostService.js";
+import axios from "axios";
 
 export default {
   name: "CreatePost",
   data() {
     return {
       post: {
-        id: null,
+        userId: this.$store.state.user.id,
+        pseudo: this.$store.state.user.pseudo,
         message: "",
         imageUrl: "",
       },
-      submitted: false,
     };
   },
-  methods: {
-    newPost() {
-      const data = {
-        userId: this.post.userId,
-        pseudo: this.post.user.pseudo,
-        message: this.post.message,
-        imageUrl: this.post.imageUrl,
-      };
 
-      PostService.createPost(data)
-        .then((response) => {
-          this.tutorial.id = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
+  methods: {
+    newPost(e) {
+      axios
+        .post("http://localhost:3000/api/posts/add", this.post)
+        .then((result) => {
+          console.log(result);
+          alert("Post successfully created!");
         })
-        .catch((error) => {
-          console.log(error);
-        });
-      // this.$store.dispatch("createPost", formData);
-      // this.$router.push("/posts");
+        .then(() => this.$router.push("/posts"));
+      e.preventDefault();
     },
   },
 };

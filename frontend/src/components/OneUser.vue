@@ -13,40 +13,24 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "OneUser",
   data() {
     return {
-      user: {
-        pseudo: "",
-        email: "",
-        id: "",
-        bio: "",
-        avatar: "",
-        //isAdmin: null,
-      },
+      pseudo: "",
+      email: "",
+      id: "",
+      bio: "",
+      avatar: "",
     };
   },
-  async created() {
-    let response = await axios.get(
-      `http://localhost:3000/api/accounts/` + this.$route.params.id
-    );
-    this.user = response.data[0];
+  computed: {
+    userId() {
+      return parseInt(this.$route.params.id);
+    },
+    user() {
+      return this.$store.getters.users[this.userId];
+    },
   },
-  // methods: {
-  //   showUser(id) {
-  //     this.$router.push(`accounts/${id}`);
-  //   },
-  // },
-  // computed: {
-  //   user() {
-  //     return this.$store.getters.user;
-  //   },
-  // },
-  // beforeMount() {
-  //   this.$store.dispatch("getUserById");
-  // },
 };
 </script>

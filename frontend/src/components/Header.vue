@@ -48,7 +48,9 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Deconnexion</a>
+              <a class="nav-link" href="#" @click="logOut()">
+                <router-link to="/">Deconnexion</router-link></a
+              >
             </li>
           </ul>
         </div>
@@ -60,8 +62,15 @@
 <script>
 export default {
   name: "Header",
+
+  methods: {
+    logOut() {
+      this.$store.dispatch("logOut");
+    },
+  },
 };
 </script>
+
 
 <style scoped>
 .bs-example {

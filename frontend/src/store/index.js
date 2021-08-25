@@ -120,6 +120,12 @@ export default new Vuex.Store({
                     const post = response.data;
                     commit("ADD_POST", post);
                 })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts)
+                    });
+                });
         },
         updatePost({ commit }, data) {
             let id = this.state.post.id;

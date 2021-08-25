@@ -1,70 +1,62 @@
 <template>
-  <div id="post" class="card gedf-card">
-    <div class="card-header">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="mr-2">
-            <img
-              class="rounded-circle"
-              width="45"
-              :src="imageUrl"
-              alt="image postée par l'utilisateur"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">Présentation:</h5>
-        <p class="card-text">
-          {{ message }}
-        </p>
-      </div>
+  <div id="post" class="wrapper">
+    <h1>Détail de la publication</h1>
+    <div class="mb-3">
+      <h4>PostId: {{ post.id }}</h4>
+      <h4>userId: {{ post.pseudo }}</h4>
+      <h4>Image:</h4>
+      <img
+        class=""
+        width="100"
+        :src="post.imageUrl"
+        alt="image postée par l'utilisateur"
+      />
+      <h4 class="card-title">Description:</h4>
+      <p class="card-text">
+        {{ post.message }}
+      </p>
+    </div>
 
-      <div class="card-footer">
-        <!-- <div class="col" v-if="showBtn">
-          <input
-            type="button"
-            class="btn btn-primary fadeIn fourth"
-            value="Afficher"
-            v-on:click="getOnePost(id)"
-          />
-        </div> -->
-        <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-        <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-      </div>
+    <div class="footer">
+      <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
+      <a href="#" class="card-link"><i class="fa fa-comment"></i> Commenter</a>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "OnePost",
-  props: {
-    id: Number,
-    //pseudo: String,
-    message: String,
-    imageUrl: String,
-    showBtn: Boolean,
-  },
   data() {
     return {
-      post: {},
-      userId: this.$store.state.user.id,
+      post: {
+        // userId: "",
+        // pseudo: "",
+        // imageUrl: "",
+        // message: "",
+      },
     };
   },
-  methods: {
-    getOnePost(id) {
-      this.$router.push(`posts/${id}`);
-    },
+  async mounted() {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/posts/` + this.$route.params.id
+      );
+      this.post = response.data;
+    } catch (error) {
+      this.error = error;
+    }
   },
-  computed: {
-    onePost() {
-      return this.$store.getters.post;
-    },
-  },
-  beforeMount() {
-    let id = this.$route.params.id;
-    this.$store.dispatch("getPostById", id);
-  },
+  // computed: {
+  //   onePost() {
+  //     return this.$store.getters.post;
+  //   },
+  // },
+  // beforeMount() {
+  //   let id = this.$route.params.id;
+  //   this.$store.dispatch("getPostById", id);
+  // },
 };
 </script>

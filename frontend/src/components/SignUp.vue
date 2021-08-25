@@ -16,7 +16,7 @@
           required
         />
         <input
-          type="text"
+          type="password"
           id="password"
           v-model="password"
           class="fadeIn second"
@@ -83,7 +83,6 @@ export default {
 
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
-        // this.$store.dispatch("getUserById", response.data.user.id);
 
         let router = this.$router;
         setTimeout(function () {
@@ -182,7 +181,8 @@ input[type="reset"]:active {
   transform: scale(0.95);
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
   background-color: #f6f6f6;
   border: none;
   color: #0d0d0d;
