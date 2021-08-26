@@ -10,6 +10,14 @@
       <router-link :to="`/accounts/${user.id}`">
         <input type="button" value="afficher" class="btn-primary"
       /></router-link>
+
+      <input
+        type="button"
+        value="Supprimer"
+        class="btn-danger"
+        aria-label="supprimer le post"
+        @click="deleteUser(user.id)"
+      />
     </div>
   </div>
 </template>
@@ -26,6 +34,12 @@ export default {
   },
   beforeMount() {
     this.$store.dispatch("getUsers");
+  },
+  methods: {
+    deleteUser(id) {
+      this.$store.commit("DELETE_ACCOUNT", id);
+      alert("user deleted successfully");
+    },
   },
 };
 </script>

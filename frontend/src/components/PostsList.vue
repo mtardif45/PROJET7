@@ -11,7 +11,6 @@
           <input type="button" value="Afficher" class="btn-primary mr-2"
         /></router-link>
 
-        <input type="button" value="Modifier" class="btn-secondary mr-2" />
         <input
           type="button"
           value="Supprimer"
@@ -43,6 +42,7 @@ export default {
   methods: {
     deletePost(id) {
       this.$store.commit("DELETE_POST", id);
+      alert("post deleted successfully");
     },
   },
 };

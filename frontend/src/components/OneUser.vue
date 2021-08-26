@@ -6,31 +6,44 @@
         <h2>User id:{{ user.id }}</h2>
         <p>Email: {{ user.email }}</p>
         <p>Présentation: {{ user.bio }}</p>
-        <!-- <h2 v-if="this.$store.user.isAdmin === 1">Admin</h2> -->
+
+        <div class="footer">
+          <input
+            type="button"
+            value="Modifier"
+            class="btn-danger"
+            aria-label="modifier le profil"
+            @click="modifyUser(user.id)"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "OneUser",
   data() {
     return {
-      pseudo: "",
-      email: "",
-      id: "",
-      bio: "",
-      avatar: "",
+      user: {},
+      isAdmin: false,
     };
   },
-  computed: {
-    userId() {
-      return parseInt(this.$route.params.id);
-    },
-    user() {
-      return this.$store.getters.users[this.userId];
-    },
+  async mounted() {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/users/accounts/` + this.$route.params.id
+      );
+      this.user = response.data;
+    } catch (error) {
+      this.error = error;
+    }
+  },
+  methods: {
+    modifyUser() {},
   },
 };
 </script>

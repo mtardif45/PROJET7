@@ -20,6 +20,13 @@
     <div class="footer">
       <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
       <a href="#" class="card-link"><i class="fa fa-comment"></i> Commenter</a>
+      <input
+        type="button"
+        value="Modifier"
+        class="btn-danger"
+        aria-label="Modifier le post"
+        @click="modifyPost(post.id)"
+      />
     </div>
   </div>
 </template>
@@ -31,12 +38,7 @@ export default {
   name: "OnePost",
   data() {
     return {
-      post: {
-        // userId: "",
-        // pseudo: "",
-        // imageUrl: "",
-        // message: "",
-      },
+      post: {},
     };
   },
   async mounted() {
@@ -49,14 +51,8 @@ export default {
       this.error = error;
     }
   },
-  // computed: {
-  //   onePost() {
-  //     return this.$store.getters.post;
-  //   },
-  // },
-  // beforeMount() {
-  //   let id = this.$route.params.id;
-  //   this.$store.dispatch("getPostById", id);
-  // },
+  methods: {
+    modifyPost() {},
+  },
 };
 </script>

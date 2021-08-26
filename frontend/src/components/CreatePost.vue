@@ -5,7 +5,6 @@
         <h1>Nouvelle publication</h1>
 
         <!-- Login Form -->
-
         <div id="form-content">
           <form method="POST" @submit.prevent="newPost">
             <div>
@@ -14,32 +13,21 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model="post.pseudo"
+                  v-model="pseudo"
                   name="pseudo"
                   placeholder="pseudo"
                   required
                 />
               </div>
               <div class="form-group">
-                <label for="userid"> UserId </label>
+                <label for="image"> Image </label>
                 <input
-                  type="text"
+                  type="file"
+                  ref="file"
                   class="form-control"
-                  v-model="post.userId"
-                  name="userId"
-                  placeholder="userId"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="imageUrl"> Image </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="post.imageUrl"
-                  name="imageUrl"
-                  placeholder="imageUrl"
-                  required
+                  name="image"
+                  @change="onFileSelected"
+                  accept="image/*"
                 />
               </div>
 
@@ -48,7 +36,7 @@
                 <textarea
                   rows="5"
                   class="form-control"
-                  v-model="post.message"
+                  v-model="message"
                   name="description"
                   placeholder="message"
                   required
@@ -77,31 +65,31 @@
 </template>
 
 <script>
-import axios from "axios";
+//import axios from "axios";
 
 export default {
   name: "CreatePost",
   data() {
     return {
-      post: {
-        userId: this.$store.state.user.id,
-        pseudo: this.$store.state.user.pseudo,
-        message: "",
-        imageUrl: "",
-      },
+      pseudo: this.$store.state.user.pseudo,
+      message: "",
+      file: "",
     };
   },
-
   methods: {
-    newPost(e) {
-      axios
-        .post("http://localhost:3000/api/posts/add", this.post)
-        .then((result) => {
-          console.log(result);
-          alert("Post successfully created!");
-        })
-        .then(() => this.$router.push("/posts"));
-      e.preventDefault();
+    onFileSelected() {
+      const file = this.$refs.file.files[0];
+      this.file = file;
+    },
+    newPost() {
+      const fd = new FormData();
+      fd.append("pseudo", this.pseudo);
+      fd.append("userId", this.$store.state.user.id);
+      fd.append("message", this.message);
+      fd.append("image", this.file);
+      this.$store.dispatch("createPost", fd);
+      console.log(...fd);
+      this.$router.push("/posts");
     },
   },
 };
