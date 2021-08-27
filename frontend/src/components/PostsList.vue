@@ -2,8 +2,14 @@
   <div class="feed">
     <h1 class="mb-3">Fil d'actualité</h1>
     <div class="col text-center mt-3" v-for="post in posts" :key="post.id">
-      <p>{{ post.id }}</p>
-      <p>{{ post.imageUrl }}</p>
+      <p>{{ post.pseudo }}</p>
+
+      <img
+        class="image"
+        :src="post.imageUrl"
+        alt="image postée par l'utilisateur"
+      />
+
       <p>{{ post.message }}</p>
 
       <div class="btn-group" role="group">
@@ -42,7 +48,7 @@ export default {
   methods: {
     deletePost(id) {
       this.$store.commit("DELETE_POST", id);
-      alert("post deleted successfully");
+      alert("post deleted successfully!");
     },
   },
 };
