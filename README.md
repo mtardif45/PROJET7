@@ -1,4 +1,4 @@
-# PROJET7
+# PROJET7 - Dernier projet de la formation développeur Web junior d'Openclassrooms
 
 Création d'un réseau social d'entreprise: Groupomania
 
