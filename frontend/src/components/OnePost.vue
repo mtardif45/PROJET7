@@ -115,35 +115,37 @@ export default {
       this.withImage = true;
     },
     savePost() {
-      // let id = this.$route.params.id;
+      let id = this.$route.params.id;
       const fd = new FormData();
       fd.append("message", this.message);
       fd.append("image", this.file);
-      axios
-        .put(
-          `http://localhost:3000/api/posts/` + this.$route.params.id,
-          fd
-          // {
-          //   headers: {
-          //     Authorization: "bearer " + this.$state.token,
-          //   },
-          // }
-        )
-        .then((response) => {
-          console.log(response);
-          console.log(...fd);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      this.$store.dispatch("updatePost", id, fd);
+      this.withImage = false;
+      this.withMessage = false;
+      console.log(...fd);
+      //this.$router.push("/posts");
     },
-    // this.$store.dispatch("updatePost", fd);
-    // this.withImage = false;
-    // this.withMessage = false;
-    // console.log(...fd);
-    //this.$router.push("/posts");
   },
 };
+
+//   axios
+//     .put(
+//       `http://localhost:3000/api/posts/` + this.$route.params.id,
+//       fd
+//       // {
+//       //   headers: {
+//       //     Authorization: "bearer " + this.$state.token,
+//       //   },
+//       // }
+//     )
+//     .then((response) => {
+//       console.log(response);
+//       console.log(...fd);
+//     })
+//     .catch((e) => {
+//       console.log(e);
+//     });
+// },
 </script>
 
 <style scoped>

@@ -22,32 +22,32 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
+            <li class="nav-item active" v-if="isLogged === true">
               <a class="nav-link" href="#"
                 ><router-link to="/">Home</router-link></a
               >
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="isLogged === true">
               <a class="nav-link" href="#"
                 ><router-link to="/posts">Fil d'actualité</router-link></a
               >
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="isLogged === true">
               <a class="nav-link" href="#"
                 ><router-link to="/add"> Ajouter un post</router-link></a
               >
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="isLogged === true">
               <a class="nav-link" href="#"
                 ><router-link to="/accounts"> Tous les profils</router-link></a
               >
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="isLogged === true">
               <a class="nav-link" href="#"
                 ><router-link to="/accounts/:id"> Mon compte</router-link></a
               >
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="isLogged === true">
               <a class="nav-link" href="#" @click="logOut()">
                 <router-link to="/">Deconnexion</router-link></a
               >
@@ -62,10 +62,30 @@
 <script>
 export default {
   name: "Header",
-
+  props: {
+    user: {
+      type: Object,
+    },
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    isLogged() {
+      return this.$store.getters.isLogged;
+    },
+    isLoggedIn() {
+      if (this.$store.state.isLoggedIn) {
+        return "pink";
+      } else {
+        return "";
+      }
+    },
+  },
   methods: {
     logOut() {
       this.$store.dispatch("logOut");
+      this.$store.dispatch("deleteToken");
     },
   },
 };
