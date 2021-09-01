@@ -37,7 +37,7 @@
                   rows="5"
                   class="form-control"
                   v-model="message"
-                  name="description"
+                  name="message"
                   placeholder="message"
                   required
                 >

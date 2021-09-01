@@ -5,21 +5,19 @@
     <div class="row d-flex justify-content-center">
       <div>
         <div class="card text-center mt-4" style="width: 40rem">
-          <div class="d-flex align-items-start p-2">
+          <div class="d-flex justify-content-center p-2">
             <p class="mr-2">Pseudo:</p>
             <p>{{ post.pseudo }}</p>
           </div>
 
           <!--  update image  -->
-          <div v-if="showImage">
-            <p>Image:</p>
-            <img
-              class="mx-auto"
-              width="250"
-              :src="post.imageUrl"
-              alt="image postée par l'utilisateur"
-            />
-          </div>
+          <p>Image:</p>
+          <img
+            class="mx-auto"
+            width="250"
+            :src="post.imageUrl"
+            alt="image postée par l'utilisateur"
+          />
           <div v-if="withImage" class="text-box">
             <label for="image">Image </label>
             <input
@@ -35,25 +33,21 @@
           <div class="text-center pt-2">
             <button @click="updateImage()">Editer</button>
           </div>
-          <div class="card-text">
-            <!-- update message -->
-            <div v-if="showMessage">
-              <p class="card-title">Description:</p>
-              <p class="card-text">
-                {{ post.message }}
-              </p>
-            </div>
+
+          <!-- update message -->
+          <div class="card-body">
+            <span class="card-title">Description:</span>
+            <span class="card-text">
+              {{ post.message }}
+            </span>
             <div v-if="withMessage" class="text-box">
-              <textarea
-                label="Message"
-                v-model="message"
-                text="text"
-                solo
+              <input
                 type="text"
+                name="message"
+                v-model="message"
                 required
-                name="description"
                 class="mr-5 ml-3 text-area"
-              ></textarea>
+              />
             </div>
             <div class="text-center pt-2 pb-4">
               <button @click="updateMessage()">Editer</button>
@@ -93,12 +87,10 @@ export default {
   data() {
     return {
       post: {},
-      withImage: false,
-      withMessage: false,
-      showImage: true,
-      showMessage: true,
       message: "",
       file: "",
+      withImage: false,
+      withMessage: false,
     };
   },
   async mounted() {
@@ -118,26 +110,38 @@ export default {
     },
     updateMessage() {
       this.withMessage = true;
-      this.showMessage = false;
     },
     updateImage() {
       this.withImage = true;
-      this.showImage = false;
     },
     savePost() {
-      //let id = this.$route.params.id;
+      // let id = this.$route.params.id;
       const fd = new FormData();
       fd.append("message", this.message);
       fd.append("image", this.file);
-      this.$store.dispatch("updatePost", fd);
-      // this.$store.dispatch("getPostById", id);
-      this.showImage = true;
-      this.showMessage = true;
-      this.withImage = false;
-      this.withMessage = false;
-      console.log(...fd);
-      //this.$router.push("/posts");
+      axios
+        .put(
+          `http://localhost:3000/api/posts/` + this.$route.params.id,
+          fd
+          // {
+          //   headers: {
+          //     Authorization: "bearer " + this.$state.token,
+          //   },
+          // }
+        )
+        .then((response) => {
+          console.log(response);
+          console.log(...fd);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
+    // this.$store.dispatch("updatePost", fd);
+    // this.withImage = false;
+    // this.withMessage = false;
+    // console.log(...fd);
+    //this.$router.push("/posts");
   },
 };
 </script>
