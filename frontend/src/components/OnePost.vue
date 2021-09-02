@@ -150,7 +150,7 @@ export default {
 
 <style scoped>
 .card {
-  background: rgb(240, 182, 182);
+  background: rgb(250, 228, 228);
   border: 1px solid #1f1c1d;
   color: rgba(10, 10, 10, 0.8);
   margin-bottom: 2rem;

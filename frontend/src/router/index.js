@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 
 import Home from '../views/Home.vue'
 import Posts from '../views/Posts.vue'
-// import PostsList from '../components/PostsList.vue'
 import Signup from '../components/Signup.vue'
 import Login from '../components/Login.vue'
 import Header from '../components/Header.vue'
@@ -11,6 +10,8 @@ import OnePost from '../components/OnePost.vue'
 import OneUser from '../components/OneUser.vue'
 import Users from '../views/Users.vue'
 import CreatePost from '../components/CreatePost.vue'
+
+import Profile from '../views/Profile.vue'
 
 
 Vue.use(VueRouter)
@@ -46,11 +47,7 @@ const routes = [
     name: 'Posts',
     component: Posts
   },
-  // {
-  //   path: '/postslist',
-  //   name: 'PostsList',
-  //   component: PostsList
-  // },
+
   {
     path: '/accounts/:id',
     name: 'OneUser',
@@ -66,6 +63,11 @@ const routes = [
     name: 'CreatePost',
     component: CreatePost,
   },
+  {
+    path: '/profile/:id',
+    name: 'Profile',
+    component: Profile,
+  }
 
 ]
 

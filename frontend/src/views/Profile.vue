@@ -1,59 +1,32 @@
 <template>
   <div id="profile">
-    <div class="row gutters-sm">
-      <div class="d-flex flex-column align-items-center col-md-12 mb-4 mt-4">
-        <div class="card">
-          <div class="card-body">
-            <div class="d-flex flex-column align-items-center text-center">
-              <img
-                src="../assets/87-512.png"
-                alt="user profile"
-                class="rounded-circle"
-                width="150"
-              />
-              <div class="mt-3">
-                <h4>John Doe</h4>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <h6 class="mb-0">Email</h6>
-              </div>
-              <div class="col-sm-12 text-secondary">fip@jukmuh.al</div>
-            </div>
-            <hr />
-            <div class="row">
-              <div class="col-sm-12">
-                <h5 class="mb-0">Présentation</h5>
-                <p class="col-sm-12 text-center">
-                  Bonjour, super idée d'appli ! Ravi de me joindre à vous.
-                  blablabla blabla blablabla
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+    <OneUser />
 
-        <div class="row">
-          <div class="col-sm-12">
-            <a
-              class="btn btn-info"
-              target="__blank"
-              href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills"
-              >Edit</a
-            >
-          </div>
-        </div>
-      </div>
+    <div class="card-options">
+      <input
+        type="button"
+        value="Modifier"
+        class="btn-danger"
+        aria-label="Editer"
+        @click="modifyUser()"
+      />
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+//import axios from "axios";
+import OneUser from "../components/OneUser.vue";
+
 export default {
   name: "Profile",
-  components: {},
+  components: {
+    OneUser,
+  },
+  methods: {
+    modifyUser() {},
+  },
 };
 </script>
 

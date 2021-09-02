@@ -1,20 +1,26 @@
 <template>
   <div>
-    <div class="wrapper">
-      <div class="user">
-        <h1>{{ user.avatar }} {{ user.pseudo }}</h1>
-        <h2>User id:{{ user.id }}</h2>
-        <p>Email: {{ user.email }}</p>
-        <p>Présentation: {{ user.bio }}</p>
-
-        <div class="footer">
-          <input
-            type="button"
-            value="Modifier"
-            class="btn-danger"
-            aria-label="modifier le profil"
-            @click="modifyUser(user.id)"
-          />
+    <div class="container mx-auto mt-4">
+      <h1>Détail du profil</h1>
+      <div class="row d-flex justify-content-center">
+        <div class="card text-center mt-4" style="width: 40rem">
+          <div>
+            <img
+              class="img-fluid mr-3"
+              width="150px"
+              :src="user.avatar"
+              alt="photo de profil"
+            />
+            <p class="font-weight-bold text-uppercase">{{ user.pseudo }}</p>
+          </div>
+          <div class="">
+            <p>Email:</p>
+            <p>{{ user.email }}</p>
+          </div>
+          <div class="">
+            <p>Présentation:</p>
+            <p>{{ user.bio }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -29,7 +35,7 @@ export default {
   data() {
     return {
       user: {},
-      isAdmin: false,
+      // isAdmin: false,
     };
   },
   async mounted() {
@@ -42,8 +48,14 @@ export default {
       this.error = error;
     }
   },
-  methods: {
-    modifyUser() {},
-  },
 };
 </script>
+
+<style scoped>
+.card {
+  background: rgb(250, 228, 228);
+  border: 1px solid #1f1c1d;
+  color: rgba(10, 10, 10, 0.8);
+  margin-bottom: 2rem;
+}
+</style>

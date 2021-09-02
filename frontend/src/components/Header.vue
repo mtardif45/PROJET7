@@ -44,7 +44,9 @@
             </li>
             <li class="nav-item" v-if="isLogged === true">
               <a class="nav-link" href="#"
-                ><router-link to="/accounts/:id"> Mon compte</router-link></a
+                ><router-link :to="`/profile/${user.id}`">
+                  Mon compte</router-link
+                ></a
               >
             </li>
             <li class="nav-item" v-if="isLogged === true">
@@ -63,23 +65,23 @@
 export default {
   name: "Header",
   props: {
-    user: {
-      type: Object,
-    },
+    // user: {
+    // type: Object,
+    // },
   },
   data() {
-    return {};
+    return {
+      user: {
+        id: this.$store.state.user.id,
+      },
+    };
   },
   computed: {
     isLogged() {
       return this.$store.getters.isLogged;
     },
     isLoggedIn() {
-      if (this.$store.state.isLoggedIn) {
-        return "pink";
-      } else {
-        return "";
-      }
+      return this.$store.state.isLoggedIn;
     },
   },
   methods: {
