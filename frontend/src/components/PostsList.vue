@@ -5,7 +5,8 @@
       <p>{{ post.pseudo }}</p>
 
       <img
-        class="image"
+        class=".img-fluid img-thumbnail"
+        style="max-width: 300px"
         :src="post.imageUrl"
         alt="image postée par l'utilisateur"
       />

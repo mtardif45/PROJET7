@@ -2,14 +2,10 @@
   <div id="profile">
     <OneUser />
 
-    <div class="card-options">
-      <input
-        type="button"
-        value="Modifier"
-        class="btn-danger"
-        aria-label="Editer"
-        @click="modifyUser()"
-      />
+    <div class="options d-flex justify-content-center">
+      <EditUserBtn />
+
+      <DeleteUserBtn />
     </div>
   </div>
 </template>
@@ -18,14 +14,33 @@
 // @ is an alias to /src
 //import axios from "axios";
 import OneUser from "../components/OneUser.vue";
+import DeleteUserBtn from "../components/DeleteUserBtn.vue";
+import EditUserBtn from "../components/EditUserBtn.vue";
 
 export default {
   name: "Profile",
   components: {
     OneUser,
+    DeleteUserBtn,
+    EditUserBtn,
+  },
+  data() {
+    return {
+      editBio: false,
+      editAvatar: false,
+      editEmail: false,
+    };
   },
   methods: {
-    modifyUser() {},
+    updateAvatar() {
+      this.editAvatar = true;
+    },
+    updateBio() {
+      this.editBio = true;
+    },
+    updateEmail() {
+      this.editEmail = true;
+    },
   },
 };
 </script>

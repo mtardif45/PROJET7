@@ -18,7 +18,7 @@
           type="password"
           id="password"
           v-model="password"
-          class="fadeIn third"
+          class="fadeIn second"
           name="password"
           placeholder="password"
           required
@@ -27,7 +27,7 @@
         <div class="danger-alert message" v-html="message" />
         <input
           type="button"
-          class="btn btn-primary fadeIn fourth"
+          class="btn btn-primary fadeIn Third"
           value="connexion"
           v-on:click.prevent="login()"
         />
@@ -71,11 +71,11 @@ export default {
         let router = this.$router;
         setTimeout(function () {
           router.push("/posts");
-        }, 1500);
+        }, 500);
       } catch (error) {
         console.error(error);
 
-        //this.errorMessage = error.response.error;
+        this.errorMessage = error.response.error;
         setTimeout(() => {
           this.email = "";
           this.password = "";
@@ -322,18 +322,6 @@ input[type="text"]:placeholder {
   -webkit-animation-delay: 0.6s;
   -moz-animation-delay: 0.6s;
   animation-delay: 0.6s;
-}
-
-.fadeIn.third {
-  -webkit-animation-delay: 0.8s;
-  -moz-animation-delay: 0.8s;
-  animation-delay: 0.8s;
-}
-
-.fadeIn.fourth {
-  -webkit-animation-delay: 1s;
-  -moz-animation-delay: 1s;
-  animation-delay: 1s;
 }
 
 /* Simple CSS3 Fade-in Animation */

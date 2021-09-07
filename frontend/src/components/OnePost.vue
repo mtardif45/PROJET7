@@ -10,7 +10,6 @@
             <p>{{ post.pseudo }}</p>
           </div>
 
-          <!--  update image  -->
           <p>Image:</p>
           <img
             class="mx-auto"
@@ -18,6 +17,8 @@
             :src="post.imageUrl"
             alt="image postée par l'utilisateur"
           />
+
+          <!--  update image  -->
           <div v-if="withImage" class="text-box">
             <label for="image">Image </label>
             <input
@@ -29,49 +30,84 @@
               name="image"
             />
           </div>
-
           <div class="text-center pt-2">
-            <button @click="updateImage()">Editer</button>
+            <button
+              v-if="this.$store.state.user.pseudo == post.pseudo"
+              @click="updateImage()"
+            >
+              Editer
+            </button>
           </div>
-
-          <!-- update message -->
+          <!-- message -->
           <div class="card-body">
             <span class="card-title">Description:</span>
             <span class="card-text">
               {{ post.message }}
             </span>
-            <div v-if="withMessage" class="text-box">
-              <input
-                type="text"
-                name="message"
-                v-model="message"
-                required
-                class="mr-5 ml-3 text-area"
-              />
-            </div>
-            <div class="text-center pt-2 pb-4">
-              <button @click="updateMessage()">Editer</button>
-            </div>
+          </div>
+
+          <!-- update message -->
+          <div v-if="withMessage" class="text-box">
+            <input
+              type="text"
+              name="message"
+              v-model="message"
+              required
+              class="mr-5 ml-3 text-area"
+            />
+          </div>
+          <div class="text-center pt-2 pb-4">
+            <button
+              v-if="this.$store.state.user.pseudo == post.pseudo"
+              @click="updateMessage()"
+            >
+              Editer
+            </button>
           </div>
 
           <!--  footer options: like, comment & save post if updated -->
-          <div class="footer">
-            <a href="#" class="btn btn-outline-success mr-2"
-              ><i class="fa fa-gittip"></i> Like</a
-            >
-            <a href="#" class="btn btn-outline-success mr-2"
-              ><i class="fa fa-comment"></i> Commenter</a
-            >
+          <div class="footer pb-3">
             <input
               type="button"
+              value="Like"
+              aria-label="liker le post"
+              class="btn btn-outline-success mr-2"
+              @click="likePost(post.id)"
+            />
+
+            <input
+              type="button"
+              v-if="this.$store.state.user.pseudo == post.pseudo"
               value="Save"
-              class="btn-warning"
+              class="btn btn-success"
               aria-label="Sauvegarder le post"
               @click.prevent="savePost()"
             />
-            <button class="btn btn-danger ml-2">
+            <button class="btn btn-warning ml-2">
               <router-link to="/posts" id="cancel">Annuler</router-link>
             </button>
+          </div>
+
+          <div class="row">
+            <div class="d-flex col post-comment m-2">
+              <img
+                :src="this.$store.state.user.avatar"
+                alt="photo de profil"
+                class="profile-photo-sm"
+              />
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Post a comment"
+              />
+            </div>
+            <input
+              type="button"
+              value="Commenter"
+              aria-label="commenter le post"
+              class="btn btn-success"
+              @click="addComment(post.id)"
+            />
           </div>
         </div>
       </div>
@@ -91,6 +127,8 @@ export default {
       file: "",
       withImage: false,
       withMessage: false,
+      // comments: [],
+      comment: {},
     };
   },
   async mounted() {
@@ -103,6 +141,7 @@ export default {
       this.error = error;
     }
   },
+
   methods: {
     onFileSelected() {
       const file = this.$refs.file.files[0];
@@ -117,35 +156,34 @@ export default {
     savePost() {
       let id = this.$route.params.id;
       const fd = new FormData();
-      fd.append("message", this.message);
+      fd.append("id", id);
+      fd.append("pseudo", this.post.pseudo);
+      fd.append("userId", this.post.userId);
+      fd.append("message", this.message || this.post.message);
+      fd.append("imageUrl", this.post.imageUrl ? this.post.imageUrl : null);
       fd.append("image", this.file);
       this.$store.dispatch("updatePost", id, fd);
       this.withImage = false;
       this.withMessage = false;
       console.log(...fd);
-      //this.$router.push("/posts");
+      // this.$router.push("/posts");
     },
+
+    // addComment(id) {
+    //   this.$store.dispatch("getPosts");
+    //   this.$store.dispatch("commentPost", {
+    //     id: id,
+    //     comment: this.comment,
+    //   });
+    //   this.comment.message = "";
+    //   this.$store.dispatch("getPosts");
+    //   this.$store.dispatch("getPostById", this.post.id);
+    // },
+    // deleteComment(id) {
+    //   this.$store.dispatch("deleteComment", id);
+    // },
   },
 };
-
-//   axios
-//     .put(
-//       `http://localhost:3000/api/posts/` + this.$route.params.id,
-//       fd
-//       // {
-//       //   headers: {
-//       //     Authorization: "bearer " + this.$state.token,
-//       //   },
-//       // }
-//     )
-//     .then((response) => {
-//       console.log(response);
-//       console.log(...fd);
-//     })
-//     .catch((e) => {
-//       console.log(e);
-//     });
-// },
 </script>
 
 <style scoped>
@@ -154,5 +192,34 @@ export default {
   border: 1px solid #1f1c1d;
   color: rgba(10, 10, 10, 0.8);
   margin-bottom: 2rem;
+}
+.post-content .post-container .post-detail .post-comment {
+  display: inline-flex;
+  margin: 10px auto;
+  width: 100%;
+}
+
+.post-content .post-container .post-detail .post-comment img.profile-photo-sm {
+  margin-right: 10px;
+}
+
+.post-content .post-container .post-detail .post-comment .form-control {
+  height: 30px;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  margin: 7px 0;
+  min-width: 0;
+}
+
+img.profile-photo-md {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+img.profile-photo-sm {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
 }
 </style>

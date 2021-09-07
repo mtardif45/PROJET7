@@ -4,20 +4,23 @@
       <h1>Détail du profil</h1>
       <div class="row d-flex justify-content-center">
         <div class="card text-center mt-4" style="width: 40rem">
+          <p class="font-weight-bold text-uppercase">{{ user.pseudo }}</p>
+
           <div>
             <img
-              class="img-fluid mr-3"
+              class="img-fluid mr-3 mt-3"
               width="150px"
               :src="user.avatar"
               alt="photo de profil"
             />
-            <p class="font-weight-bold text-uppercase">{{ user.pseudo }}</p>
           </div>
-          <div class="">
+
+          <div class="mt-3">
             <p>Email:</p>
             <p>{{ user.email }}</p>
           </div>
-          <div class="">
+
+          <div class="bio">
             <p>Présentation:</p>
             <p>{{ user.bio }}</p>
           </div>
@@ -35,7 +38,10 @@ export default {
   data() {
     return {
       user: {},
-      // isAdmin: false,
+      editAvatar: false,
+      editBio: false,
+      editEmail: false,
+      // isAdmin: false
     };
   },
   async mounted() {

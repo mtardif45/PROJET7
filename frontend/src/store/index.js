@@ -129,14 +129,20 @@ export default new Vuex.Store({
         },
         updatePost({ commit }, data) {
             let id = this.state.post.id;
-            axios.put(`http:localhost:3000/api/posts/${id}`, data, {
-                headers: { Authorization: this.state.token },
-            })
+            console.log("updatePost" + data.id, data.fd)
+            PostService.updatePost(data.id, data.fd)
                 .then((response) => {
                     const post = response.data;
-                    commit("UPDATE_POST", id, post);
+                    commit("UPDATE_POST", id, post)
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts);
+                    });
                 });
         },
+
         deletePost({ commit }, id) {
             PostService.deletePost(id)
                 .then(() => {
@@ -149,9 +155,59 @@ export default new Vuex.Store({
                     });
                 });
         },
-
+        // end post actions
+        // comment action 
+        commentPost({ commit }, payload) {
+            axios
+                .post(
+                    `http://localhost:3000/api/posts/${payload.id}/comments`,
+                    payload.data,
+                    { headers: { Authorization: this.state.token } }
+                )
+                .then((response) => {
+                    const comment = response.data;
+                    commit("COMMENT_POST", comment);
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts);
+                    });
+                });
+        },
+        deleteComment({ commit }, id) {
+            PostService.deleteComment(id)
+                .then(() => {
+                    commit("DELETE_COMMENT", id);
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts);
+                    });
+                });
+        },
+        //like
+        likePost({ commit }, payload) {
+            axios
+                .post(
+                    `http://localhost:3000/api/posts/${payload.id}/like`,
+                    payload.data,
+                    { headers: { Authorization: this.state.token } }
+                )
+                .then((response) => {
+                    const like = response.data;
+                    commit("LIKE_POST", like);
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts);
+                    });
+                });
+        },
+        // end like action
     },
-
     //to handle mutations
     mutations: {
         // users mutations
@@ -223,5 +279,22 @@ export default new Vuex.Store({
             state.posts = [...state.posts.filter((element) => element.id !== id)];
             state.message = "post deleted";
         },
-    }
+        // comments
+        COMMENT_POST(state, comment) {
+            state.posts = [comment, ...state.posts];
+            state.message = "post commenté";
+        },
+        DELETE_COMMENT(state, id) {
+            state.posts = [...state.posts.filter((element) => element.id !== id)];
+            state.message = "commentaire supprimé";
+        },
+        // end comments
+
+        // like
+
+        LIKE_POST(state, like) {
+            state.posts = [like, ...state.posts];
+        },
+        // end like
+    },
 });

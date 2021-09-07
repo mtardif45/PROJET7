@@ -12,7 +12,7 @@ router.get("/accounts", userCtrl.getAllUsers);
 
 router.put("/accounts/:id", auth, multer, userCtrl.updateAccount);
 
-router.delete("/accounts/:id", auth, userCtrl.deleteAccount);
+router.delete("/accounts/:id", /* auth, */userCtrl.deleteAccount);
 
 module.exports = router;
 

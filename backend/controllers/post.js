@@ -1,4 +1,5 @@
 //const fs = require('fs'); // package permettant la modification du système de fichiers
+//const { JsonWebTokenError } = require('jsonwebtoken');
 const Post = require('../models/post');
 
 // ajouter une publication
@@ -56,24 +57,6 @@ exports.getAllPosts = (req, res) => {
     });
 };
 
-// modifier une publication
-exports.updatePost = (req, res) => {
-    Post.update(req.params.id, new Post(req.body), (err, result) => {
-        if (err) {
-            if (err.kind === "not found") {
-                res.status(404).send({
-                    message: `post not found with id ${req.params.id}.`
-                });
-            } else {
-                res.status(500).send({
-                    message: "error updating post" + req.params.id
-                });
-            }
-        } else res.send({ message: "post updated successfully!" });
-    }
-    );
-};
-
 // supprimer une publication
 exports.deletePost = (req, res) => {
     Post.remove(req.params.id, (err, data) => {
@@ -91,38 +74,23 @@ exports.deletePost = (req, res) => {
     });
 };
 
-// ajouter un commentaire
-exports.addComment = async (req, res) => {
-    db.query(`INSERT INTO comments VALUES (NULL, ${req.body.userId}, ${req.params.id}, NOW(), '${req.body.message}')`, (error, result, field) => {
-        if (error) {
-            return res.status(400).json({
-                error
-            });
-        }
-        return res.status(200).json(result);
-    });
-};
-
-// suppression d'un commentaire
-exports.deleteComment = async (req, res) => {
-    db.query(`DELETE FROM comments WHERE comment.id = ${req.params.id}`, (error, result, field) => {
-        if (error) {
-            return res.status(400).json({
-                error
-            });
-        }
-        return res.status(200).json(result);
-    });
-};
-
-// ajout d'un like
-exports.likePost = async (req, res, next) => {
-    db.query(`INSERT INTO like VALUES (NULL, ${req.body.userId}, ${req.params.id}, NOW())`, (error, result, field) => {
-        if (error) {
-            return res.status(400).json({
-                error
-            });
-        }
-        return res.status(200).json(result);
-    });
+// modifier une publication 
+exports.updatePost = (req, res) => {
+    Post.update(req.params.id, new Post({
+        ...req.body,
+        imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : req.body.imageUrl
+    }), (err, result) => {
+        if (err) {
+            if (err.kind === "not found") {
+                res.status(404).send({
+                    message: `post not found with id ${req.params.id}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "error updating post" + req.params.id
+                });
+            }
+        } else res.send({ message: "post updated successfully!" });
+    }
+    );
 };

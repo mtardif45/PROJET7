@@ -86,7 +86,7 @@ export default {
 
         let router = this.$router;
         setTimeout(function () {
-          router.push("/posts");
+          router.push("/login");
         }, 1500);
       } catch (error) {
         this.errorMessage = error.response.data.error;

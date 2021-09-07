@@ -48,8 +48,10 @@ Post.getAll = result => {
     });
 };
 
-Post.update = (id, post, result) => {
-    sql.query(`UPDATE posts SET userId= '${post.userId}', pseudo= '${post.pseudo}', message= '${post.message}', imageUrl= '${post.imageUrl}' WHERE id= ${id}`, (err, res) => {
+Post.update = (req, post, result) => {
+    let request = `UPDATE posts SET userId=?, pseudo=?, message=?, imageUrl=? WHERE id=?`;
+    let values = [req.body.userId, req.body.pseudo, req.body.message, req.body.imageUrl, req.params.id];
+    sql.query(request, values, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);

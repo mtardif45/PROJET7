@@ -47,7 +47,7 @@
               <div class="form-group">
                 <input
                   type="button"
-                  class="btn-success"
+                  class="btn btn-success"
                   value="Publier"
                   v-on:click.prevent="newPost()"
                 />
@@ -69,6 +69,7 @@ export default {
   name: "CreatePost",
   data() {
     return {
+      userId: this.$store.state.user.id,
       pseudo: this.$store.state.user.pseudo,
       message: "",
       file: "",
@@ -82,7 +83,7 @@ export default {
     newPost() {
       const fd = new FormData();
       fd.append("pseudo", this.pseudo);
-      fd.append("userId", this.$store.state.user.id);
+      fd.append("userId", this.userId);
       fd.append("message", this.message);
       fd.append("image", this.file);
       this.$store.dispatch("createPost", fd);
