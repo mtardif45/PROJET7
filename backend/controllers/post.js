@@ -1,5 +1,3 @@
-//const fs = require('fs'); // package permettant la modification du système de fichiers
-//const { JsonWebTokenError } = require('jsonwebtoken');
 const Post = require('../models/post');
 
 // ajouter une publication
@@ -79,7 +77,7 @@ exports.updatePost = (req, res) => {
     Post.update(req.params.id, new Post({
         ...req.body,
         imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : req.body.imageUrl
-    }), (err, result) => {
+    }), (err, res) => {
         if (err) {
             if (err.kind === "not found") {
                 res.status(404).send({
@@ -87,10 +85,12 @@ exports.updatePost = (req, res) => {
                 });
             } else {
                 res.status(500).send({
-                    message: "error updating post" + req.params.id
+                    message: `error updating post ${req.params.id}.`
                 });
             }
-        } else res.send({ message: "post updated successfully!" });
+        } else {
+            res.status(200).send({ message: "post updated successfully!" });
+        }
     }
     );
 };

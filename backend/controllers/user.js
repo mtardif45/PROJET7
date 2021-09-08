@@ -78,27 +78,29 @@ exports.getAllUsers = (req, res) => {
 
 // mise à jour d'un profil 
 exports.updateAccount = (req, res) => {
-    const userId = req.params.id;
-    if (!req.body) {
-        res.status(400).send({
-            message: "please fill in the form!"
-        });
-    }
-    User.update(
-        userId,
-        new User(req.body),
-        (err, result) => {
+    // if (!req.body) {
+    //     res.status(400).send({
+    //         message: "please fill in the form!"
+    //     });
+    // }
+    User.update(req.params.id, new User({
+        ...req.body,
+        avatar: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : req.body.avatar
+    }),
+        (err, res) => {
             if (err) {
                 if (err.kind === "not_found") {
                     res.status(404).send({
-                        message: `User not found with id ${userId}.`
+                        message: `User not found with id ${req.params.id}.`
                     });
                 } else {
                     res.status(500).send({
-                        message: "Error updating user" + userId
+                        message: `Error updating user ${req.params.id}.`
                     });
                 }
-            } else res.send({ message: "user updated successfully!" });
+            } else {
+                res.status(200).send({ message: "user updated successfully!" });
+            }
         }
     );
 };

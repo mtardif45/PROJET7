@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="Home">
     <div class="home-logo">
       <img class="img-fluid" alt="logo" src="../assets/logo.png" />
     </div>

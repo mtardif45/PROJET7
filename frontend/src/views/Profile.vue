@@ -2,11 +2,7 @@
   <div id="profile">
     <OneUser />
 
-    <div class="options d-flex justify-content-center">
-      <EditUserBtn />
-
-      <DeleteUserBtn />
-    </div>
+    <DeleteUserBtn />
   </div>
 </template>
 
@@ -15,32 +11,15 @@
 //import axios from "axios";
 import OneUser from "../components/OneUser.vue";
 import DeleteUserBtn from "../components/DeleteUserBtn.vue";
-import EditUserBtn from "../components/EditUserBtn.vue";
 
 export default {
   name: "Profile",
   components: {
     OneUser,
     DeleteUserBtn,
-    EditUserBtn,
   },
   data() {
-    return {
-      editBio: false,
-      editAvatar: false,
-      editEmail: false,
-    };
-  },
-  methods: {
-    updateAvatar() {
-      this.editAvatar = true;
-    },
-    updateBio() {
-      this.editBio = true;
-    },
-    updateEmail() {
-      this.editEmail = true;
-    },
+    return {};
   },
 };
 </script>

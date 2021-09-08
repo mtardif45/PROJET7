@@ -3,7 +3,7 @@
     <input
       type="button"
       value="Supprimer"
-      class="btn btn-danger p-2"
+      class="btn btn-danger"
       aria-label="supprimer le post"
       @click="deleteUser(user.id)"
     />

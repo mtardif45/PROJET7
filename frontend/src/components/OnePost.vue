@@ -1,5 +1,10 @@
 <template>
   <div id="post" class="container mx-auto mt-4">
+    <div class="mt-4">
+      <button class="btn btn-primary" @click="getBack()">
+        <i class="fas fa-arrow-circle-left"></i> Retour
+      </button>
+    </div>
     <h1>Détail de la publication</h1>
 
     <div class="row d-flex justify-content-center">
@@ -32,7 +37,7 @@
           </div>
           <div class="text-center pt-2">
             <button
-              v-if="this.$store.state.user.pseudo == post.pseudo"
+              v-if="this.$store.state.user.id == post.userId"
               @click="updateImage()"
             >
               Editer
@@ -58,7 +63,7 @@
           </div>
           <div class="text-center pt-2 pb-4">
             <button
-              v-if="this.$store.state.user.pseudo == post.pseudo"
+              v-if="this.$store.state.user.id == post.userId"
               @click="updateMessage()"
             >
               Editer
@@ -77,7 +82,7 @@
 
             <input
               type="button"
-              v-if="this.$store.state.user.pseudo == post.pseudo"
+              v-if="this.$store.state.user.id == post.userId"
               value="Save"
               class="btn btn-success"
               aria-label="Sauvegarder le post"
@@ -162,11 +167,15 @@ export default {
       fd.append("message", this.message || this.post.message);
       fd.append("imageUrl", this.post.imageUrl ? this.post.imageUrl : null);
       fd.append("image", this.file);
-      this.$store.dispatch("updatePost", id, fd);
+      this.$store.dispatch("updatePost", { id, fd });
       this.withImage = false;
       this.withMessage = false;
       console.log(...fd);
-      // this.$router.push("/posts");
+      alert("post updated!");
+      this.$router.push("/posts");
+    },
+    getBack() {
+      this.$router.push("/posts");
     },
 
     // addComment(id) {

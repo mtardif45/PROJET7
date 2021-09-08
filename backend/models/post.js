@@ -1,5 +1,6 @@
 const sql = require('../database_connect'); // import modèle de la bdd
 
+// constructeur
 const Post = function (post) {
     this.id = post.id;
     this.message = post.message;
@@ -48,25 +49,6 @@ Post.getAll = result => {
     });
 };
 
-Post.update = (req, post, result) => {
-    let request = `UPDATE posts SET userId=?, pseudo=?, message=?, imageUrl=? WHERE id=?`;
-    let values = [req.body.userId, req.body.pseudo, req.body.message, req.body.imageUrl, req.params.id];
-    sql.query(request, values, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-        if (res.affectedRows == 0) {
-            result({ kind: "not_found" }, null);
-            return;
-        }
-        console.log("updated post: ", { id: id, ...post });
-        result(null, { id: id, ...post });
-    }
-    );
-};
-
 Post.remove = (id, result) => {
     sql.query(`DELETE FROM posts WHERE id = ?`, id, (err, res) => {
         if (err) {
@@ -84,6 +66,25 @@ Post.remove = (id, result) => {
         console.log("deleted post with id: ", id);
         result(null, res);
     });
+};
+
+Post.update = (id, post, result) => {
+    sql.query(`UPDATE posts SET userId = ?, pseudo = ?, message= ?, imageUrl= ? WHERE id= ?`,
+        [post.userId, post.pseudo, post.message, post.imageUrl, post.id],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            //     if (res.affectedRows == 0) {
+            //         result({ kind: "not_found" }, null);
+            //         return;
+            //     }
+            console.log("updated post: ", { id: id, ...post });
+            // result(null, { id: id, ...post });
+        }
+    );
 };
 
 module.exports = Post;

@@ -10,7 +10,7 @@ router.post("/login", authValidator.validInput, userCtrl.login);
 router.get("/accounts/:id", /*auth, */userCtrl.getAccount);
 router.get("/accounts", userCtrl.getAllUsers);
 
-router.put("/accounts/:id", auth, multer, userCtrl.updateAccount);
+router.put("/accounts/:id", /* auth,*/ multer, userCtrl.updateAccount);
 
 router.delete("/accounts/:id", /* auth, */userCtrl.deleteAccount);
 

@@ -4,7 +4,7 @@
 
     <div class="col" v-for="user in users" :key="user.id">
       <p>{{ user.pseudo }}</p>
-      <p>{{ user.avatar }}</p>
+      <img :src="user.avatar" />
       <p>{{ user.email }}</p>
       <p>{{ user.bio }}</p>
       <router-link :to="`/accounts/${user.id}`">
@@ -18,6 +18,11 @@
 <script>
 export default {
   name: "UsersList",
+  data() {
+    return {
+      user: {},
+    };
+  },
   computed: {
     users() {
       return this.$store.getters.users;
