@@ -1,11 +1,13 @@
 const Comment = require('../models/comment');
 
-exports.addComment = (req, res) => {
+exports.addComment = async (req, res) => {
     // constructor
     const comment = new Comment({
         message: req.body.message,
+        pseudo: req.body.pseudo,
         userId: req.body.userId,
-        postId: req.body.postId
+        postId: req.body.postId,
+        createdAt: new Date(),
     });
 
     Comment.create(comment, (err, data) => {

@@ -12,7 +12,8 @@ exports.createPost = async (req, res) => {
         message: req.body.message,
         imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
         userId: req.body.userId,
-        pseudo: req.body.pseudo
+        pseudo: req.body.pseudo,
+        createdAt: new Date()
     });
     // save post in DB
     Post.create(post, (err, data) => {

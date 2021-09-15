@@ -7,6 +7,7 @@ const Post = function (post) {
     this.imageUrl = post.imageUrl;
     this.userId = post.userId;
     this.pseudo = post.pseudo;
+    this.createdAt = post.createdAt;
 };
 
 Post.create = (newPost, result) => {
@@ -69,18 +70,15 @@ Post.remove = (id, result) => {
 };
 
 Post.update = (id, post, result) => {
-    sql.query(`UPDATE posts SET userId = ?, pseudo = ?, message= ?, imageUrl= ? WHERE id= ?`,
-        [post.userId, post.pseudo, post.message, post.imageUrl, post.id],
+    sql.query(`UPDATE posts SET userId = ?, pseudo = ?, message= ?, imageUrl= ?, updatedAt=? WHERE id= ?`,
+        [post.userId, post.pseudo, post.message, post.imageUrl, new Date, post.id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(null, err);
                 return;
             }
-            //     if (res.affectedRows == 0) {
-            //         result({ kind: "not_found" }, null);
-            //         return;
-            //     }
+
             console.log("updated post: ", { id: id, ...post });
             // result(null, { id: id, ...post });
         }

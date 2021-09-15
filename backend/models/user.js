@@ -9,14 +9,15 @@ const User = function (user) {
     this.password = user.password;
     this.avatar = user.avatar;
     this.bio = user.bio;
+    this.createdAt = user.createdAt;
     this.admin = user.admin;
 };
 // créer un compte
 User.create = async (user) => {
     const newUser = new User(user);
     newUser.password = await bcrypt.hash(user.password, 10);
-    const request = `INSERT INTO Users(email, password, pseudo, admin) VALUES (?,?,?,?)`;
-    sql.query(request, [newUser.email, newUser.password, newUser.pseudo, false], (err, res) => {
+    const request = `INSERT INTO Users(email, password, pseudo, createdAt, admin) VALUES (?,?,?,?,?)`;
+    sql.query(request, [newUser.email, newUser.password, newUser.pseudo, newUser.createdAt, false], (err, res) => {
         if (err) {
             console.log("error: ", err);
             throw Error;
@@ -46,7 +47,7 @@ User.getOne = (user, result) => {
 
 // récupérer un profil par Id
 User.findById = (id, result) => {
-    sql.query(`SELECT id, email, pseudo, bio, avatar FROM Users WHERE id= '${id}'`, (err, res) => {
+    sql.query(`SELECT * FROM Users WHERE id= '${id}'`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -79,8 +80,8 @@ User.getAll = (result) => {
 
 // Modification d'un profil
 User.update = (id, user, result) => {
-    sql.query(`UPDATE Users SET email = ?, pseudo = ?, bio= ?, avatar = ? WHERE id = ?`,
-        [user.email, user.pseudo, user.bio, user.avatar, user.id],
+    sql.query(`UPDATE Users SET email = ?, pseudo = ?, bio= ?, avatar = ?, updatedAt=? WHERE id = ?`,
+        [user.email, user.pseudo, user.bio, user.avatar, new Date, user.id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);

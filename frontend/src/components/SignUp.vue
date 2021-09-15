@@ -1,55 +1,61 @@
 <template>
-  <div class="wrapper fadeInDown">
-    <div id="formContent">
-      <!-- Tabs Titles -->
-      <h1>Inscription</h1>
+  <div id="signup">
+    <div class="home-logo">
+      <img class="img-fluid" alt="logo" src="../assets/logo.png" />
+    </div>
 
-      <!-- Login Form -->
-      <form>
-        <input
-          type="text"
-          id="email"
-          v-model="email"
-          class="fadeIn first"
-          name="email"
-          placeholder="email"
-          required
-        />
-        <input
-          type="password"
-          id="password"
-          v-model="password"
-          class="fadeIn second"
-          name="password"
-          placeholder="password"
-          required
-        />
-        <input
-          type="text"
-          id="pseudo"
-          v-model="pseudo"
-          class="fadeIn first"
-          name="pseudo"
-          placeholder="pseudo"
-          required
-        />
+    <div class="wrapper fadeInDown">
+      <div id="formContent">
+        <!-- Tabs Titles -->
+        <h1>Inscription</h1>
 
-        <div class="danger-alert message" v-html="errorMessage" />
-        <div class="danger-alert message" v-html="message"></div>
+        <!-- Login Form -->
+        <form>
+          <input
+            type="text"
+            id="email"
+            v-model="user.email"
+            class="fadeIn first"
+            name="email"
+            placeholder="email"
+            required
+          />
+          <input
+            type="password"
+            id="password"
+            v-model="user.password"
+            class="fadeIn second"
+            name="password"
+            placeholder="password"
+            required
+          />
+          <input
+            type="text"
+            id="pseudo"
+            v-model="user.pseudo"
+            class="fadeIn first"
+            name="pseudo"
+            placeholder="pseudo"
+            required
+          />
 
-        <input
-          type="button"
-          class="fadeIn third"
-          value="inscription"
-          v-on:click.prevent="signup()"
-        />
-      </form>
-      <p class="font-small grey-text d-flex justify-content-center mb-1">
-        Vous avez déjà un compte ?
-        <router-link to="/login" class="font-weight-bold ml-1">
-          Se connecter</router-link
-        >
-      </p>
+          <div class="danger-alert message" v-html="errorMessage" />
+          <div class="danger-alert message" v-html="message"></div>
+
+          <input
+            type="button"
+            class="fadeIn third"
+            value="inscription"
+            v-on:click.prevent="signup()"
+          />
+        </form>
+        <p class="font-small grey-text d-flex justify-content-center mb-1">
+          Vous avez déjà un compte ?
+          <router-link to="/" class="font-weight-bold ml-1">
+            Se connecter</router-link
+          >
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -61,10 +67,10 @@ export default {
   name: "Signup",
   data() {
     return {
-      email: "",
-      password: "",
-      pseudo: "",
-      admin: false,
+      user: {
+        admin: false,
+      },
+
       errorMessage: "",
       message: "",
     };
@@ -73,20 +79,21 @@ export default {
     async signup() {
       try {
         const response = await UserService.signup({
-          email: this.email,
-          password: this.password,
-          pseudo: this.pseudo,
-          admin: this.admin,
+          email: this.user.email,
+          password: this.user.password,
+          pseudo: this.user.pseudo,
+          createdAt: this.user.createdAt,
+          admin: this.user.admin,
         });
         console.log(response);
         this.message = response.data.message;
-
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
+        this.$store.dispatch("getUserById", response.data.user.id);
 
         let router = this.$router;
         setTimeout(function () {
-          router.push("/login");
+          router.push("/");
         }, 1500);
       } catch (error) {
         this.errorMessage = error.response.data.error;
@@ -111,6 +118,11 @@ a {
   display: inline-block;
   text-decoration: none;
   font-weight: 400;
+}
+
+.home-logo {
+  width: 400px;
+  margin: 0 auto;
 }
 
 /* STRUCTURE */

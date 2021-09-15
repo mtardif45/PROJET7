@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div class="mt-4">
+    <div class="mt-3">
       <button class="btn btn-primary" @click="getBack()">
         <i class="fas fa-arrow-circle-left"></i> Retour
       </button>
     </div>
 
-    <div class="container mx-auto mt-4">
+    <div class="container mx-auto mt-1">
       <h1>Détail du profil</h1>
 
       <div class="row d-flex justify-content-center">
-        <div class="card text-center mt-4" style="width: 40rem">
+        <div class="card text-center mt-2" style="width: 40rem">
           <p class="font-weight-bold text-uppercase">{{ user.pseudo }}</p>
 
           <!-- update pseudo -->
@@ -87,7 +87,6 @@
 
           <!-- update bio -->
           <div v-if="editBio" class="text-box">
-            >
             <input
               type="text"
               name="bio"
@@ -102,6 +101,20 @@
           >
             <button @click="updateBio()">Editer</button>
           </div>
+
+          <!--  date de création  -->
+          <div class="createDateTime">
+            <span>
+              Créé le: {{ user.createdAt | moment("DD-MM-YYYY HH:mm") }}</span
+            >
+          </div>
+          <!--  date de mise à jour  -->
+          <div class="updateDateTime">
+            <span>
+              Modifié le:
+              {{ user.updatedAt | moment("DD-MM-YYYY HH:mm") }}</span
+            >
+          </div>
           <div
             class="justify-content-center"
             v-if="this.$store.state.user.id == user.id"
@@ -109,13 +122,18 @@
             <input
               type="button"
               value="Modifier"
-              class="btn btn-success p-2"
-              aria-label="Editer"
+              class="btn btn-success mr-2"
+              aria-label="Modifier"
               @click.prevent="modifyUser()"
             />
-            <button class="btn btn-warning ml-2">
-              <router-link to="/accounts" id="cancel">Annuler</router-link>
-            </button>
+
+            <input
+              type="button"
+              value="Annuler"
+              class="btn btn-warning"
+              aria-label="Annuler"
+              @click="getBack()"
+            />
           </div>
         </div>
       </div>
@@ -130,12 +148,13 @@ export default {
   name: "OneUser",
   data() {
     return {
-      user: {},
+      user: {
+        admin: false,
+      },
       editAvatar: false,
       editPseudo: false,
       editBio: false,
       editEmail: false,
-      // isAdmin: false
     };
   },
   async mounted() {
@@ -174,6 +193,8 @@ export default {
       fd.append("bio", this.user.bio);
       fd.append("image", this.user.avatar ? this.user.avatar : null);
       fd.append("image", this.file);
+      fd.append("updatedAt", this.user.updatedAt);
+
       this.$store.dispatch("updateAccount", { id, fd });
       this.editPseudo = false;
       this.editEmail = false;
@@ -182,6 +203,7 @@ export default {
       console.log(...fd);
       alert("user updated successfully");
     },
+
     getBack() {
       this.$router.push("/accounts");
     },

@@ -73,6 +73,7 @@ export default {
       pseudo: this.$store.state.user.pseudo,
       message: "",
       file: "",
+      createdAt: "",
     };
   },
   methods: {
@@ -84,6 +85,7 @@ export default {
       const fd = new FormData();
       fd.append("pseudo", this.pseudo);
       fd.append("userId", this.userId);
+      fd.append("createdAt", this.createdAt);
       fd.append("message", this.message);
       fd.append("image", this.file);
       this.$store.dispatch("createPost", fd);

@@ -2,8 +2,10 @@ const sql = require('../database_connect'); // import modèle de la bdd
 
 const Comment = function (comment) {
     this.message = comment.message;
+    this.pseudo = comment.pseudo;
     this.userId = comment.userId;
-    this.postId = comment.postId
+    this.postId = comment.postId;
+    this.createdAt = comment.createdAt;
 }
 
 Comment.create = (newComment, result) => {

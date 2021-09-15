@@ -69,6 +69,19 @@
               Editer
             </button>
           </div>
+          <!--  date de création  -->
+          <div class="createDateTime">
+            <span>
+              Créé le: {{ post.createdAt | moment("DD-MM-YYYY HH:mm") }}</span
+            >
+          </div>
+          <!--  date de mise à jour  -->
+          <div class="updateDateTime">
+            <span>
+              Modifié le:
+              {{ post.updatedAt | moment("DD-MM-YYYY HH:mm") }}</span
+            >
+          </div>
 
           <!--  footer options: like, comment & save post if updated -->
           <div class="footer pb-3">
@@ -88,20 +101,21 @@
               aria-label="Sauvegarder le post"
               @click.prevent="savePost()"
             />
-            <button class="btn btn-warning ml-2">
-              <router-link to="/posts" id="cancel">Annuler</router-link>
-            </button>
           </div>
-
-          <div class="row">
+          <!--  create a comment -->
+          <div class="row form-group" @submit.prevent="addComment(post.id)">
             <div class="d-flex col post-comment m-2">
+              <label for="image"></label>
               <img
                 :src="this.$store.state.user.avatar"
                 alt="photo de profil"
                 class="profile-photo-sm"
               />
+              <label for="comment"></label>
               <input
                 type="text"
+                rows="4"
+                v-model="data.message"
                 class="form-control"
                 placeholder="Post a comment"
               />
@@ -111,12 +125,37 @@
               value="Commenter"
               aria-label="commenter le post"
               class="btn btn-success"
-              @click="addComment(post.id)"
+              @click.prevent="addComment(post.id)"
             />
           </div>
         </div>
       </div>
     </div>
+
+    <!-- <div class="card border-primary mb-3 mx-auto" style="max-width: 40rem">
+      <div class="commentaire" v-for="comment in comments" :key="comment.id">
+      <p class="m-2">Commentaires</p>
+      <div class="card-header">
+        <img
+          :src="this.$store.state.user.avatar"
+          alt="photo de profil"
+          class="profile-photo-sm"
+        />
+        {{ comment.pseudo }}
+      </div> -->
+    <!-- <div class="card-body text-secondary">
+        <p class="card-text">Message: {{ comment.message }}</p>
+
+        <br /> -->
+    <!-- <div class="createDate">
+          <span
+            >Créé le: {{ comment.createdAt | moment("DD-MM-YYYY HH:mm") }}</span
+          >
+        </div> -->
+    <!-- <input type="btn" class="btn-warning" v-if="this.$store.state.user.id === comment.userId" />-->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
   </div>
 </template>
 
@@ -125,6 +164,7 @@ import axios from "axios";
 
 export default {
   name: "OnePost",
+  components: {},
   data() {
     return {
       post: {},
@@ -132,8 +172,14 @@ export default {
       file: "",
       withImage: false,
       withMessage: false,
-      // comments: [],
-      comment: {},
+      data: {
+        message: "",
+        pseudo: this.$store.state.user.pseudo,
+        userId: this.$store.state.user.id,
+        postId: this.$store.state.post.id,
+        createdAt: "",
+      },
+      comments: [],
     };
   },
   async mounted() {
@@ -146,7 +192,6 @@ export default {
       this.error = error;
     }
   },
-
   methods: {
     onFileSelected() {
       const file = this.$refs.file.files[0];
@@ -164,6 +209,7 @@ export default {
       fd.append("id", id);
       fd.append("pseudo", this.post.pseudo);
       fd.append("userId", this.post.userId);
+      fd.append("updatedAt", this.post.updatedAt);
       fd.append("message", this.message || this.post.message);
       fd.append("imageUrl", this.post.imageUrl ? this.post.imageUrl : null);
       fd.append("image", this.file);
@@ -177,20 +223,16 @@ export default {
     getBack() {
       this.$router.push("/posts");
     },
-
-    // addComment(id) {
-    //   this.$store.dispatch("getPosts");
-    //   this.$store.dispatch("commentPost", {
-    //     id: id,
-    //     comment: this.comment,
-    //   });
-    //   this.comment.message = "";
-    //   this.$store.dispatch("getPosts");
-    //   this.$store.dispatch("getPostById", this.post.id);
-    // },
-    // deleteComment(id) {
-    //   this.$store.dispatch("deleteComment", id);
-    // },
+    addComment(id) {
+      this.$store.dispatch("commentPost", {
+        id: id,
+        data: this.data,
+      });
+      this.data.message = "";
+      this.$store.dispatch("getPosts");
+      this.$store.dispatch("getPostById", this.post.id);
+      alert("commentaire publié avec succès!");
+    },
   },
 };
 </script>

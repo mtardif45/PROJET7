@@ -22,11 +22,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active" v-if="isLogged === true">
-              <a class="nav-link" href="#"
-                ><router-link to="/">Home</router-link></a
-              >
-            </li>
             <li class="nav-item" v-if="isLogged === true">
               <a class="nav-link" href="#"
                 ><router-link to="/posts">Fil d'actualité</router-link></a

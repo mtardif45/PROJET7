@@ -1,8 +1,6 @@
 <template>
   <div id="profile">
     <OneUser />
-
-    <DeleteUserBtn />
   </div>
 </template>
 
@@ -10,13 +8,11 @@
 // @ is an alias to /src
 //import axios from "axios";
 import OneUser from "../components/OneUser.vue";
-import DeleteUserBtn from "../components/DeleteUserBtn.vue";
 
 export default {
   name: "Profile",
   components: {
     OneUser,
-    DeleteUserBtn,
   },
   data() {
     return {};

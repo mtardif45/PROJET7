@@ -9,6 +9,7 @@ exports.signup = async (req, res) => {
         email: req.body.email,
         password: req.body.password,
         pseudo: req.body.pseudo,
+        createdAt: new Date()
     });
     res.status(200).json({
         message: 'Account created, you will be redirected'
@@ -28,7 +29,7 @@ exports.login = async (req, res) => {
             }
             bcrypt.compare(user.password, result.password)
                 .then(valid => {
-                    if (!valid) return res.status(500).json({ message: "User or password doesn't match" });
+                    if (!valid) return res.status(500).json({ error: "User or password doesn't match" });
                     res.status(200).json({
                         message: 'Login completed, you will be redirected',
                         token: jwt.sign(

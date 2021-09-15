@@ -6,6 +6,7 @@ import createPersistedState from "vuex-persistedstate";
 import PostService from '../services/PostService'
 import UserService from '../services/UserService'
 
+//Load Vuex
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -16,7 +17,6 @@ export default new Vuex.Store({
         user: {},
         isLoggedIn: false,
         isLoading: false,
-
         users: [],
         posts: [],
         post: {},
@@ -26,6 +26,7 @@ export default new Vuex.Store({
     plugins: [createPersistedState({
         storage: window.sessionStorage,
     })],
+
     //to handle state
     getters: {
         users(state) {
@@ -49,166 +50,6 @@ export default new Vuex.Store({
         isLogged(state) {
             return state.isLoggedIn;
         },
-    },
-
-    //handle actions
-    actions: {
-        //users actions
-        setToken({ commit }, token) {
-            commit("SET_TOKEN", token);
-        },
-        deleteToken({ commit }, token) {
-            commit("DELETE_TOKEN", token);
-        },
-        logOut({ commit }) {
-            commit("LOG_OUT");
-        },
-        setUser({ commit }, user) {
-            commit("SET_USER", user);
-        },
-        getUsers({ commit }) {
-            UserService.getUsers().then((response) => {
-                const users = response.data;
-                commit("GET_USERS", users);
-            });
-        },
-        getUserById({ commit }) {
-            let id = this.state.user.id;
-            UserService.getUserById(id).then((response) => {
-                const user = response.data;
-                commit("GET_USER_BY_ID", user);
-            });
-        },
-        deleteAccount({ commit }, id) {
-            UserService.deleteAccount(id).then(() => {
-                commit("DELETE_ACCOUNT", id);
-            })
-        },
-        updateAccount({ commit }, data) {
-            let id = this.state.user.id;
-            UserService.updateAccount(data.id, data.fd)
-
-                // axios.put(`http://localhost:3000/api/accounts/${id}`, data, {
-                //     headers: { Authorization: this.state.token },
-                // })
-                .then((response) => {
-                    const user = response.data;
-                    commit("UPDATE_ACCOUNT", id, user);
-                })
-                .then(() => {
-                    PostService.getPosts().then((response) => {
-                        const posts = response.data;
-                        commit("GET_POSTS", posts);
-                    })
-                })
-        },
-
-        //posts actions
-        getPosts({ commit }) {
-            PostService.getPosts().then((response) => {
-                const posts = response.data;
-                commit("GET_POSTS", posts);
-            })
-        },
-        getPostById({ commit }, id) {
-            PostService.getPostById(id).then((response) => {
-                const post = response.data;
-                commit("GET_POST_BY_ID", post)
-            })
-        },
-        createPost({ commit }, post) {
-            PostService.createPost(post)
-                .then((response) => {
-                    const post = response.data;
-                    commit("ADD_POST", post);
-                })
-                .then(() => {
-                    PostService.getPosts().then((response) => {
-                        const posts = response.data;
-                        commit("GET_POSTS", posts)
-                    });
-                });
-        },
-        updatePost({ commit }, data) {
-            let id = this.state.post.id;
-            console.log("updatePost" + data.id, data.fd)
-            PostService.updatePost(data.id, data.fd)
-                .then((response) => {
-                    const post = response.data;
-                    commit("UPDATE_POST", id, post)
-                })
-                .then(() => {
-                    PostService.getPosts().then((response) => {
-                        const posts = response.data;
-                        commit("GET_POSTS", posts);
-                    });
-                });
-        },
-
-        deletePost({ commit }, id) {
-            PostService.deletePost(id)
-                .then(() => {
-                    commit("DELETE_POST", id);
-                })
-                .then(() => {
-                    PostService.getPosts().then((response) => {
-                        const posts = response.data;
-                        commit("GET_POSTS", posts);
-                    });
-                });
-        },
-        // end post actions
-        // comment action 
-        commentPost({ commit }, payload) {
-            axios
-                .post(
-                    `http://localhost:3000/api/posts/${payload.id}/comments`,
-                    payload.data,
-                    { headers: { Authorization: this.state.token } }
-                )
-                .then((response) => {
-                    const comment = response.data;
-                    commit("COMMENT_POST", comment);
-                })
-                .then(() => {
-                    PostService.getPosts().then((response) => {
-                        const posts = response.data;
-                        commit("GET_POSTS", posts);
-                    });
-                });
-        },
-        deleteComment({ commit }, id) {
-            PostService.deleteComment(id)
-                .then(() => {
-                    commit("DELETE_COMMENT", id);
-                })
-                .then(() => {
-                    PostService.getPosts().then((response) => {
-                        const posts = response.data;
-                        commit("GET_POSTS", posts);
-                    });
-                });
-        },
-        //like
-        likePost({ commit }, payload) {
-            axios
-                .post(
-                    `http://localhost:3000/api/posts/${payload.id}/like`,
-                    payload.data,
-                    { headers: { Authorization: this.state.token } }
-                )
-                .then((response) => {
-                    const like = response.data;
-                    commit("LIKE_POST", like);
-                })
-                .then(() => {
-                    PostService.getPosts().then((response) => {
-                        const posts = response.data;
-                        commit("GET_POSTS", posts);
-                    });
-                });
-        },
-        // end like action
     },
     //to handle mutations
     mutations: {
@@ -298,5 +139,161 @@ export default new Vuex.Store({
             state.posts = [like, ...state.posts];
         },
         // end like
+    },
+
+
+    //handle actions
+    actions: {
+        //users actions
+        setToken({ commit }, token) {
+            commit("SET_TOKEN", token);
+        },
+        deleteToken({ commit }, token) {
+            commit("DELETE_TOKEN", token);
+        },
+        logOut({ commit }) {
+            commit("LOG_OUT");
+        },
+        setUser({ commit }, user) {
+            commit("SET_USER", user);
+        },
+        getUsers({ commit }) {
+            UserService.getUsers().then((response) => {
+                const users = response.data;
+                commit("GET_USERS", users);
+            });
+        },
+        getUserById({ commit }) {
+            let id = this.state.user.id;
+            UserService.getUserById(id).then((response) => {
+                const user = response.data;
+                commit("GET_USER_BY_ID", user);
+            });
+        },
+        deleteAccount({ commit }, id) {
+            UserService.deleteAccount(id).then(() => {
+                commit("DELETE_ACCOUNT", id);
+            })
+        },
+        updateAccount({ commit }, data) {
+            let id = this.state.user.id;
+            UserService.updateAccount(data.id, data.fd)
+                .then((response) => {
+                    const user = response.data;
+                    commit("UPDATE_ACCOUNT", id, user);
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts);
+                    })
+                })
+        },
+
+        //posts actions
+        getPosts({ commit }) {
+            PostService.getPosts().then((response) => {
+                const posts = response.data;
+                commit("GET_POSTS", posts);
+            })
+        },
+        getPostById({ commit }, id) {
+            PostService.getPostById(id).then((response) => {
+                const post = response.data;
+                commit("GET_POST_BY_ID", post)
+            })
+        },
+        createPost({ commit }, post) {
+            PostService.createPost(post)
+                .then((response) => {
+                    const post = response.data;
+                    commit("ADD_POST", post);
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts)
+                    });
+                });
+        },
+        updatePost({ commit }, data) {
+            let id = this.state.post.id;
+            console.log("updatePost" + data.id, data.fd)
+            PostService.updatePost(data.id, data.fd)
+                .then((response) => {
+                    const post = response.data;
+                    commit("UPDATE_POST", id, post)
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts);
+                    });
+                });
+        },
+        deletePost({ commit }, id) {
+            PostService.deletePost(id)
+                .then(() => {
+                    commit("DELETE_POST", id);
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts);
+                    });
+                });
+        },
+        // end post actions
+        // comment action 
+        commentPost({ commit }, payload) {
+            axios
+                .post(
+                    `http://localhost:3000/api/posts/${payload.id}/comments`,
+                    payload.data,
+                    { headers: { Authorization: this.state.token } }
+                )
+                .then((response) => {
+                    const comment = response.data;
+                    commit("COMMENT_POST", comment);
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts);
+                    });
+                });
+        },
+        deleteComment({ commit }, id) {
+            PostService.deleteComment(id)
+                .then(() => {
+                    commit("DELETE_COMMENT", id);
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts);
+                    });
+                });
+        },
+        //like
+        likePost({ commit }, payload) {
+            axios
+                .post(
+                    `http://localhost:3000/api/posts/${payload.id}/like`,
+                    payload.data,
+                    { headers: { Authorization: this.state.token } }
+                )
+                .then((response) => {
+                    const like = response.data;
+                    commit("LIKE_POST", like);
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts);
+                    });
+                });
+        },
+        // end like action
     },
 });

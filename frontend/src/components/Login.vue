@@ -1,43 +1,48 @@
 <template>
-  <div class="wrapper fadeInDown">
-    <div id="formContent">
-      <!-- Tabs Titles -->
-      <h1>Connexion</h1>
-      <!-- Login Form -->
-      <form>
-        <input
-          type="text"
-          id="email"
-          v-model="email"
-          class="fadeIn second"
-          name="email"
-          placeholder="email"
-          required
-        />
-        <input
-          type="password"
-          id="password"
-          v-model="password"
-          class="fadeIn second"
-          name="password"
-          placeholder="password"
-          required
-        />
-        <div class="danger-alert message" v-html="errorMessage" />
-        <div class="danger-alert message" v-html="message" />
-        <input
-          type="button"
-          class="btn btn-primary fadeIn Third"
-          value="connexion"
-          v-on:click.prevent="login()"
-        />
-      </form>
+  <div id="login">
+    <div class="home-logo">
+      <img class="img-fluid" alt="logo" src="../assets/logo.png" />
+    </div>
+    <div class="wrapper fadeInDown">
+      <div id="formContent">
+        <!-- Tabs Titles -->
+        <h1>Connexion</h1>
+        <!-- Login Form -->
+        <form>
+          <input
+            type="text"
+            id="email"
+            v-model="email"
+            class="fadeIn second"
+            name="email"
+            placeholder="email"
+            required
+          />
+          <input
+            type="password"
+            id="password"
+            v-model="password"
+            class="fadeIn second"
+            name="password"
+            placeholder="password"
+            required
+          />
+          <div class="danger-alert message" v-html="errorMessage" />
+          <div class="danger-alert message" v-html="message" />
+          <input
+            type="button"
+            class="btn btn-primary fadeIn Third"
+            value="connexion"
+            v-on:click.prevent="login()"
+          />
+        </form>
 
-      <!-- Remind Passowrd -->
-      <div id="formFooter">
-        <a class="underlineHover" href="#">
-          <router-link to="/signup">Nouveau? Je m'inscris ici</router-link>
-        </a>
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+          <a class="underlineHover" href="#">
+            <router-link to="/signup">Nouveau? Je m'inscris ici</router-link>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -96,6 +101,10 @@ html {
 body {
   font-family: "Poppins", sans-serif;
   height: 100vh;
+}
+.home-logo {
+  width: 400px;
+  margin: 0 auto;
 }
 
 a {

@@ -18,13 +18,15 @@
           <input type="button" value="Afficher" class="btn-primary mr-2"
         /></router-link>
 
-        <input
-          type="button"
-          value="Supprimer"
-          class="btn-danger"
-          aria-label="supprimer le post"
-          @click="deletePost(post.id)"
-        />
+        <div class="deleteByAdmin">
+          <input
+            type="button"
+            value="Supprimer"
+            class="btn-danger"
+            aria-label="supprimer le post"
+            @click="deletePost(post.id)"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -37,6 +39,13 @@ export default {
     post: {
       type: Object,
     },
+  },
+  data() {
+    return {
+      user: {
+        admin: "",
+      },
+    };
   },
   computed: {
     posts() {
