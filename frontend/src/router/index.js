@@ -6,7 +6,7 @@ import Posts from '../views/Posts.vue'
 import Signup from '../components/Signup.vue'
 import Login from '../components/Login.vue'
 import Header from '../components/Header.vue'
-import OnePost from '../components/OnePost.vue'
+import OnePost from '../views/OnePost.vue'
 import OneUser from '../components/OneUser.vue'
 import Users from '../views/Users.vue'
 import CreatePost from '../components/CreatePost.vue'
@@ -77,7 +77,6 @@ const routes = [
     component: Profile,
     // meta: { requiresAuth: true },
   },
-
 ]
 
 const router = new VueRouter({

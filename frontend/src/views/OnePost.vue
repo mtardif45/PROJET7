@@ -1,12 +1,10 @@
 <template>
   <div id="post" class="container mx-auto mt-4">
-    <div class="mt-4">
-      <button class="btn btn-primary" @click="getBack()">
-        <i class="fas fa-arrow-circle-left"></i> Retour
-      </button>
-    </div>
-    <h1>Détail de la publication</h1>
+    <button class="btn btn-primary" @click="getBack()">
+      <i class="fas fa-arrow-circle-left"></i> Retour
+    </button>
 
+    <h1>Détail de la publication</h1>
     <div class="row d-flex justify-content-center">
       <div>
         <div class="card text-center mt-4" style="width: 40rem">
@@ -85,13 +83,12 @@
 
           <!--  footer options: like, comment & save post if updated -->
           <div class="footer pb-3">
-            <input
-              type="button"
-              value="Like"
-              aria-label="liker le post"
-              class="btn btn-outline-success mr-2"
-              @click="likePost(post.id)"
-            />
+            <button class="like mr-2" @click="likePost(post.id)">
+              <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+            </button>
+            <button class="dislike" @click="deleteLike(post.id)">
+              <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+            </button>
 
             <input
               type="button"
@@ -107,7 +104,7 @@
             <div class="d-flex col post-comment m-2">
               <label for="image"></label>
               <img
-                :src="this.$store.state.user.avatar"
+                :src="user.avatar"
                 alt="photo de profil"
                 class="profile-photo-sm"
               />
@@ -132,30 +129,33 @@
       </div>
     </div>
 
-    <!-- <div class="card border-primary mb-3 mx-auto" style="max-width: 40rem">
-      <div class="commentaire" v-for="comment in comments" :key="comment.id">
-      <p class="m-2">Commentaires</p>
-      <div class="card-header">
-        <img
-          :src="this.$store.state.user.avatar"
-          alt="photo de profil"
-          class="profile-photo-sm"
-        />
-        {{ comment.pseudo }}
-      </div> -->
-    <!-- <div class="card-body text-secondary">
-        <p class="card-text">Message: {{ comment.message }}</p>
-
-        <br /> -->
-    <!-- <div class="createDate">
+    <!--  section d'affichage de la liste de commentaires sur ce post -->
+    <div class="col text-center mx-auto" style="max-width: 35rem">
+      <p class="text-uppercase">Commentaires</p>
+      <div
+        class="col text-center"
+        v-for="comment in comments"
+        :key="comment.id"
+      >
+        <div class="card-header text-uppercase">
+          {{ comment.pseudo }}
+        </div>
+        <div class="card-body text-secondary">
+          <p class="card-text font-italic">Message: {{ comment.message }}</p>
+        </div>
+        <div class="createDate">
           <span
             >Créé le: {{ comment.createdAt | moment("DD-MM-YYYY HH:mm") }}</span
           >
-        </div> -->
-    <!-- <input type="btn" class="btn-warning" v-if="this.$store.state.user.id === comment.userId" />-->
-    <!-- </div> -->
-    <!-- </div> -->
-    <!-- </div> -->
+        </div>
+        <input
+          type="button"
+          class="btn-warning"
+          value="supprimer"
+          @click="deleteComment(comment.id)"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -165,8 +165,10 @@ import axios from "axios";
 export default {
   name: "OnePost",
   components: {},
+  props: {},
   data() {
     return {
+      user: {},
       post: {},
       message: "",
       file: "",
@@ -176,9 +178,10 @@ export default {
         message: "",
         pseudo: this.$store.state.user.pseudo,
         userId: this.$store.state.user.id,
-        postId: this.$store.state.post.id,
+        postId: this.$route.params.id,
         createdAt: "",
       },
+      comment: {},
       comments: [],
     };
   },
@@ -188,6 +191,7 @@ export default {
         `http://localhost:3000/api/posts/` + this.$route.params.id
       );
       this.post = response.data;
+      this.getComments();
     } catch (error) {
       this.error = error;
     }
@@ -230,8 +234,36 @@ export default {
       });
       this.data.message = "";
       this.$store.dispatch("getPosts");
-      this.$store.dispatch("getPostById", this.post.id);
+      this.$store.dispatch("getPostById", id);
       alert("commentaire publié avec succès!");
+    },
+    getComments() {
+      axios
+        .get(`http://localhost:3000/api/posts/` + this.post.id + "/comments")
+        .then((response) => {
+          this.comments = response.data;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    deleteComment(id) {
+      this.$store.dispatch("deleteComment", id);
+      alert("comment deleted successfully!;");
+    },
+    likePost(id) {
+      this.$store.dispatch("likePost", {
+        id: id,
+        data: this.data,
+      });
+      alert("you liked this post!");
+    },
+    deleteLike(id) {
+      this.$store.dispatch("deleteLike", {
+        id: id,
+      });
+      alert("like cancelled!");
     },
   },
 };
@@ -272,5 +304,28 @@ img.profile-photo-sm {
   height: 40px;
   width: 40px;
   border-radius: 50%;
+}
+button.like {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  border-radius: 50%;
+  color: rgba(0, 150, 136, 1);
+  background-color: rgba(38, 166, 154, 0.3);
+  border-color: rgba(0, 150, 136, 1);
+  border-width: 1px;
+  font-size: 15px;
+}
+
+button.dislike {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  border-radius: 50%;
+  color: rgb(240, 17, 17);
+  background-color: rgba(255, 138, 128, 0.3);
+  border-color: rgb(240, 17, 17);
+  border-width: 1px;
+  font-size: 15px;
 }
 </style>

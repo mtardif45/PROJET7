@@ -17,15 +17,22 @@ export default {
     deletePostById(id) {
         return Api.delete("posts/" + id);
     },
-    likePost(id) {
-        return Api.post("posts/" + id) + "/like";
-    },
-
     commentPost(id, data) {
         return Api.post("posts/" + id + "/comments", data);
     },
-
+    getComments(id) {
+        return Api.get("posts/" + id + "/comments");
+    },
+    getCommentById(id) {
+        return Api.get("posts/" + id + "/comments/" + id);
+    },
     deleteComment(id) {
         return Api.delete("posts/comments/" + id);
     },
+    likePost(id) {
+        return Api.post("posts/" + id + "/like");
+    },
+    deleteLike(id) {
+        return Api.delete("posts/" + id + "/like/" + id);
+    }
 }

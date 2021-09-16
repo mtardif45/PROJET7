@@ -37,5 +37,17 @@ Comment.remove = (id, result) => {
     });
 };
 
+Comment.getAllByPostId = (postId, result) => {
+    sql.query(`SELECT * FROM comments WHERE postId = ?`, postId, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("Comments on this post: ", res);
+        result(null, res);
+    });
+};
+
 module.exports = Comment;
 

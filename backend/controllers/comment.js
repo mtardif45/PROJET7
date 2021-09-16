@@ -28,9 +28,26 @@ exports.deleteComment = (req, res) => {
                 });
             } else {
                 res.status(500).send({
-                    message: "Could not delete Customer with id " + req.params.id
+                    message: "Could not delete Comment with id " + req.params.id
                 });
             }
         } else res.send({ message: `Comment was deleted successfully!` });
+    });
+};
+
+exports.getPostComments = (req, res) => {
+    let postId = req.params.id;
+    Comment.getAllByPostId(postId, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `comment not found with id ${postId}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving comment on post" + postId
+                });
+            }
+        } else res.send(data);
     });
 };

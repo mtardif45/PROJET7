@@ -13,7 +13,7 @@ Like.create = (newLike, result) => {
             result(err, null);
             return;
         }
-        console.log("comment added ", { id: res.insertId, ...newLike });
+        console.log("post liked", { id: res.insertId, ...newLike });
         result(null, { id: res.insertId, ...newLike });
     });
 };
@@ -26,7 +26,6 @@ Like.remove = (id, result) => {
             return;
         }
         if (res.affectedRows == 0) {
-            // not found like with the id
             result({ kind: "not_found" }, null);
             return;
         }

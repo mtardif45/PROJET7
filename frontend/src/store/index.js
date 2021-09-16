@@ -20,6 +20,8 @@ export default new Vuex.Store({
         users: [],
         posts: [],
         post: {},
+        comments: [],
+        comment: {},
         message: "",
         error: "",
     },
@@ -40,6 +42,12 @@ export default new Vuex.Store({
         },
         post(state) {
             return state.post;
+        },
+        comments(state) {
+            return state.comments;
+        },
+        comment(state) {
+            return state.comment;
         },
         errorMessage(state) {
             return state.error;
@@ -127,6 +135,14 @@ export default new Vuex.Store({
             state.posts = [comment, ...state.posts];
             state.message = "post commenté";
         },
+        GET_COMMENTS(state, comments) {
+            state.comments = comments;
+            state.isLoading = false;
+        },
+        GET_COMMENT_BY_ID(state, comment) {
+            state.comment = comment;
+            state.isLoading = false;
+        },
         DELETE_COMMENT(state, id) {
             state.posts = [...state.posts.filter((element) => element.id !== id)];
             state.message = "commentaire supprimé";
@@ -138,10 +154,11 @@ export default new Vuex.Store({
         LIKE_POST(state, like) {
             state.posts = [like, ...state.posts];
         },
+        DELETE_LIKE(state) {
+            state.posts = "";
+        }
         // end like
     },
-
-
     //handle actions
     actions: {
         //users actions
@@ -263,6 +280,13 @@ export default new Vuex.Store({
                     });
                 });
         },
+        getComments({ commit }) {
+            PostService.getComments().then((response) => {
+                const comments = response.data;
+                commit("GET_COMMENTS", comments)
+            })
+        },
+
         deleteComment({ commit }, id) {
             PostService.deleteComment(id)
                 .then(() => {
@@ -275,7 +299,7 @@ export default new Vuex.Store({
                     });
                 });
         },
-        //like
+        //like actions
         likePost({ commit }, payload) {
             axios
                 .post(
@@ -286,6 +310,18 @@ export default new Vuex.Store({
                 .then((response) => {
                     const like = response.data;
                     commit("LIKE_POST", like);
+                })
+                .then(() => {
+                    PostService.getPosts().then((response) => {
+                        const posts = response.data;
+                        commit("GET_POSTS", posts);
+                    });
+                });
+        },
+        deleteLike({ commit }, id) {
+            PostService.deleteLike(id)
+                .then(() => {
+                    commit("DELETE_LIKE", id);
                 })
                 .then(() => {
                     PostService.getPosts().then((response) => {
