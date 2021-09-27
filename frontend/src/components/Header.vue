@@ -5,7 +5,7 @@
         <a class="navbar-brand" href="#">
           <img
             src="../assets/icon-left-font-monochrome-white.svg"
-            height="28"
+            height="30"
             alt="logo groupomania"
           />
         </a>
@@ -22,29 +22,29 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item" v-if="isLogged === true">
+            <li class="nav-item" v-if="isLoggedIn === true">
               <a class="nav-link" href="#"
                 ><router-link to="/posts">Fil d'actualité</router-link></a
               >
             </li>
-            <li class="nav-item" v-if="isLogged === true">
+            <li class="nav-item" v-if="isLoggedIn === true">
               <a class="nav-link" href="#"
                 ><router-link to="/add"> Ajouter un post</router-link></a
               >
             </li>
-            <li class="nav-item" v-if="isLogged === true">
+            <li class="nav-item" v-if="isLoggedIn === true">
               <a class="nav-link" href="#"
                 ><router-link to="/accounts"> Tous les profils</router-link></a
               >
             </li>
-            <li class="nav-item" v-if="isLogged === true">
+            <li class="nav-item" v-if="isLoggedIn === true">
               <a class="nav-link" href="#"
                 ><router-link :to="`/profile/${user.id}`">
                   Mon compte</router-link
                 ></a
               >
             </li>
-            <li class="nav-item" v-if="isLogged === true">
+            <li class="nav-item" v-if="isLoggedIn === true">
               <a class="nav-link" href="#" @click="logOut()">
                 <router-link to="/">Deconnexion</router-link></a
               >
@@ -90,7 +90,9 @@ export default {
 
 
 <style scoped>
-.bs-example {
-  margin: 20px;
+a {
+  color: white;
+  font-size: 18px;
+  font-weight: strong;
 }
 </style>

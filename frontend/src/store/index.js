@@ -13,7 +13,7 @@ export default new Vuex.Store({
     strict: true,
     //to handle state
     state: {
-        token: null,
+        token: "",
         user: {},
         isLoggedIn: false,
         isLoading: false,
@@ -22,6 +22,8 @@ export default new Vuex.Store({
         post: {},
         comments: [],
         comment: {},
+        likes: [],
+        like: {},
         message: "",
         error: "",
     },
@@ -49,6 +51,12 @@ export default new Vuex.Store({
         comment(state) {
             return state.comment;
         },
+        like(state) {
+            return state.like;
+        },
+        likes(state) {
+            return state.likes;
+        },
         errorMessage(state) {
             return state.error;
         },
@@ -56,7 +64,7 @@ export default new Vuex.Store({
             return state.message;
         },
         isLogged(state) {
-            return state.isLoggedIn;
+            return state.token && state.isLoggedIn;
         },
     },
     //to handle mutations
@@ -150,13 +158,14 @@ export default new Vuex.Store({
         // end comments
 
         // like
-
         LIKE_POST(state, like) {
             state.posts = [like, ...state.posts];
+            state.message = "tu as liké le post"
         },
-        DELETE_LIKE(state) {
-            state.posts = "";
-        }
+        DELETE_LIKE(state, id) {
+            state.posts = [...state.posts.filter((element) => element.id !== id)];
+            state.message = "like supprimé";
+        },
         // end like
     },
     //handle actions
@@ -235,7 +244,7 @@ export default new Vuex.Store({
         },
         updatePost({ commit }, data) {
             let id = this.state.post.id;
-            console.log("updatePost" + data.id, data.fd)
+            // console.log("updatePost" + data.id, data.fd)
             PostService.updatePost(data.id, data.fd)
                 .then((response) => {
                     const post = response.data;
@@ -321,7 +330,7 @@ export default new Vuex.Store({
         deleteLike({ commit }, id) {
             PostService.deleteLike(id)
                 .then(() => {
-                    commit("DELETE_LIKE", id);
+                    commit("DELETE_LIKE", id)
                 })
                 .then(() => {
                     PostService.getPosts().then((response) => {

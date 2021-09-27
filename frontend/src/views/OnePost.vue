@@ -83,10 +83,13 @@
 
           <!--  footer options: like, comment & save post if updated -->
           <div class="footer pb-3">
+            <span class="like-count font-italic mr-2">
+              {{ totalLikes }} Likes
+            </span>
             <button class="like mr-2" @click="likePost(post.id)">
               <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
             </button>
-            <button class="dislike" @click="deleteLike(post.id)">
+            <button class="dislike" @click="deleteLike(like.id)">
               <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
             </button>
 
@@ -94,7 +97,7 @@
               type="button"
               v-if="this.$store.state.user.id == post.userId"
               value="Save"
-              class="btn btn-success"
+              class="btn btn-success ml-3"
               aria-label="Sauvegarder le post"
               @click.prevent="savePost()"
             />
@@ -183,12 +186,17 @@ export default {
       },
       comment: {},
       comments: [],
+      like: {},
+      likes: [],
+      totalLikes: 0,
     };
   },
+  computed: {},
   async mounted() {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/posts/` + this.$route.params.id
+        `http://localhost:3000/api/posts/` + this.$route.params.id,
+        { headers: { Authorization: this.state.token } }
       );
       this.post = response.data;
       this.getComments();
@@ -242,7 +250,6 @@ export default {
         .get(`http://localhost:3000/api/posts/` + this.post.id + "/comments")
         .then((response) => {
           this.comments = response.data;
-          console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -257,13 +264,25 @@ export default {
         id: id,
         data: this.data,
       });
-      alert("you liked this post!");
+      alert("you liked this post");
     },
-    deleteLike(id) {
-      this.$store.dispatch("deleteLike", {
-        id: id,
+    deleteLike() {
+      axios({
+        method: "delete",
+        url: `http://localhost:3000/api/posts/${this.post.id}/likes/`,
+        data: {
+          postId: this.post.id,
+          userId: this.$store.state.user.id,
+        },
+        headers: { Authorization: this.$store.state.token },
       });
       alert("like cancelled!");
+      //   let id = this.post.id;
+      //   let data = {
+      //     userId: this.$store.state.user.id,
+      //     postId: this.post.id,
+      //   };
+      //   this.$store.dispatch("deleteLike", id);
     },
   },
 };

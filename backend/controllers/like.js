@@ -4,6 +4,7 @@ const Like = require('../models/like');
 exports.likePost = (req, res) => {
     // constructor
     const like = new Like({
+        id: req.body.id,
         userId: req.body.userId,
         postId: req.body.postId
     });
@@ -19,15 +20,15 @@ exports.likePost = (req, res) => {
 
 // delete like
 exports.deleteLike = (req, res) => {
-    Like.remove(req.params.id, (err, data) => {
+    Like.remove(req.body.postId, req.body.userId, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Not found like with id ${req.params.id}.`
+                    message: `Not found with user or post id.`
                 });
             } else {
                 res.status(500).send({
-                    message: "Could not delete like with id " + req.params.id
+                    message: "Could not delete like with id "
                 });
             }
         } else res.send({ message: `Like was deleted successfully!` });

@@ -2,6 +2,7 @@ const sql = require('../database_connect'); // import modèle de la bdd
 
 // like post 
 const Like = function (like) {
+    this.id = like.id;
     this.userId = like.userId;
     this.postId = like.postId
 }
@@ -18,8 +19,9 @@ Like.create = (newLike, result) => {
     });
 };
 
-Like.remove = (id, result) => {
-    sql.query("DELETE FROM likes WHERE id = ?", id, (err, res) => {
+Like.remove = (postId, userId, result) => {
+    let request = 'DELETE FROM likes WHERE postId=? AND userId=?';
+    sql.query(request, [postId, userId], (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -29,7 +31,7 @@ Like.remove = (id, result) => {
             result({ kind: "not_found" }, null);
             return;
         }
-        console.log("deleted like with id: ", id);
+        console.log("deleted like with id: ");
         result(null, res);
     });
 };

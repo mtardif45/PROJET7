@@ -79,12 +79,11 @@ export default {
         }, 500);
       } catch (error) {
         console.error(error);
-
-        this.errorMessage = error.response.error;
+        this.errorMessage =
+          "User unfound! please verify your email or password";
         setTimeout(() => {
           this.email = "";
           this.password = "";
-          this.errorMessage = "";
         }, 500);
       }
     },
@@ -103,7 +102,7 @@ body {
   height: 100vh;
 }
 .home-logo {
-  width: 400px;
+  width: 350px;
   margin: 0 auto;
 }
 
@@ -133,7 +132,7 @@ h2 {
   justify-content: center;
   width: 100%;
   min-height: 100%;
-  padding: 20px;
+  padding: 15px;
 }
 
 #formContent {

@@ -33,6 +33,6 @@ export default {
         return Api.post("posts/" + id + "/like");
     },
     deleteLike(id) {
-        return Api.delete("posts/" + id + "/like/" + id);
+        return Api.delete("posts/" + id + "/likes");
     }
 }
