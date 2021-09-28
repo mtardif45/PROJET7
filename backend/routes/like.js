@@ -4,6 +4,6 @@ const auth = require('../middleware/auth');
 const likeCtrl = require('../controllers/like'); // import des controlleurs Like
 
 //Like
-router.post('/:id/like', /*auth,*/ likeCtrl.likePost);
-router.delete('/:id/likes/', /* auth,*/ likeCtrl.deleteLike);
+router.post('/:id/like', auth, likeCtrl.likePost);
+router.delete('/:id/likes/', auth, likeCtrl.deleteLike);
 module.exports = router;

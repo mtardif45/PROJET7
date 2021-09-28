@@ -47,7 +47,7 @@ export default {
       this.$store.dispatch("deleteAccount", id);
       this.$store.dispatch("deleteToken");
       alert("account deleted successfully");
-      //  this.$router.push("/");
+      this.$router.push("/signup");
       console.log(id);
     },
   },

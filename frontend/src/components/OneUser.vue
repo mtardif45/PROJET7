@@ -16,7 +16,7 @@
           <!-- update pseudo -->
           <div v-if="editPseudo" class="text-box">
             <input
-              v-if="this.$store.state.user.id == user.id"
+              v-if="this.$store.state.user.id === user.id"
               type="text"
               name="pseudo"
               v-model="user.pseudo"
@@ -26,7 +26,7 @@
           </div>
           <div
             class="text-center pt-2 pb-4"
-            v-if="this.$store.state.user.id == user.id"
+            v-if="this.$store.state.user.id === user.id"
           >
             <button @click="updatePseudo()">Editer</button>
           </div>
@@ -42,7 +42,7 @@
           <!-- update avatar -->
           <div v-if="editAvatar" class="text-box">
             <input
-              v-if="this.$store.state.user.id == user.id"
+              v-if="this.$store.state.user.id === user.id"
               @change="onFileSelected"
               type="file"
               aria-label="image input"
@@ -53,7 +53,7 @@
           </div>
           <div
             class="text-center pt-2 pb-4"
-            v-if="this.$store.state.user.id == user.id"
+            v-if="this.$store.state.user.id === user.id"
           >
             <button @click="updateAvatar()">Editer</button>
           </div>
@@ -65,7 +65,7 @@
           <!-- update email -->
           <div v-if="editEmail" class="text-box">
             <input
-              v-if="this.$store.state.user.id == user.id"
+              v-if="this.$store.state.user.id === user.id"
               type="email"
               name="email"
               v-model="user.email"
@@ -75,7 +75,7 @@
           </div>
           <div
             class="text-center pt-2 pb-4"
-            v-if="this.$store.state.user.id == user.id"
+            v-if="this.$store.state.user.id === user.id"
           >
             <button @click="updateEmail()">Editer</button>
           </div>
@@ -97,7 +97,7 @@
           </div>
           <div
             class="text-center pt-2 pb-4"
-            v-if="this.$store.state.user.id == user.id"
+            v-if="this.$store.state.user.id === user.id"
           >
             <button @click="updateBio()">Editer</button>
           </div>
@@ -117,7 +117,7 @@
           </div>
           <div
             class="justify-content-center"
-            v-if="this.$store.state.user.id == user.id"
+            v-if="this.$store.state.user.id === user.id"
           >
             <input
               type="button"
@@ -142,30 +142,24 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "OneUser",
   data() {
     return {
-      user: {
-        admin: false,
-      },
       editAvatar: false,
       editPseudo: false,
       editBio: false,
       editEmail: false,
     };
   },
-  async mounted() {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/users/accounts/` + this.$route.params.id
-      );
-      this.user = response.data;
-    } catch (error) {
-      this.error = error;
-    }
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+  },
+  beforeMount() {
+    let id = this.$route.params.id;
+    this.$store.dispatch("getUserById", id);
   },
   methods: {
     updateAvatar() {

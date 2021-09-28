@@ -1,24 +1,28 @@
 <template>
-  <div class="feed">
-    <h1 class="mb-3">Fil d'actualité</h1>
-    <div class="col text-center mt-3" v-for="post in posts" :key="post.id">
+  <div class="container">
+    <h1 class="m-3">Fil d'actualité</h1>
+    <div
+      class="single-post-item col md-4 mt-3"
+      v-for="post in posts"
+      :key="post.id"
+    >
       <p>{{ post.pseudo }}</p>
-
       <img
         class=".img-fluid img-thumbnail"
         style="max-width: 300px"
         :src="post.imageUrl"
         alt="image postée par l'utilisateur"
       />
-
-      <p>{{ post.message }}</p>
+      <div class="post-content">
+        <p>{{ post.message }}</p>
+      </div>
 
       <div class="btn-group" role="group">
         <router-link :to="`/posts/${post.id}`">
-          <input type="button" value="Afficher" class="btn-primary mr-2"
+          <input type="button" value="Afficher" class="btn-info mr-4"
         /></router-link>
 
-        <div class="deleteByAdmin">
+        <div class="delete-btn">
           <input
             type="button"
             value="Supprimer"
@@ -64,4 +68,26 @@ export default {
 };
 </script>
 
-  
+<style scoped>
+.single-post-item {
+  border: 1px solid #4b0533;
+  box-shadow: 2px 5px 10px #4b0533;
+  margin: 15px auto;
+  padding: 5px;
+  position: relative;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+.post-content {
+  padding: 15px;
+}
+
+.post-content p {
+  color: black;
+  font-size: 14px;
+  line-height: 1.33;
+}
+</style>

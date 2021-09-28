@@ -189,10 +189,10 @@ export default new Vuex.Store({
                 commit("GET_USERS", users);
             });
         },
-        getUserById({ commit }) {
-            let id = this.state.user.id;
+        getUserById({ commit }, id) {
             UserService.getUserById(id).then((response) => {
                 const user = response.data;
+                console.log(user)
                 commit("GET_USER_BY_ID", user);
             });
         },

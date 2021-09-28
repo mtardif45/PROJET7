@@ -83,9 +83,6 @@
 
           <!--  footer options: like, comment & save post if updated -->
           <div class="footer pb-3">
-            <span class="like-count font-italic mr-2">
-              {{ totalLikes }} Likes
-            </span>
             <button class="like mr-2" @click="likePost(post.id)">
               <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
             </button>
@@ -164,6 +161,7 @@
 
 <script>
 import axios from "axios";
+// import PostService from "../services/PostService";
 
 export default {
   name: "OnePost",
@@ -172,7 +170,6 @@ export default {
   data() {
     return {
       user: {},
-      post: {},
       message: "",
       file: "",
       withImage: false,
@@ -185,24 +182,27 @@ export default {
         createdAt: "",
       },
       comment: {},
-      comments: [],
+      // comments: [],
       like: {},
       likes: [],
       totalLikes: 0,
     };
   },
-  computed: {},
-  async mounted() {
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/posts/` + this.$route.params.id,
-        { headers: { Authorization: this.state.token } }
-      );
-      this.post = response.data;
-      this.getComments();
-    } catch (error) {
-      this.error = error;
-    }
+  computed: {
+    post() {
+      return this.$store.getters.post;
+    },
+    // comments() {
+    //   return this.$store.getters.comments;
+    // },
+  },
+  beforeMount() {
+    let id = this.$route.params.id;
+    this.$store.dispatch("getPostById", id);
+  },
+  mounted() {
+    let id = this.$route.params.id;
+    return this.$store.dispatch("getComments", id);
   },
   methods: {
     onFileSelected() {
@@ -245,16 +245,16 @@ export default {
       this.$store.dispatch("getPostById", id);
       alert("commentaire publié avec succès!");
     },
-    getComments() {
-      axios
-        .get(`http://localhost:3000/api/posts/` + this.post.id + "/comments")
-        .then((response) => {
-          this.comments = response.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+    // getComments() {
+    //   axios
+    //     .get(`http://localhost:3000/api/posts/` + this.post.id + "/comments")
+    //     .then((response) => {
+    //       this.comments = response.data;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
     deleteComment(id) {
       this.$store.dispatch("deleteComment", id);
       alert("comment deleted successfully!;");
