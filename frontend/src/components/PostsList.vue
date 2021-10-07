@@ -1,35 +1,37 @@
 <template>
   <div class="container">
     <h1 class="m-3">Fil d'actualité</h1>
-    <div
-      class="single-post-item col md-4 mt-3"
-      v-for="post in posts"
-      :key="post.id"
-    >
-      <p>{{ post.pseudo }}</p>
-      <img
-        class=".img-fluid img-thumbnail"
-        style="max-width: 300px"
-        :src="post.imageUrl"
-        alt="image postée par l'utilisateur"
-      />
-      <div class="post-content">
-        <p>{{ post.message }}</p>
-      </div>
+    <div class="col-8 mx-auto" v-for="post in posts" :key="post.id">
+      <div class="single-post-item col md-4 mt-3">
+        <p>{{ post.pseudo }}</p>
+        <img
+          class=".img-fluid img-thumbnail"
+          style="max-width: 300px"
+          :src="post.imageUrl"
+          alt="image postée par l'utilisateur"
+        />
+        <div class="post-content">
+          <p>{{ post.message }}</p>
+        </div>
 
-      <div class="btn-group" role="group">
-        <router-link :to="`/posts/${post.id}`">
-          <input type="button" value="Afficher" class="btn-info mr-4"
-        /></router-link>
+        <div class="card-footer">
+          <router-link :to="`/posts/${post.id}`">
+            <button class="btn btn-sm bg-info has-icon">
+              <i class="fas fa-eye"></i></button
+          ></router-link>
 
-        <div class="delete-btn">
-          <input
-            type="button"
+          <button
+            v-if="
+              $store.state.user.admin === 1 ||
+              $store.state.user.id === post.userId
+            "
             value="Supprimer"
-            class="btn-danger"
+            class="btn btn-sm bg-danger has-icon ml-2"
             aria-label="supprimer le post"
             @click="deletePost(post.id)"
-          />
+          >
+            <i class="fas fa-trash-alt"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -47,7 +49,7 @@ export default {
   data() {
     return {
       user: {
-        admin: "",
+        admin: 0,
       },
     };
   },
@@ -61,8 +63,9 @@ export default {
   },
   methods: {
     deletePost(id) {
-      this.$store.commit("DELETE_POST", id);
+      this.$store.dispatch("deletePost", id);
       alert("post deleted successfully!");
+      this.$router.go();
     },
   },
 };
@@ -89,5 +92,9 @@ img {
   color: black;
   font-size: 14px;
   line-height: 1.33;
+}
+
+.btn {
+  width: 100px;
 }
 </style>

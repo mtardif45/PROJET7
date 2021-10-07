@@ -76,7 +76,7 @@ export default {
         let router = this.$router;
         setTimeout(function () {
           router.push("/posts");
-        }, 500);
+        }, 1500);
       } catch (error) {
         console.error(error);
         this.errorMessage =

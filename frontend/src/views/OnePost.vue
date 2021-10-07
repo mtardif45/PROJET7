@@ -14,12 +14,7 @@
           </div>
 
           <p>Image:</p>
-          <img
-            class="mx-auto"
-            width="250"
-            :src="post.imageUrl"
-            alt="image postée par l'utilisateur"
-          />
+          <img class="mx-auto" width="250" :src="post.imageUrl" alt="image" />
 
           <!--  update image  -->
           <div v-if="withImage" class="text-box">
@@ -84,15 +79,25 @@
           <!--  footer options: like, comment & save post if updated -->
           <div class="footer pb-3">
             <button class="like mr-2" @click="likePost(post.id)">
-              <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+              <i
+                class="fa fa-thumbs-o-up"
+                aria-hidden="true"
+                v-bind:class="[isActive ? 'pink' : 'red']"
+                @click="toggleClass()"
+              ></i>
             </button>
             <button class="dislike" @click="deleteLike(like.id)">
-              <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+              <i
+                class="fa fa-thumbs-o-down"
+                aria-hidden="true"
+                v-bind:class="[isActive ? 'pink' : 'grey']"
+                @click="isActive = !isActive"
+              ></i>
             </button>
 
             <input
               type="button"
-              v-if="this.$store.state.user.id == post.userId"
+              v-if="this.$store.state.user.id === post.userId"
               value="Save"
               class="btn btn-success ml-3"
               aria-label="Sauvegarder le post"
@@ -104,7 +109,7 @@
             <div class="d-flex col post-comment m-2">
               <label for="image"></label>
               <img
-                :src="user.avatar"
+                :src="this.$store.state.user.avatar"
                 alt="photo de profil"
                 class="profile-photo-sm"
               />
@@ -117,13 +122,13 @@
                 placeholder="Post a comment"
               />
             </div>
-            <input
-              type="button"
-              value="Commenter"
+            <button
               aria-label="commenter le post"
-              class="btn btn-success"
+              class="btn btn-sm has-icon btn-comment"
               @click.prevent="addComment(post.id)"
-            />
+            >
+              <i class="fas fa-comment-dots"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -131,29 +136,35 @@
 
     <!--  section d'affichage de la liste de commentaires sur ce post -->
     <div class="col text-center mx-auto" style="max-width: 35rem">
-      <p class="text-uppercase">Commentaires</p>
+      <h2 class="badge badge-secondary">Commentaires sur ce post...</h2>
       <div
         class="col text-center"
         v-for="comment in comments"
         :key="comment.id"
       >
-        <div class="card-header text-uppercase">
+        <div class="card-header text-strong">
           {{ comment.pseudo }}
         </div>
-        <div class="card-body text-secondary">
-          <p class="card-text font-italic">Message: {{ comment.message }}</p>
+        <div class="card-body d-flex">
+          <p class="text-secondary">Message:</p>
+          <p class="card-text font-italic ml-2">{{ comment.message }}</p>
         </div>
-        <div class="createDate">
+        <div class="card-footer">
           <span
             >Créé le: {{ comment.createdAt | moment("DD-MM-YYYY HH:mm") }}</span
           >
+          <button
+            v-if="
+              $store.state.user.admin === 1 ||
+              $store.state.user.id === comment.UserId
+            "
+            class="btn btn-sm btn-warning has-icon ml-5"
+            aria-label="supprimer le commentaire"
+            @click="deleteComment(comment.id)"
+          >
+            <i class="fas fa-trash-alt"></i>
+          </button>
         </div>
-        <input
-          type="button"
-          class="btn-warning"
-          value="supprimer"
-          @click="deleteComment(comment.id)"
-        />
       </div>
     </div>
   </div>
@@ -161,7 +172,6 @@
 
 <script>
 import axios from "axios";
-// import PostService from "../services/PostService";
 
 export default {
   name: "OnePost",
@@ -169,7 +179,6 @@ export default {
   props: {},
   data() {
     return {
-      user: {},
       message: "",
       file: "",
       withImage: false,
@@ -182,27 +191,21 @@ export default {
         createdAt: "",
       },
       comment: {},
-      // comments: [],
-      like: {},
-      likes: [],
-      totalLikes: 0,
+      isActive: true,
     };
   },
   computed: {
     post() {
       return this.$store.getters.post;
     },
-    // comments() {
-    //   return this.$store.getters.comments;
-    // },
+    comments() {
+      return this.$store.getters.comments;
+    },
   },
-  beforeMount() {
+  async beforeMount() {
     let id = this.$route.params.id;
     this.$store.dispatch("getPostById", id);
-  },
-  mounted() {
-    let id = this.$route.params.id;
-    return this.$store.dispatch("getComments", id);
+    this.$store.dispatch("getComments", id);
   },
   methods: {
     onFileSelected() {
@@ -230,7 +233,7 @@ export default {
       this.withMessage = false;
       console.log(...fd);
       alert("post updated!");
-      this.$router.push("/posts");
+      this.$router.go();
     },
     getBack() {
       this.$router.push("/posts");
@@ -245,19 +248,10 @@ export default {
       this.$store.dispatch("getPostById", id);
       alert("commentaire publié avec succès!");
     },
-    // getComments() {
-    //   axios
-    //     .get(`http://localhost:3000/api/posts/` + this.post.id + "/comments")
-    //     .then((response) => {
-    //       this.comments = response.data;
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
     deleteComment(id) {
       this.$store.dispatch("deleteComment", id);
       alert("comment deleted successfully!;");
+      this.$router.go();
     },
     likePost(id) {
       this.$store.dispatch("likePost", {
@@ -277,12 +271,9 @@ export default {
         headers: { Authorization: this.$store.state.token },
       });
       alert("like cancelled!");
-      //   let id = this.post.id;
-      //   let data = {
-      //     userId: this.$store.state.user.id,
-      //     postId: this.post.id,
-      //   };
-      //   this.$store.dispatch("deleteLike", id);
+    },
+    toggleClass() {
+      this.isActive = !this.isActive;
     },
   },
 };
@@ -290,7 +281,7 @@ export default {
 
 <style scoped>
 .card {
-  background: rgb(250, 228, 228);
+  background: rgb(244, 236, 228);
   border: 1px solid #1f1c1d;
   color: rgba(10, 10, 10, 0.8);
   margin-bottom: 2rem;
@@ -329,7 +320,7 @@ button.like {
   height: 30px;
   margin: 0 auto;
   border-radius: 50%;
-  color: rgba(0, 150, 136, 1);
+  color: rgb(208, 231, 229);
   background-color: rgba(38, 166, 154, 0.3);
   border-color: rgba(0, 150, 136, 1);
   border-width: 1px;
@@ -341,10 +332,26 @@ button.dislike {
   height: 30px;
   margin: 0 auto;
   border-radius: 50%;
-  color: rgb(240, 17, 17);
+  color: rgb(240, 206, 206);
   background-color: rgba(255, 138, 128, 0.3);
   border-color: rgb(240, 17, 17);
   border-width: 1px;
   font-size: 15px;
+}
+.red {
+  color: red;
+}
+.grey {
+  color: grey;
+}
+
+.btn-comment {
+  color: rgb(177, 35, 206);
+  background: rgb(244, 236, 228);
+  font-size: 26px;
+}
+
+.row {
+  margin: 0 !important;
 }
 </style>

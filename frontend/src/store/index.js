@@ -258,7 +258,7 @@ export default new Vuex.Store({
                 });
         },
         deletePost({ commit }, id) {
-            PostService.deletePost(id)
+            PostService.deletePostById(id)
                 .then(() => {
                     commit("DELETE_POST", id);
                 })
@@ -289,8 +289,8 @@ export default new Vuex.Store({
                     });
                 });
         },
-        getComments({ commit }) {
-            PostService.getComments().then((response) => {
+        getComments({ commit }, id) {
+            PostService.getComments(id).then((response) => {
                 const comments = response.data;
                 commit("GET_COMMENTS", comments)
             })

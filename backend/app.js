@@ -1,7 +1,7 @@
 const express = require('express');
-const path = require('path');
-const helmet = require('helmet');
-const cors = require('cors');
+const path = require('path'); // chemin des fichiers
+const helmet = require('helmet'); // securise les headers http
+const cors = require('cors'); // sécurise l'intéraction entre les 2 url
 require('dotenv').config();
 
 const userRoutes = require('./routes/user');
@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(cors());
 
+//configuration des headers 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader(

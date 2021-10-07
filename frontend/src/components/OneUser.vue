@@ -16,7 +16,6 @@
           <!-- update pseudo -->
           <div v-if="editPseudo" class="text-box">
             <input
-              v-if="this.$store.state.user.id === user.id"
               type="text"
               name="pseudo"
               v-model="user.pseudo"
@@ -24,10 +23,7 @@
               class="mr-5 ml-3 text-area"
             />
           </div>
-          <div
-            class="text-center pt-2 pb-4"
-            v-if="this.$store.state.user.id === user.id"
-          >
+          <div class="text-center pt-2 pb-4">
             <button @click="updatePseudo()">Editer</button>
           </div>
 
@@ -42,7 +38,6 @@
           <!-- update avatar -->
           <div v-if="editAvatar" class="text-box">
             <input
-              v-if="this.$store.state.user.id === user.id"
               @change="onFileSelected"
               type="file"
               aria-label="image input"
@@ -51,10 +46,7 @@
               name="image"
             />
           </div>
-          <div
-            class="text-center pt-2 pb-4"
-            v-if="this.$store.state.user.id === user.id"
-          >
+          <div class="text-center pt-2 pb-4">
             <button @click="updateAvatar()">Editer</button>
           </div>
 
@@ -65,7 +57,6 @@
           <!-- update email -->
           <div v-if="editEmail" class="text-box">
             <input
-              v-if="this.$store.state.user.id === user.id"
               type="email"
               name="email"
               v-model="user.email"
@@ -73,10 +64,7 @@
               class="mr-5 ml-3 text-area"
             />
           </div>
-          <div
-            class="text-center pt-2 pb-4"
-            v-if="this.$store.state.user.id === user.id"
-          >
+          <div class="text-center pt-2 pb-4">
             <button @click="updateEmail()">Editer</button>
           </div>
 
@@ -95,10 +83,7 @@
               class="mr-5 ml-3 text-area"
             />
           </div>
-          <div
-            class="text-center pt-2 pb-4"
-            v-if="this.$store.state.user.id === user.id"
-          >
+          <div class="text-center pt-2 pb-4">
             <button @click="updateBio()">Editer</button>
           </div>
 
@@ -115,25 +100,14 @@
               {{ user.updatedAt | moment("DD-MM-YYYY HH:mm") }}</span
             >
           </div>
-          <div
-            class="justify-content-center"
-            v-if="this.$store.state.user.id === user.id"
-          >
-            <input
-              type="button"
-              value="Modifier"
-              class="btn btn-success mr-2"
+          <div class="card-footer">
+            <button
+              class="btn btn-sm bg-success px-5"
               aria-label="Modifier"
               @click.prevent="modifyUser()"
-            />
-
-            <input
-              type="button"
-              value="Annuler"
-              class="btn btn-warning"
-              aria-label="Annuler"
-              @click="getBack()"
-            />
+            >
+              Modifier
+            </button>
           </div>
         </div>
       </div>
@@ -160,6 +134,7 @@ export default {
   beforeMount() {
     let id = this.$route.params.id;
     this.$store.dispatch("getUserById", id);
+    console.log(id);
   },
   methods: {
     updateAvatar() {
@@ -185,7 +160,7 @@ export default {
       fd.append("pseudo", this.user.pseudo);
       fd.append("email", this.user.email);
       fd.append("bio", this.user.bio);
-      fd.append("image", this.user.avatar ? this.user.avatar : null);
+      fd.append("avatar", this.user.avatar ? this.user.avatar : null);
       fd.append("image", this.file);
       fd.append("updatedAt", this.user.updatedAt);
 
@@ -196,6 +171,7 @@ export default {
       this.editAvatar = false;
       console.log(...fd);
       alert("user updated successfully");
+      this.$router.go();
     },
 
     getBack() {
@@ -220,10 +196,7 @@ export default {
   background: rgba(0, 0, 0, 0.15);
   border-radius: 3px 0 0 3px;
 }
-.btn-labeled {
-  padding-top: 0;
-  padding-bottom: 0;
-}
+
 .btn {
   margin-bottom: 10px;
 }

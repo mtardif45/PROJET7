@@ -22,7 +22,7 @@ User.create = async (user) => {
             console.log("error: ", err);
             throw Error;
         }
-        console.log("user created: ", { id: res.insertId, ...newUser });
+        console.log("user created: ", { id: res.insertId, ...newUser }); //Mysql Auto Increment Id
         return { id: res.insertId, ...newUser };
     });
 };

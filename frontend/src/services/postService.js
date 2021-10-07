@@ -17,6 +17,7 @@ export default {
     deletePostById(id) {
         return Api.delete("posts/" + id);
     },
+    //commentaires 
     commentPost(id, data) {
         return Api.post("posts/" + id + "/comments", data);
     },
@@ -29,10 +30,11 @@ export default {
     deleteComment(id) {
         return Api.delete("posts/comments/" + id);
     },
+    // pour les likes & annulation de like
     likePost(id) {
         return Api.post("posts/" + id + "/like");
     },
     deleteLike(id) {
-        return Api.delete("posts/" + id + "/likes");
+        return Api.delete("posts/likes/" + id);
     }
 }
