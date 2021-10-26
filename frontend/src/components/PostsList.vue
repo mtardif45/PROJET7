@@ -1,7 +1,11 @@
 <template>
   <div class="container">
     <h1 class="m-3">Fil d'actualité</h1>
-    <div class="col-8 mx-auto" v-for="post in posts" :key="post.id">
+    <div
+      class="col-8 mx-auto"
+      v-for="post in posts.slice().reverse()"
+      :key="post.id"
+    >
       <div class="single-post-item col md-4 mt-3">
         <p>{{ post.pseudo }}</p>
         <img
@@ -16,7 +20,7 @@
 
         <div class="card-footer">
           <router-link :to="`/posts/${post.id}`">
-            <button class="btn btn-sm bg-info has-icon">
+            <button class="btn btn-sm bg-info has-icon btn-block mx-auto">
               <i class="fas fa-eye"></i></button
           ></router-link>
 
@@ -26,7 +30,7 @@
               $store.state.user.id === post.userId
             "
             value="Supprimer"
-            class="btn btn-sm bg-danger has-icon ml-2"
+            class="btn btn-sm bg-danger has-icon btn-block mt-2 mx-auto"
             aria-label="supprimer le post"
             @click="deletePost(post.id)"
           >

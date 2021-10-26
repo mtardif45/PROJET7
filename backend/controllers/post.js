@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const fs = require('fs');
 
 // ajouter une publication
 exports.createPost = async (req, res) => {
@@ -57,7 +58,8 @@ exports.getAllPosts = (req, res) => {
 };
 
 // supprimer une publication
-exports.deletePost = (req, res) => {
+exports.deletePost = async (req, res) => {
+    // const post = await Post.getOne;
     Post.remove(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -69,8 +71,11 @@ exports.deletePost = (req, res) => {
                     message: "Could not delete Customer with id " + req.params.id
                 });
             }
-        } else res.send({ message: `Post was deleted successfully!` });
-    });
+        } else {
+
+            res.send({ message: `Post was deleted successfully!` });
+        }
+    })
 };
 
 // modifier une publication 

@@ -4,7 +4,7 @@
       <div class="col-md-8 col-md-offset-2">
         <h1>Nouvelle publication</h1>
 
-        <!-- Login Form -->
+        <!-- create post Form -->
         <div id="form-content">
           <form method="POST" @submit.prevent="newPost">
             <div>

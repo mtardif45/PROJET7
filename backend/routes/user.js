@@ -14,5 +14,3 @@ router.delete("/accounts/:id", auth, userCtrl.deleteAccount);
 
 module.exports = router;
 
-
-

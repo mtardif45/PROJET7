@@ -10,15 +10,21 @@ exports.validInput = (req, res, next) => {
         .has().lowercase()
         .has().not().symbols()
         .has().not().spaces();
-
     if (
-        !emailValidator.validate(req.body.email) ||
         !passwordSchema.validate(req.body.password)
     ) {
-        return res.status(400).send({
+        return res.status(401).send({
             error: "your password must contain at least 6 characters with lower and uppercase"
         });
-    } else if (
+    }
+    if (
+        !emailValidator.validate(req.body.email)
+    ) {
+        return res.status(402).send({
+            error: "please write a valid email!"
+        })
+    }
+    else if (
         emailValidator.validate(req.body.email) ||
         passwordSchema.validate(req.body.password)
     ) {
@@ -32,7 +38,7 @@ exports.validPseudo = (req, res, next) => {
     if (regex.test(pseudo) === true) {
         next();
     } else {
-        return res.status(400).send({
+        return res.status(403).send({
             error: "your pseudo must contain between 3 and 20 characters"
         });
     }

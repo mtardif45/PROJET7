@@ -11,7 +11,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     strict: true,
-    //to handle state
+    //to handle state with default values
     state: {
         token: "",
         user: {},
@@ -178,7 +178,8 @@ export default new Vuex.Store({
             commit("DELETE_TOKEN", token);
         },
         logOut({ commit }) {
-            commit("LOG_OUT");
+            let user = null
+            commit("LOG_OUT", user);
         },
         setUser({ commit }, user) {
             commit("SET_USER", user);

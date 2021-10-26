@@ -4,7 +4,7 @@
       <img class="img-fluid" alt="logo" src="../assets/logo.png" />
     </div>
 
-    <div class="wrapper fadeInDown">
+    <div class="wrapper fadeInDown mt-1">
       <div id="formContent">
         <!-- Tabs Titles -->
         <h1>Inscription</h1>
@@ -12,7 +12,7 @@
         <!-- Login Form -->
         <form>
           <input
-            type="text"
+            type="email"
             id="email"
             v-model="user.email"
             class="fadeIn first"
@@ -38,7 +38,6 @@
             placeholder="pseudo"
             required
           />
-
           <div class="danger-alert message" v-html="errorMessage" />
           <div class="danger-alert message" v-html="message"></div>
 
@@ -70,11 +69,11 @@ export default {
       user: {
         admin: false,
       },
-
       errorMessage: "",
       message: "",
     };
   },
+
   methods: {
     async signup() {
       try {
@@ -82,23 +81,19 @@ export default {
           email: this.user.email,
           password: this.user.password,
           pseudo: this.user.pseudo,
-          createdAt: this.user.createdAt,
-          admin: this.user.admin,
         });
         console.log(response);
         this.message = response.data.message;
         this.$store.dispatch("setToken", response.data.token);
         this.$store.dispatch("setUser", response.data.user);
-        this.$store.dispatch("getUserById", response.data.user.id);
-
-        let router = this.$router;
-        setTimeout(function () {
-          router.push("/");
+        setTimeout(() => {
+          this.$router.push("/");
         }, 1500);
       } catch (error) {
         this.errorMessage = error.response.data.error;
+        console.log(error);
         setTimeout(() => {
-          this.errorMessage = "";
+          this.errorMessage;
         }, 1500);
       }
     },
@@ -121,7 +116,7 @@ a {
 }
 
 .home-logo {
-  width: 400px;
+  width: 350px;
   margin: 0 auto;
 }
 
@@ -194,6 +189,7 @@ input[type="reset"]:active {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"] {
   background-color: #f6f6f6;
   border: none;

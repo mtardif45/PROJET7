@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt'); // cryptage d'un string
-const sql = require('../database_connect'); // import modèle de la bdd
+const sql = require('../database_connect'); // import fichier de connection à la bdd
 
-// constructor
+// constructeur - initialisation de l'objet user
 const User = function (user) {
     this.pseudo = user.pseudo;
     this.id = user.id;
@@ -76,7 +76,6 @@ User.getAll = (result) => {
         result(null, res);
     });
 };
-
 
 // Modification d'un profil
 User.update = (id, user, result) => {

@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Posts from '../views/Posts.vue'
 import Signup from '../components/Signup.vue'
-import Login from '../components/Login.vue'
+// import Login from '../components/Login.vue'
 import Header from '../components/Header.vue'
 import OnePost from '../views/OnePost.vue'
 import OneUser from '../components/OneUser.vue'
@@ -17,23 +17,22 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: Home
   },
   {
     path: '/signup',
     name: 'Signup',
     component: Signup,
   },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-  },
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   component: Login,
+  // },
   {
     path: '/header',
     name: 'Header',
     component: Header,
-
   },
   {
     path: '/posts/:id',
@@ -69,8 +68,6 @@ const routes = [
     path: '/profile/:id',
     name: 'Profile',
     component: Profile,
-
-
   },
 ]
 

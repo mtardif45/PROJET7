@@ -10,11 +10,11 @@
       <h1>Détail du profil</h1>
 
       <div class="row d-flex justify-content-center">
-        <div class="card text-center mt-2" style="width: 40rem">
+        <div class="card col-md-8 text-center mt-2">
           <p class="font-weight-bold text-uppercase">{{ user.pseudo }}</p>
 
           <!-- update pseudo -->
-          <div v-if="editPseudo" class="text-box">
+          <!-- <div v-if="editPseudo" class="text-box">
             <input
               type="text"
               name="pseudo"
@@ -25,18 +25,18 @@
           </div>
           <div class="text-center pt-2 pb-4">
             <button @click="updatePseudo()">Editer</button>
-          </div>
+          </div> -->
 
           <div>
             <img
-              class="img-fluid mr-3 mt-3"
+              class="img-fluid img-thumbnail rounded-circle mr-3 mt-3"
               width="150px"
               :src="user.avatar"
               alt="photo de profil"
             />
           </div>
           <!-- update avatar -->
-          <div v-if="editAvatar" class="text-box">
+          <!-- <div v-if="editAvatar" class="text-box">
             <input
               @change="onFileSelected"
               type="file"
@@ -48,14 +48,14 @@
           </div>
           <div class="text-center pt-2 pb-4">
             <button @click="updateAvatar()">Editer</button>
-          </div>
+          </div> -->
 
           <div class="mt-3">
             <p>Email:</p>
             <p>{{ user.email }}</p>
           </div>
           <!-- update email -->
-          <div v-if="editEmail" class="text-box">
+          <!-- <div v-if="editEmail" class="text-box">
             <input
               type="email"
               name="email"
@@ -66,7 +66,7 @@
           </div>
           <div class="text-center pt-2 pb-4">
             <button @click="updateEmail()">Editer</button>
-          </div>
+          </div> -->
 
           <div class="bio">
             <p>Présentation:</p>
@@ -74,7 +74,7 @@
           </div>
 
           <!-- update bio -->
-          <div v-if="editBio" class="text-box">
+          <!-- <div v-if="editBio" class="text-box">
             <input
               type="text"
               name="bio"
@@ -85,7 +85,7 @@
           </div>
           <div class="text-center pt-2 pb-4">
             <button @click="updateBio()">Editer</button>
-          </div>
+          </div> -->
 
           <!--  date de création  -->
           <div class="createDateTime">
@@ -100,7 +100,7 @@
               {{ user.updatedAt | moment("DD-MM-YYYY HH:mm") }}</span
             >
           </div>
-          <div class="card-footer">
+          <!-- <div class="card-footer">
             <button
               class="btn btn-sm bg-success px-5"
               aria-label="Modifier"
@@ -108,7 +108,7 @@
             >
               Modifier
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -136,47 +136,8 @@ export default {
     this.$store.dispatch("getUserById", id);
     console.log(id);
   },
-  methods: {
-    updateAvatar() {
-      this.editAvatar = true;
-    },
-    updatePseudo() {
-      this.editPseudo = true;
-    },
-    updateBio() {
-      this.editBio = true;
-    },
-    updateEmail() {
-      this.editEmail = true;
-    },
-    onFileSelected() {
-      const file = this.$refs.file.files[0];
-      this.file = file;
-    },
-    modifyUser() {
-      let id = this.$route.params.id;
-      const fd = new FormData();
-      fd.append("id", id);
-      fd.append("pseudo", this.user.pseudo);
-      fd.append("email", this.user.email);
-      fd.append("bio", this.user.bio);
-      fd.append("avatar", this.user.avatar ? this.user.avatar : null);
-      fd.append("image", this.file);
-      fd.append("updatedAt", this.user.updatedAt);
-
-      this.$store.dispatch("updateAccount", { id, fd });
-      this.editPseudo = false;
-      this.editEmail = false;
-      this.editBio = false;
-      this.editAvatar = false;
-      console.log(...fd);
-      alert("user updated successfully");
-      this.$router.go();
-    },
-
-    getBack() {
-      this.$router.push("/accounts");
-    },
+  getBack() {
+    this.$router.push("/accounts");
   },
 };
 </script>

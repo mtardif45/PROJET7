@@ -2,9 +2,16 @@
   <div class="container">
     <h1 class="mb-2">Tous les Utilisateurs</h1>
     <div
-      class="row row-cols row-cols-sm-2 row-cols-md-3 row-cols-xl-4 gutters-sm"
+      class="
+        row row-cols-6 row-cols-sm-4 row-cols-md-3 row-cols-xl-4
+        gutters-sm
+      "
     >
-      <div class="col-4" v-for="user in users" :key="user.id">
+      <div
+        class="col-sm col-md-6 col-lg-4"
+        v-for="user in users"
+        :key="user.id"
+      >
         <div class="main-body">
           <div class="col mb-3">
             <div class="card">

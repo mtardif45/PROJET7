@@ -7,7 +7,7 @@
     <h1>Détail de la publication</h1>
     <div class="row d-flex justify-content-center">
       <div>
-        <div class="card text-center mt-4" style="width: 40rem">
+        <div class="card col-12 text-center mt-4">
           <div class="d-flex justify-content-center p-2">
             <p class="mr-2">Pseudo:</p>
             <p>{{ post.pseudo }}</p>
@@ -247,6 +247,7 @@ export default {
       this.$store.dispatch("getPosts");
       this.$store.dispatch("getPostById", id);
       alert("commentaire publié avec succès!");
+      this.$router.go();
     },
     deleteComment(id) {
       this.$store.dispatch("deleteComment", id);
