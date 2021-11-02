@@ -20,7 +20,10 @@
 
         <div class="card-footer">
           <router-link :to="`/posts/${post.id}`">
-            <button class="btn btn-sm bg-info has-icon btn-block mx-auto">
+            <button
+              class="btn btn-sm bg-info has-icon btn-block mx-auto"
+              aria-label="voir la publication"
+            >
               <i class="fas fa-eye"></i></button
           ></router-link>
 

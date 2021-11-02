@@ -20,14 +20,19 @@
                   style="width: 120px"
                   class="img-fluid img-thumbnail rounded-circle"
                   :src="user.avatar"
+                  alt="photo de profil"
                 />
-                <h5 class="card-title">{{ user.pseudo }}</h5>
-                <p class="text-secondary mb-1">{{ user.bio }}</p>
-                <p class="text-muted font-size-sm">{{ user.email }}</p>
+                <h2 class="text-uppercase">{{ user.pseudo }}</h2>
+                <p class="mb-1">Présentation:</p>
+                <p>{{ user.bio }}</p>
+                <p class="font-size-sm">Mail: {{ user.email }}</p>
 
                 <div class="card-footer text-center">
                   <router-link :to="`/accounts/${user.id}`">
-                    <button class="btn btn-sm bg-info has-icon btn-block">
+                    <button
+                      class="btn btn-sm bg-info has-icon"
+                      aria-label="voir le profil"
+                    >
                       <i class="fas fa-eye"></i>
                     </button>
                   </router-link>
@@ -38,7 +43,7 @@
                       $store.state.user.id === user.id
                     "
                     value="Supprimer"
-                    class="btn btn-sm bg-danger has-icon btn-block mt-2"
+                    class="btn btn-sm bg-danger has-icon ml-2"
                     aria-label="supprimer le compte"
                     @click="deleteUser(user.id)"
                   >
@@ -94,10 +99,11 @@ export default {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color: rgb(170, 80, 133);
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
+  color: white;
 }
 
 .card-body {
@@ -105,6 +111,10 @@ export default {
   /* min-height: 1px; */
   height: 350px;
   padding: 1rem;
+}
+
+h2 {
+  font-size: 16px;
 }
 
 .gutters-sm {
@@ -122,7 +132,6 @@ export default {
   margin-bottom: 1rem !important;
 }
 .card-footer {
-  background: white;
   padding: 0.5rem 1rem;
   border-top: 0 solid rgba(0, 0, 0, 0.125);
 }

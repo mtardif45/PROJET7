@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div class="mt-3">
-      <button class="btn btn-primary" @click="getBack()">
+    <div class="mt-1">
+      <button
+        class="btn btn-back font-weight-bold text-white"
+        @click="getBack()"
+      >
         <i class="fas fa-arrow-circle-left"></i> Retour
       </button>
     </div>
@@ -13,20 +16,6 @@
         <div class="card col-md-8 text-center mt-2">
           <p class="font-weight-bold text-uppercase">{{ user.pseudo }}</p>
 
-          <!-- update pseudo -->
-          <!-- <div v-if="editPseudo" class="text-box">
-            <input
-              type="text"
-              name="pseudo"
-              v-model="user.pseudo"
-              required
-              class="mr-5 ml-3 text-area"
-            />
-          </div>
-          <div class="text-center pt-2 pb-4">
-            <button @click="updatePseudo()">Editer</button>
-          </div> -->
-
           <div>
             <img
               class="img-fluid img-thumbnail rounded-circle mr-3 mt-3"
@@ -35,57 +24,16 @@
               alt="photo de profil"
             />
           </div>
-          <!-- update avatar -->
-          <!-- <div v-if="editAvatar" class="text-box">
-            <input
-              @change="onFileSelected"
-              type="file"
-              aria-label="image input"
-              accept="image/*"
-              ref="file"
-              name="image"
-            />
-          </div>
-          <div class="text-center pt-2 pb-4">
-            <button @click="updateAvatar()">Editer</button>
-          </div> -->
 
           <div class="mt-3">
-            <p>Email:</p>
-            <p>{{ user.email }}</p>
+            <p><u>Email:</u></p>
+            <p class="font-weight-bold">{{ user.email }}</p>
           </div>
-          <!-- update email -->
-          <!-- <div v-if="editEmail" class="text-box">
-            <input
-              type="email"
-              name="email"
-              v-model="user.email"
-              required
-              class="mr-5 ml-3 text-area"
-            />
-          </div>
-          <div class="text-center pt-2 pb-4">
-            <button @click="updateEmail()">Editer</button>
-          </div> -->
 
           <div class="bio">
-            <p>Présentation:</p>
-            <p>{{ user.bio }}</p>
+            <p><u>Présentation:</u></p>
+            <p class="font-weight-bold">{{ user.bio }}</p>
           </div>
-
-          <!-- update bio -->
-          <!-- <div v-if="editBio" class="text-box">
-            <input
-              type="text"
-              name="bio"
-              v-model="user.bio"
-              required
-              class="mr-5 ml-3 text-area"
-            />
-          </div>
-          <div class="text-center pt-2 pb-4">
-            <button @click="updateBio()">Editer</button>
-          </div> -->
 
           <!--  date de création  -->
           <div class="createDateTime">
@@ -100,15 +48,6 @@
               {{ user.updatedAt | moment("DD-MM-YYYY HH:mm") }}</span
             >
           </div>
-          <!-- <div class="card-footer">
-            <button
-              class="btn btn-sm bg-success px-5"
-              aria-label="Modifier"
-              @click.prevent="modifyUser()"
-            >
-              Modifier
-            </button>
-          </div> -->
         </div>
       </div>
     </div>
@@ -136,17 +75,20 @@ export default {
     this.$store.dispatch("getUserById", id);
     console.log(id);
   },
-  getBack() {
-    this.$router.push("/accounts");
+  methods: {
+    getBack() {
+      this.$router.push("/accounts");
+    },
   },
 };
 </script>
 
 <style scoped>
 .card {
-  background: rgb(250, 228, 228);
+  background: rgb(170, 80, 133);
   border: 1px solid #1f1c1d;
-  color: rgba(10, 10, 10, 0.8);
+  color: white;
+  font-size: 16px;
   margin-bottom: 2rem;
 }
 .btn-label {
@@ -160,5 +102,8 @@ export default {
 
 .btn {
   margin-bottom: 10px;
+}
+.btn-back {
+  background-color: #0000ff;
 }
 </style>

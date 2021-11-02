@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div class="mt-3">
-      <button class="btn btn-primary" @click="getBack()">
+    <div class="mt-1">
+      <button
+        class="btn btn-back font-weight-bold text-white"
+        @click="getBack()"
+      >
         <i class="fas fa-arrow-circle-left"></i> Retour
       </button>
     </div>
@@ -47,7 +50,9 @@
             />
           </div>
           <div class="text-center pt-2 pb-4">
-            <button @click="updateAvatar()">Editer</button>
+            <button @click="updateAvatar()" aria-label="modifier la photo">
+              Editer
+            </button>
           </div>
 
           <div class="mt-3">
@@ -65,7 +70,9 @@
             />
           </div>
           <div class="text-center pt-2 pb-4">
-            <button @click="updateEmail()">Editer</button>
+            <button @click="updateEmail()" aria-label="modifier email">
+              Editer
+            </button>
           </div>
 
           <div class="bio">
@@ -84,7 +91,9 @@
             />
           </div>
           <div class="text-center pt-2 pb-4">
-            <button @click="updateBio()">Editer</button>
+            <button @click="updateBio()" aria-label="modifier bio">
+              Editer
+            </button>
           </div>
 
           <!--  date de création  -->
@@ -189,7 +198,8 @@ export default {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: rgb(198, 187, 245);
+  background: rgb(170, 80, 133);
+  color: white;
   background-clip: border-box;
   border: 0 solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
@@ -220,5 +230,8 @@ export default {
 }
 .shadow-none {
   box-shadow: none !important;
+}
+.btn-back {
+  background-color: #0000ff;
 }
 </style>

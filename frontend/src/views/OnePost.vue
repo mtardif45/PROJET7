@@ -1,20 +1,25 @@
 <template>
-  <div id="post" class="container mx-auto mt-4">
-    <button class="btn btn-primary" @click="getBack()">
+  <div id="post" class="container mx-auto mt-1">
+    <button class="btn btn-back font-weight-bold text-white" @click="getBack()">
       <i class="fas fa-arrow-circle-left"></i> Retour
     </button>
 
     <h1>Détail de la publication</h1>
     <div class="row d-flex justify-content-center">
       <div>
-        <div class="card col-12 text-center mt-4">
+        <div class="card col-12 text-center mt-2">
           <div class="d-flex justify-content-center p-2">
             <p class="mr-2">Pseudo:</p>
             <p>{{ post.pseudo }}</p>
           </div>
 
           <p>Image:</p>
-          <img class="mx-auto" width="250" :src="post.imageUrl" alt="image" />
+          <img
+            class="mx-auto"
+            width="250"
+            :src="post.imageUrl"
+            alt="image partagée"
+          />
 
           <!--  update image  -->
           <div v-if="withImage" class="text-box">
@@ -32,6 +37,7 @@
             <button
               v-if="this.$store.state.user.id == post.userId"
               @click="updateImage()"
+              aria-label="update image"
             >
               Editer
             </button>
@@ -49,6 +55,7 @@
             <input
               type="text"
               name="message"
+              aria-label="message input"
               v-model="message"
               required
               class="mr-5 ml-3 text-area"
@@ -58,6 +65,7 @@
             <button
               v-if="this.$store.state.user.id == post.userId"
               @click="updateMessage()"
+              aria-label="update message"
             >
               Editer
             </button>
@@ -78,7 +86,11 @@
 
           <!--  footer options: like, comment & save post if updated -->
           <div class="footer pb-3">
-            <button class="like mr-2" @click="likePost(post.id)">
+            <button
+              class="like mr-2"
+              @click="likePost(post.id)"
+              aria-label="like post"
+            >
               <i
                 class="fa fa-thumbs-o-up"
                 aria-hidden="true"
@@ -86,7 +98,11 @@
                 @click="toggleClass()"
               ></i>
             </button>
-            <button class="dislike" @click="deleteLike(like.id)">
+            <button
+              class="dislike"
+              @click="deleteLike(like.id)"
+              aria-label="dislike post"
+            >
               <i
                 class="fa fa-thumbs-o-down"
                 aria-hidden="true"
@@ -99,7 +115,7 @@
               type="button"
               v-if="this.$store.state.user.id === post.userId"
               value="Save"
-              class="btn btn-success ml-3"
+              class="btn btn-save ml-3"
               aria-label="Sauvegarder le post"
               @click.prevent="savePost()"
             />
@@ -119,6 +135,7 @@
                 rows="4"
                 v-model="data.message"
                 class="form-control"
+                aria-label="comment post"
                 placeholder="Post a comment"
               />
             </div>
@@ -282,9 +299,10 @@ export default {
 
 <style scoped>
 .card {
-  background: rgb(244, 236, 228);
+  background: rgb(214, 114, 214);
   border: 1px solid #1f1c1d;
-  color: rgba(10, 10, 10, 0.8);
+  color: rgba(10, 0, 0, 0.8);
+  font-size: 16px;
   margin-bottom: 2rem;
 }
 .post-content .post-container .post-detail .post-comment {
@@ -315,6 +333,14 @@ img.profile-photo-sm {
   height: 40px;
   width: 40px;
   border-radius: 50%;
+}
+.btn-back {
+  background-color: #0000ff;
+}
+.btn-save {
+  background-color: rgb(18, 116, 9);
+  color: white;
+  font-weight: bold;
 }
 button.like {
   width: 30px;
