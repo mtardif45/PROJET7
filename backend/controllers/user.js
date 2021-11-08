@@ -9,7 +9,7 @@ exports.signup = async (req, res) => {
     if (user) {
         // on vérfie si un compte existe déjà avec cet email
         await User.getOne(user, (err, result) => {
-            if (result.length > 0) {
+            if (result) {
                 res.status(400).send({
                     error: "an account already exists with this email"
                 });
@@ -48,7 +48,7 @@ exports.login = async (req, res) => {
                         message: 'Login completed, you will be redirected',
                         token: jwt.sign(    // fonction qui encode le nouveau token
                             { userId: result.id },
-                            'RANDOM_TOKEN',
+                            'SECRET',
                             { expiresIn: '24h' }
                         ),
                         user: result

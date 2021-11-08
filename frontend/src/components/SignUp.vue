@@ -38,7 +38,7 @@
             placeholder="pseudo"
             required
           />
-          <div class="danger-alert message" v-html="errorMessage" />
+          <div class="text-danger font-weight-bold" v-html="errorMessage" />
           <div class="danger-alert message" v-html="message"></div>
 
           <input

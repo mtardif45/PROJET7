@@ -80,7 +80,6 @@ export default {
   methods: {
     logOut() {
       this.$store.dispatch("logOut");
-      // this.$store.dispatch("deleteToken", token);
     },
   },
 };
