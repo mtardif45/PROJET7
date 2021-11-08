@@ -28,8 +28,7 @@ export default new Vuex.Store({
         error: "",
     },
     // maintien de la session utilisateur d'une fenêtre à l'autre
-    plugins: [createPersistedState({
-    })],
+    plugins: [createPersistedState()],
 
     //to handle state
     getters: {
