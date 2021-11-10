@@ -15,7 +15,19 @@ Lancer le backend:
 "nodemon server"
 
 Lancer le frontend:
+"npm install" 
+puis
 "npm run serve" ==> http://localhost:8080
+
+BASE DE DONNEES:
+-Connectez-vous au serveur Mysql
+-Exécutez la commande "CREATE DATABASE database"
+-Vérifiez les identifiants dans le dossier de configuration de la base de données 
+-importez le fichier "database.sql" que vous trouverez dans backend > database > database.sql
+
+VARIABLES D'ENVIRONNEMENT:
+- un fichier .env-example a été fourni dans le backend
+- créer votre fichier .env à partir de celui-ci en indiquant les données sensibles nécessaires à la connexion
 
 Fonctionnalités:
 - Création de compte et connexion

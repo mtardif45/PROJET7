@@ -48,7 +48,7 @@ exports.login = async (req, res) => {
                         message: 'Login completed, you will be redirected',
                         token: jwt.sign(    // fonction qui encode le nouveau token
                             { userId: result.id },
-                            'SECRET',
+                            process.env.SECRET,
                             { expiresIn: '24h' }
                         ),
                         user: result
