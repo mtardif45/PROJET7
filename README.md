@@ -28,6 +28,7 @@ BASE DE DONNEES:
 VARIABLES D'ENVIRONNEMENT:
 - un fichier .env-example a été fourni dans le backend
 - créer votre fichier .env à partir de celui-ci en indiquant les données sensibles nécessaires à la connexion
+pour la connexion à la BDD et pour la récupération du token d'authentification
 
 Fonctionnalités:
 - Création de compte et connexion
